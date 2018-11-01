@@ -15,5 +15,8 @@ module.exports = {
     },
     async get(id) {
         return await Issues.findOne({ id });
+    },
+    async update(id, issue) {
+        return await Issues.update({ id }, issue).fetch();
     }
 }

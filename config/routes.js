@@ -55,6 +55,10 @@ module.exports.routes = {
   'GET /issue/:id': {
       controller: 'IssuesController',
       action: 'get',
+  },
+  'PUT /issue/:id': {
+      controller: 'IssuesController',
+      action: 'update',
   }
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
