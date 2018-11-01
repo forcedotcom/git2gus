@@ -122,7 +122,7 @@ nbproject
 .idea
 .node_history
 dump.rdb
-
+.env
 npm-debug.log
 lib-cov
 *.seed
