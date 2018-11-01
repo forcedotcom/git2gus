@@ -48,7 +48,7 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-postgresql',
-    url: 'postgresql://reinierguerra@localhost:5432/gus_db',
+    url: process.env.DATABASE_URL,
     schemaName: 'gus',
   },
 
