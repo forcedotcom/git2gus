@@ -44,7 +44,18 @@ module.exports.routes = {
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
 
-
+  'GET /issues': {
+      controller: 'IssuesController',
+      action: 'getAll',
+  },
+  'POST /issue': {
+      controller: 'IssuesController',
+      action: 'create',
+  },
+  'GET /issue/:id': {
+      controller: 'IssuesController',
+      action: 'get',
+  }
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗

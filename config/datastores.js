@@ -33,7 +33,6 @@ module.exports.datastores = {
   ***************************************************************************/
 
   default: {
-
     /***************************************************************************
     *                                                                          *
     * Want to use a different database during development?                     *
@@ -48,10 +47,9 @@ module.exports.datastores = {
     *    (See https://sailsjs.com/config/datastores for help.)                 *
     *                                                                          *
     ***************************************************************************/
-    // adapter: 'sails-mysql',
-    // url: 'mysql://user:password@host:port/database',
-
+    adapter: 'sails-postgresql',
+    url: 'postgresql://reinierguerra@localhost:5432/gus_db',
+    schemaName: 'gus',
   },
-
 
 };
