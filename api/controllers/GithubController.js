@@ -1,6 +1,8 @@
-
 module.exports = {
-    processEvent(req, res) {
-        return res.send('OK');
+    async processEvent(req, res) {
+        sails.config.ghEvents.emitFromReq(req);
+        return res.send({
+            code: 'OK',
+        });
     }
 };

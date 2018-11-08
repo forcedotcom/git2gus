@@ -18,5 +18,10 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-
+  GithubController: {
+      'processEvent': [
+          'isGithubReq',
+          'isGithubAuth',
+      ]
+  }
 };
