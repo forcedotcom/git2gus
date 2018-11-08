@@ -35,7 +35,6 @@ module.exports = {
         if (matchedType) {
             const label = typesMap[matchedType[1]];
             return Github.addLabels({ ...params, labels: [label] });
-
         }
 
         const body = 'Sorry but the PR title don\'t follow conventional commit rules. See: https://www.conventionalcommits.org/en/v1.0.0-beta.2/';
