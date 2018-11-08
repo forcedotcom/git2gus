@@ -2,7 +2,7 @@ const octokit = require('@octokit/rest');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-const cert = fs.readFileSync('git2gus.2018-10-24.private-key.pem');
+const cert = fs.readFileSync('private-key.pem');
 
 function generateJwt(appId) {
     const payload = {

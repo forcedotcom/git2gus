@@ -129,4 +129,4 @@ lib-cov
 *.log
 *.out
 *.pid
-
+*.pem
