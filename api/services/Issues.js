@@ -13,8 +13,11 @@ module.exports = {
         ]);
         return await Issues.create(item).fetch();
     },
-    async get(id) {
-        return await Issues.findOne({id});
+    async getById(id) {
+        return await Issues.findOne({ id });
+    },
+    async getByName(name = '') {
+        return await Issues.findOne({ name });
     },
     async update(id, issue) {
         return await Issues.update({id}, issue).fetch();

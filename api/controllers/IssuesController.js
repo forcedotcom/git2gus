@@ -9,12 +9,25 @@ module.exports = {
         const issue = await Issues.create(req.body);
         return res.json(issue);
     },
-    async get(req, res) {
-        const issue = await Issues.get(req.params.id);
+    async getById(req, res) {
+        try {
+            const issue = await Issues.getById(req.params.id);
+            return res.json(issue);
+        } catch (err) {
+            try {
+                const issue = await Issues.getByName(req.params.id);
+                return res.json(issue);
+            } catch(err) {
+                return res.notFound(err);
+            }
+        }
+    },
+    async getByName(req, res) {
+        const issue = await Issues.getByName(req.params.name);
         return res.json(issue);
     },
     async update(req, res) {
         const issue = await Issues.update(req.params.id, req.body);
         return res.json(issue);
     }
-}
+};
