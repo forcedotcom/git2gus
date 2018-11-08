@@ -4,8 +4,8 @@ module.exports = {
         name: 'string',
         subject: {
             type: 'string',
-            required: true,
             columnName: 'subject__c',
+            required: true,
         },
         description: {
             type: 'string',
@@ -24,6 +24,7 @@ module.exports = {
         productTag: {
             type: 'string',
             columnName: 'product_tag__c',
+            required: true,
         },
         scrumTeam: {
             type: 'string',
@@ -41,6 +42,17 @@ module.exports = {
             type: 'string',
             columnName: 'product_owner__c',
         },
+        foundInBuild: {
+            type: 'string',
+            columnName: 'found_in_build__c',
+            required: true,
+        },
+        priority: {
+            type: 'string',
+            columnName: 'priority__c',
+            isIn: ['P0', 'P1', 'P2', 'P3'],
+            required: true,
+        },
         syncState: {
             type: 'string',
             columnName: '_hc_lastop',
@@ -48,4 +60,4 @@ module.exports = {
         }
     },
     migrate: 'safe',
-}
+};
