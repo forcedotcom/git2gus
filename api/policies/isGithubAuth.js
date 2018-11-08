@@ -2,14 +2,22 @@ const octokit = require('@octokit/rest');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-const cert = fs.readFileSync('private-key.pem');
+let cert;
+try {
+    cert = process.env.PRIVATE_KEY || fs.readFileSync('private-key.pem');
+} catch(err) {
+    throw new Error(`
+        Failed reading Github App private key.
+        Private key should be as PRIVATE_KEY environment variable or in private-key.pem file at the root folder. 
+        `);
+}
 
 function generateJwt(appId) {
     const payload = {
         exp: Math.floor(Date.now() / 1000) + 60,  // JWT expiration time
         iat: Math.floor(Date.now() / 1000),       // Issued at time
         iss: appId                                // GitHub App ID
-    }
+    };
     // Sign with RSA SHA256
     return jwt.sign(payload, cert, { algorithm: 'RS256' })
 }
