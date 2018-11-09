@@ -24,20 +24,24 @@ module.exports = {
             owner: repository.owner.login,
             repo: repository.name,
             number,
-            octokitClient: req.octokitClient,
         };
         const matchedType = title.match(TYPE_REGEX);
 
         if (action === 'edited') {
-            await Github.removeConventionalLabels(params);
+            await Github.removeConventionalLabels({
+                ...params,
+                octokitClient: req.octokitClient,
+            });
         }
 
         if (matchedType) {
             const label = typesMap[matchedType[1]];
-            return Github.addLabels({ ...params, labels: [label] });
+            return req.octokitClient.issues.addLabels({ ...params, labels: [label] });
         }
 
-        const body = 'Sorry but the PR title don\'t follow conventional commit rules. See: https://www.conventionalcommits.org/en/v1.0.0-beta.2/';
-        return Github.addComment({ ...params, body});
+        return req.octokitClient.issues.createComment({
+            ...params,
+            body: 'Sorry but the PR title don\'t follow conventional commit rules. See: https://www.conventionalcommits.org/en/v1.0.0-beta.2/',
+        })
     }
 }
