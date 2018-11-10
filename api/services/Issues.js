@@ -2,7 +2,7 @@ const pick = require('lodash/pick');
 
 module.exports = {
     async getAll() {
-        return await Issues.find({}).limit(10);
+        return await Issues.find({}).limit(25);
     },
     async create(data) {
         const item = pick(data, [
