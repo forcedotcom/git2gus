@@ -10,6 +10,9 @@ module.exports = {
             'description',
             'productTag',
             'status',
+            'productTag',
+            'foundInBuild',
+            'priority',
         ]);
         return await Issues.create(item).fetch();
     },

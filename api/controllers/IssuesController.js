@@ -6,7 +6,11 @@ module.exports = {
         return res.json(issues);
     },
     async create(req, res) {
-        const issue = await Issues.create(req.body);
+        try {
+            const issue = await Issues.create(req.body);
+        } catch(err) {
+            return res.serverError(err);
+        }     
         return res.json(issue);
     },
     async getById(req, res) {
