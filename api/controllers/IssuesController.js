@@ -8,10 +8,10 @@ module.exports = {
     async create(req, res) {
         try {
             const issue = await Issues.create(req.body);
+            return res.json(issue);
         } catch(err) {
             return res.serverError(err);
         }     
-        return res.json(issue);
     },
     async getById(req, res) {
         try {
