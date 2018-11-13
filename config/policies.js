@@ -22,6 +22,7 @@ module.exports.policies = {
       'processEvent': [
           'isGithubReq',
           'isGithubAuth',
+          'hasConfig',
       ]
   }
 };

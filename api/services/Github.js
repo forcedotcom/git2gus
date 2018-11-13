@@ -19,11 +19,18 @@ module.exports = {
             });
         }
     },
-    async getConfigFromJsonFile({ octokitClient, owner, repo }) {
+    async getConfig({ octokitClient, owner, repo }) {
         const file = await octokitClient.repos.getContent({ owner, repo, path: '.git2gus/config.json' });
         const buffer = Buffer.from(file.data.content, 'base64');
         const jsonData = buffer.toString();
-        return JSON.parse(jsonData); 
+        const config = JSON.parse(jsonData);
+        if (typeof config === 'object' && config !== null && config.productTag) {
+            return config; 
+        }
+        return Promise.reject({
+            code: 'BAD_CONFIG_FILE',
+            message: 'Wrong config received.',
+        });
     },
     createTable({ data = [], columns = [] }) {
         let tableHeader = '|';

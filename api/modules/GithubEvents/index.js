@@ -3,6 +3,8 @@ const EventEmitter = require('events');
 const events = {
     PULL_REQUEST_OPENED: 'PULL_REQUEST_OPENED',
     PULL_REQUEST_EDITED: 'PULL_REQUEST_EDITED',
+    INSTALLATION_CREATED: 'INSTALLATION_CREATED',
+    LABEL_DELETED: 'LABEL_DELETED',
 }
 
 const eventsConfig = {
@@ -14,6 +16,14 @@ const eventsConfig = {
         event: 'pull_request',
         action: 'edited',
     },
+    [events.INSTALLATION_CREATED]: {
+        event: 'installation',
+        action: 'created',
+    },
+    [events.LABEL_DELETED]: {
+        event: 'label',
+        action: 'deleted',
+    }
 }
 
 class GithubEvents extends EventEmitter {
