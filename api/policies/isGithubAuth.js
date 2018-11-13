@@ -39,7 +39,7 @@ module.exports = async function isGithubAuth(req, res, next) {
     }
 
     octokitClient.authenticate({
-        type: 'token', // here work with both token and app
+        type: 'token',
         token: installationAccessToken.data.token,
     });
     req.octokitClient = octokitClient;

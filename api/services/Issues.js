@@ -10,7 +10,6 @@ module.exports = {
             'description',
             'productTag',
             'status',
-            'productTag',
             'foundInBuild',
             'priority',
         ]);
