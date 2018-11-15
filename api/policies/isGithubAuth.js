@@ -35,7 +35,11 @@ module.exports = async function isGithubAuth(req, res, next) {
     try {
         installationAccessToken = await octokitClient.apps.createInstallationToken({ installation_id: installation.id });
     } catch(err) {
-        return res.status(403).send(err);
+        console.error(err)
+        return res.status(401).send({
+            code: 'UNAUTHORIZED_REQUEST',
+            message: 'The request requires authentication.',
+        });
     }
 
     octokitClient.authenticate({

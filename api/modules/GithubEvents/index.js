@@ -1,21 +1,11 @@
 const EventEmitter = require('events');
 
 const events = {
-    PULL_REQUEST_OPENED: 'PULL_REQUEST_OPENED',
-    PULL_REQUEST_EDITED: 'PULL_REQUEST_EDITED',
     INSTALLATION_CREATED: 'INSTALLATION_CREATED',
     LABEL_DELETED: 'LABEL_DELETED',
 }
 
 const eventsConfig = {
-    [events.PULL_REQUEST_OPENED]: {
-        event: 'pull_request',
-        action: 'opened',
-    },
-    [events.PULL_REQUEST_EDITED]: {
-        event: 'pull_request',
-        action: 'edited',
-    },
     [events.INSTALLATION_CREATED]: {
         event: 'installation',
         action: 'created',
