@@ -57,6 +57,10 @@ module.exports.routes = {
         controller: 'IssuesController',
         action: 'update',
     },
+    'GET /build/:name': {
+        controller: 'BuildsController',
+        action: 'getBuildByName',
+    },
 
     //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
     //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗

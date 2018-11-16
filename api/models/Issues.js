@@ -2,6 +2,10 @@ module.exports = {
     tableName: 'adm_work__c',
     attributes: {
         name: 'string',
+        relatedUrl: {
+            type: 'string',
+            columnName: 'related_url__c',
+        },
         subject: {
             type: 'string',
             columnName: 'subject__c',
