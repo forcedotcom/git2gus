@@ -24,8 +24,12 @@ module.exports = {
         const buffer = Buffer.from(file.data.content, 'base64');
         const jsonData = buffer.toString();
         const config = JSON.parse(jsonData);
-        if (typeof config === 'object' && config !== null && config.productTag) {
-            return config; 
+        const isRightConfig = typeof config === 'object' && config !== null && config.productTag && config.defaultBuild;
+        if (isRightConfig) {
+            return {
+                builds: [],
+                ...config,
+            };
         }
         return Promise.reject({
             code: 'BAD_CONFIG_FILE',

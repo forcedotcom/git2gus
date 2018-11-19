@@ -19,9 +19,6 @@ module.exports = async function hasConfig(req, res, next) {
     const isIssueOrPrOpened = (event === 'issues' || event === 'pull_request') && action === 'opened';
 
     if (event === 'installation' || event === 'integration_installation') {
-        /** Here we can check if it is a created installation and iterate
-        for all repositories through the repositories entry and respond with an error
-        if the getConfig service fail. */
         return next();
     }
 
