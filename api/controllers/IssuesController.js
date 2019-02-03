@@ -30,6 +30,10 @@ module.exports = {
         const issue = await Issues.getByName(req.params.name);
         return res.json(issue);
     },
+    async getByRelatedUrl(req, res) {
+        const issue = await Issues.getByRelatedUrl(req.params.relatedUrl);
+        return res.json(issue);
+    },
     async update(req, res) {
         const issue = await Issues.update(req.params.id, req.body);
         return res.json(issue);

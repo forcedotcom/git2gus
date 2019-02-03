@@ -12,6 +12,7 @@ module.exports = {
             'status',
             'foundInBuild',
             'priority',
+            'relatedUrl',
         ]);
         return await Issues.create(item).fetch();
     },
@@ -20,6 +21,9 @@ module.exports = {
     },
     async getByName(name = '') {
         return await Issues.findOne({ name });
+    },
+    async getByRelatedUrl(relatedUrl) {
+        return await Issues.findOne({ relatedUrl });
     },
     async update(id, issue) {
         return await Issues.update({id}, issue).fetch();
