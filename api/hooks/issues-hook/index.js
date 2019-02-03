@@ -1,9 +1,9 @@
-const asyncQueue = require('async/queue')
+const asyncQueue = require('async/queue');
 
-module.exports = function issuesHook(sails) {
-    const queue = asyncQueue(function(task, callback) {
-        callback()
+module.exports = function issuesHook() {
+    const queue = asyncQueue((task, callback) => {
+        callback();
     }, 1);
 
     return { queue };
-}
+};

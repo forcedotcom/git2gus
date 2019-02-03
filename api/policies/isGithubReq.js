@@ -12,4 +12,4 @@ module.exports = function isGithubReq(req, res, next) {
         code: 'BAD_GITHUB_REQUEST',
         message: 'Wrong event payload received.',
     });
-}
+};

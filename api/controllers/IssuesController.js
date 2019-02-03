@@ -11,17 +11,19 @@ module.exports = {
             return res.json(issue);
         } catch(err) {
             return res.serverError(err);
-        }     
+        }
     },
     async getById(req, res) {
         try {
             const issue = await Issues.getById(req.params.id);
             return res.json(issue);
-        } catch (err) {
+        } catch(err) {
+            console.error(err);
             try {
                 const issue = await Issues.getByName(req.params.id);
                 return res.json(issue);
             } catch(err) {
+                console.error(err);
                 return res.notFound(err);
             }
         }

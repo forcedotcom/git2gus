@@ -60,15 +60,15 @@ module.exports = {
             //--------------------------------------------------------------------------
 
             /****************************************************************************
-             *                                                                           *
+             *                                                                           *
              * More adapter-specific options                                             *
-             *                                                                           *
+             *                                                                           *
              * > For example, for some hosted PostgreSQL providers (like Heroku), the    *
              * > extra `ssl: true` option is mandatory and must be provided.             *
-             *                                                                           *
-             * More info:                                                                *
-             * https://sailsjs.com/config/datastores                                     *
-             *                                                                           *
+             *                                                                           *
+             * More info:                                                                *
+             * https://sailsjs.com/config/datastores                                     *
+             *                                                                           *
              ****************************************************************************/
             // ssl: true,
 

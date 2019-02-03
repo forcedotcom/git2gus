@@ -20,10 +20,10 @@ module.exports = {
                         name,
                         color: labelColor,
                     });
-                } catch (err) {
+                } catch(err) {
                     console.error(err);
                 }
             });
         });
     }
-}
+};

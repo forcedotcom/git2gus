@@ -60,4 +60,4 @@ module.exports = async function hasConfig(req, res, next) {
         }
         return res.status(403).send(error);
     }
-}
+};

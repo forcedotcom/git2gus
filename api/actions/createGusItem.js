@@ -69,7 +69,7 @@ module.exports = {
             const hasCurrentPriority = issue && issue.priority <= priority;
 
             if (priority && foundInBuild && !hasCurrentPriority) {
-                sails.hooks['issues-hook'].queue.push('issue labeled', async function(err) {
+                sails.hooks['issues-hook'].queue.push('issue labeled', async () => {
                     if (issue) {
                         return Issues.update(issue.id, { priority });
                     }
@@ -86,4 +86,4 @@ module.exports = {
             }
         }
     }
-}
+};
