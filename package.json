@@ -23,7 +23,9 @@
         "sails-postgresql": "^1.0.1"
     },
     "devDependencies": {
-        "@sailshq/eslint": "^4.19.3"
+        "@sailshq/eslint": "^4.19.3",
+        "eslint": "^5.13.0",
+        "pre-push": "^0.1.1"
     },
     "scripts": {
         "start": "NODE_ENV=production node app.js",
@@ -40,5 +42,8 @@
     "license": "",
     "engines": {
         "node": ">=9.10"
-    }
+    },
+    "pre-push": [
+        "lint"
+    ]
 }

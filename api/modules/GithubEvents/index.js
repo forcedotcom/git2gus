@@ -46,7 +46,7 @@ class GithubEvents extends EventEmitter {
             }
         });
     }
-};
+}
 
 GithubEvents.events = events;
 

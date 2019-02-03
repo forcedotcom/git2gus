@@ -10,19 +10,19 @@
 
 module.exports.policies = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Default policy for all controllers and actions, unless overridden.       *
-  * (`true` allows public access)                                            *
-  *                                                                          *
-  ***************************************************************************/
+    /***************************************************************************
+     *                                                                          *
+     * Default policy for all controllers and actions, unless overridden.       *
+     * (`true` allows public access)                                            *
+     *                                                                          *
+     ***************************************************************************/
 
-  // '*': true,
-  GithubController: {
-      'processEvent': [
-          'isGithubReq',
-          'isGithubAuth',
-          'hasConfig',
-      ]
-  }
+    // '*': true,
+    GithubController: {
+        'processEvent': [
+            'isGithubReq',
+            'isGithubAuth',
+            'hasConfig',
+        ]
+    }
 };
