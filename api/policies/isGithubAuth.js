@@ -9,7 +9,7 @@ try {
     throw new Error(`
         Failed reading Github App private key.
         Private key should be as PRIVATE_KEY environment variable or in private-key.pem file at the root folder. 
-        `);
+    `);
 }
 
 function generateJwt(appId) {

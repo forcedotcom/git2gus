@@ -1,79 +1,89 @@
 const GithubEvents = require('../modules/GithubEvents');
-const Issues = require('../services/Issues');
 const Builds = require('../services/Builds');
+const Github =  require('../services/Github');
+const Issues = require('../services/Issues');
 
-let prevIssueEvent = {};
-
-function isGusLabel(name) {
-    return sails.config.gus.labels.indexOf(name) !== -1;
-}
-
-function isBuildLabel(name, config) {
-    return config.builds.some(build => String(build) === name);
-}
-
-function resolveDataFromLabels(labels, config) {
+function getPriority(labels) {
     let priority;
-    let build;
     labels.forEach(({ name }) => {
-        if (isGusLabel(name) && (priority === undefined || name[5] < priority[1])) {
+        if (Github.isGusLabel(name) && (priority === undefined || name[5] < priority[1])) {
             priority = `P${name[5]}`;
         }
-        if (isBuildLabel(name, config) && (build === undefined || name < build)) {
-            build = name;
-        }
     });
-    return {
-        priority,
-        build,
-    };
+    return priority;
+}
+
+async function resolveBuild(config, milestone) {
+    const build = milestone ? milestone.title : config.defaultBuild;
+    const buildFromDb = await Builds.getBuildByName(build);
+    if (buildFromDb) {
+        return buildFromDb.sfid;
+    }
+    return Promise.reject({
+        code: 'BUILD_NOT_FOUND',
+        message: 'The build was not found.',
+    });
+}
+
+function getBuildErrorMessage(milestone) {
+    if (milestone) {
+        return `The milestone doesn't match any valid build.`;
+    }
+    return `The defaultBuild in \`.git2gus/config.json\` doesn't match any valid build.`;
 }
 
 module.exports = {
-    eventName: [GithubEvents.events.ISSUE_LABELED, GithubEvents.events.ISSUE_UNLABELED],
-    fn: async function (req) {
+    eventName: GithubEvents.events.ISSUE_LABELED,
+    fn: async function(req) {
         const {
-            issue: { labels, url, title, body, id, updated_at },
+            issue: {
+                labels,
+                url,
+                title,
+                body,
+                milestone,
+                number,
+            },
+            label,
+            repository,
         } = req.body;
         const { config } = req.git2gus;
 
-        const currentIssueEvent = {
-            id,
-            updated_at,
-        };
+        if (Github.isGusLabel(label.name)) {
+            const priority = getPriority(labels, config);
 
-        if (prevIssueEvent.id === currentIssueEvent.id && prevIssueEvent.updated_at === currentIssueEvent.updated_at) {
-            return;
-        }
-        prevIssueEvent = currentIssueEvent;
-
-        const { priority, build } = resolveDataFromLabels(labels, config);
-
-        let buildFromDb;
-        if (build) {
-            buildFromDb = await Builds.getBuildByName(build);
-        }
-        if (!build || !buildFromDb) {
-            buildFromDb = await Builds.getBuildByName(config.defaultBuild);
-        }
-
-        const foundInBuild = buildFromDb && buildFromDb.sfid;
-        const hasRightData = priority && foundInBuild;
-
-        if (hasRightData) {
-            const issue = await Issues.getByRelatedUrl(url);
-            if (issue) {
-                return Issues.update(issue.id, { priority, foundInBuild });
+            let foundInBuild;
+            try {
+                foundInBuild = await resolveBuild(config, milestone);
+            } catch(error) {
+                console.log(error);
+                return await req.octokitClient.issues.createComment({
+                    owner: repository.owner.login,
+                    repo: repository.name,
+                    number,
+                    body: getBuildErrorMessage(milestone),
+                });
             }
-            return Issues.create({
-                subject: title,
-                description: body,
-                productTag: config.productTag,
-                status: 'NEW',
-                foundInBuild,
-                priority,
-                relatedUrl: url,
-            });
+
+            const issue = await Issues.getByRelatedUrl(url);
+            const hasCurrentPriority = issue && issue.priority <= priority;
+
+            if (priority && foundInBuild && !hasCurrentPriority) {
+                sails.hooks['issues-hook'].queue.push('issue labeled', async function(err) {
+                    if (issue) {
+                        return Issues.update(issue.id, { priority });
+                    }
+                    return Issues.create({
+                        subject: title,
+                        description: body,
+                        productTag: config.productTag,
+                        status: 'NEW',
+                        foundInBuild,
+                        priority,
+                        relatedUrl: url,
+                    });
+                });
+            }
         }
     }
 }
