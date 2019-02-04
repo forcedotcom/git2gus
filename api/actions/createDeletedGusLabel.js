@@ -1,8 +1,5 @@
 const GithubEvents = require('../modules/GithubEvents');
-
-function isGusLabel(name) {
-    return sails.config.gus.labels.indexOf(name) !== -1;
-}
+const Github =  require('../services/Github');
 
 module.exports = {
     eventName: GithubEvents.events.LABEL_DELETED,
@@ -13,7 +10,7 @@ module.exports = {
         } = req.body;
         const { labelColor } = sails.config.gus;
 
-        if (isGusLabel(name)) {
+        if (Github.isGusLabel(name)) {
             return req.octokitClient.issues.createLabel({
                 owner: repository.owner.login,
                 repo: repository.name,

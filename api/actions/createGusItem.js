@@ -3,16 +3,6 @@ const Builds = require('../services/Builds');
 const Github =  require('../services/Github');
 const Issues = require('../services/Issues');
 
-function getPriority(labels) {
-    let priority;
-    labels.forEach(({ name }) => {
-        if (Github.isGusLabel(name) && (priority === undefined || name[5] < priority[1])) {
-            priority = `P${name[5]}`;
-        }
-    });
-    return priority;
-}
-
 async function resolveBuild(config, milestone) {
     const build = milestone ? milestone.title : config.defaultBuild;
     const buildFromDb = await Builds.getBuildByName(build);
@@ -50,7 +40,7 @@ module.exports = {
         const { config } = req.git2gus;
 
         if (Github.isGusLabel(label.name)) {
-            const priority = getPriority(labels, config);
+            const priority = Github.getPriority(labels);
 
             let foundInBuild;
             try {
