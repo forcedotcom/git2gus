@@ -43,4 +43,13 @@ module.exports = {
     isGusLabel(name) {
         return sails.config.gus.labels.indexOf(name) !== -1;
     },
+    getPriority(labels) {
+        let priority;
+        labels.forEach(({ name }) => {
+            if (this.isGusLabel(name) && (priority === undefined || name[5] < priority[1])) {
+                priority = `P${name[5]}`;
+            }
+        });
+        return priority;
+    }
 };
