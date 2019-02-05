@@ -1,7 +1,6 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github =  require('../services/Github');
-const Issues = require('../services/Issues');
 
 async function resolveBuild(config, milestone) {
     const build = milestone ? milestone.title : config.defaultBuild;
@@ -55,24 +54,17 @@ module.exports = {
                 });
             }
 
-            const issue = await Issues.getByRelatedUrl(url);
-            const hasCurrentPriority = issue && issue.priority <= priority;
-
-            if (priority && foundInBuild && !hasCurrentPriority) {
-                sails.hooks['issues-hook'].queue.push('issue labeled', async () => {
-                    if (issue) {
-                        return Issues.update(issue.id, { priority });
-                    }
-                    return Issues.create({
-                        subject: title,
-                        description: body,
-                        productTag: config.productTag,
-                        status: 'NEW',
-                        foundInBuild,
-                        priority,
-                        relatedUrl: url,
-                    });
-                });
+            if (priority && foundInBuild) {
+                sails.hooks['issues-hook'].queue.push({
+                    name: 'create gus item',
+                    subject: title,
+                    description: body,
+                    productTag: config.productTag,
+                    status: 'NEW',
+                    foundInBuild,
+                    priority,
+                    relatedUrl: url,
+                }, () => console.log('done createGusItem action'));
             }
         }
     }
