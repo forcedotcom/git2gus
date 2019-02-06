@@ -11,12 +11,13 @@ module.exports = {
         const { labelColor } = sails.config.gus;
 
         if (Github.isGusLabel(name)) {
-            return req.octokitClient.issues.createLabel({
+            sails.hooks['labels-hook'].queue.push({
+                createLabel: req.octokitClient.issues.createLabel,
                 owner: repository.owner.login,
                 repo: repository.name,
                 name,
                 color: labelColor,
-            });
+            }, () => console.log(`done createDeletedGusLabel action to ${name} label`));
         }
     }
 };
