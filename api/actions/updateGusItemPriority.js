@@ -15,10 +15,10 @@ module.exports = {
         if (Github.isGusLabel(name)) {
             const priority = Github.getPriority(labels);
             sails.hooks['issues-hook'].queue.push({
-                name: 'update gus item',
+                name: 'UPDATE_GUS_ITEM_PRIORITY',
                 priority,
                 relatedUrl: url,
-            }, () => console.log('done updateGusItem action'));
+            }, () => console.log('done updateGusItemPriority action'));
         }
     }
 };
