@@ -6,10 +6,7 @@ module.exports = {
         const config = JSON.parse(jsonData);
         const isRightConfig = typeof config === 'object' && config !== null && config.productTag && config.defaultBuild;
         if (isRightConfig) {
-            return {
-                builds: [],
-                ...config,
-            };
+            return config;
         }
         return Promise.reject({
             code: 'BAD_CONFIG_FILE',
