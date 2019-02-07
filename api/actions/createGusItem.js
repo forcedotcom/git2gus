@@ -56,7 +56,7 @@ module.exports = {
 
             if (priority && foundInBuild) {
                 sails.hooks['issues-hook'].queue.push({
-                    name: 'create gus item',
+                    name: 'CREATE_GUS_ITEM',
                     subject: title,
                     description: body,
                     productTag: config.productTag,

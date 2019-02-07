@@ -1,14 +1,18 @@
 const asyncQueue = require('async/queue');
 const createOrUpdateGusItem = require('./create-or-update-gus-item');
-const updateGusItem = require('./update-gus-Item');
+const updateGusItemPriority = require('./update-gus-item-priority');
+const updateGusItemTitle = require('./update-gus-item-title');
 
 function handleQueue(task) {
     switch (task.name) {
-        case 'create gus item':
+        case 'CREATE_GUS_ITEM':
             return createOrUpdateGusItem(task);
 
-        case 'update gus item':
-            return updateGusItem(task);
+        case 'UPDATE_GUS_ITEM_PRIORITY':
+            return updateGusItemPriority(task);
+
+        case 'UPDATE_GUS_ITEM_TITLE':
+            return updateGusItemTitle(task);
 
         default:
             return null;
