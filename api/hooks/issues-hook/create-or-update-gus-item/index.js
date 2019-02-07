@@ -17,18 +17,17 @@ module.exports = async function createOrUpdateGusItem(task) {
     if (!hasLowestPriority) {
         if (issue) {
             console.log(`update gus item to ${priority} priority when issue is labeled`);
-            Issues.update(issue.id, { priority });
-        } else {
-            console.log('create gus item when issue labeled');
-            Issues.create({
-                subject,
-                description,
-                productTag,
-                status,
-                foundInBuild,
-                priority,
-                relatedUrl,
-            });
+            return Issues.update(issue.id, { priority });
         }
+        console.log('create gus item when issue labeled');
+        return Issues.create({
+            subject,
+            description,
+            productTag,
+            status,
+            foundInBuild,
+            priority,
+            relatedUrl,
+        });
     }
 };
