@@ -3,6 +3,7 @@ const createOrUpdateGusItem = require('./create-or-update-gus-item');
 const updateGusItemPriority = require('./update-gus-item-priority');
 const updateGusItemTitle = require('./update-gus-item-title');
 const updateGusItemDescription = require('./update-gus-item-description');
+const integrateGusItem =  require('./integrate-gus-item');
 
 function handleQueue(task) {
     switch (task.name) {
@@ -17,6 +18,9 @@ function handleQueue(task) {
 
         case 'UPDATE_GUS_ITEM_DESCRIPTION':
             return updateGusItemDescription(task);
+
+        case 'INTEGRATE_GUS_ITEM':
+            return integrateGusItem(task);
 
         default:
             return null;
