@@ -5,6 +5,7 @@ module.exports = async function updateGusItemPriority({priority, relatedUrl}) {
     const isNewPriorityGreat = issue && priority > issue.priority;
     if (priority && isNewPriorityGreat) {
         console.log(`update gus item to ${priority} priority when issue is unlabeled`);
-        Issues.update(issue.id, { priority });
+        return Issues.update(issue.id, { priority });
     }
+    return null;
 };
