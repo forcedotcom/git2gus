@@ -6,7 +6,6 @@ const events = {
     ISSUE_LABELED: 'ISSUE_LABELED',
     ISSUE_UNLABELED: 'ISSUE_UNLABELED',
     ISSUE_CLOSED: 'ISSUE_CLOSED',
-    ISSUE_OPENED: 'ISSUE_OPENED',
     ISSUE_EDITED: 'ISSUE_EDITED',
 };
 
@@ -30,10 +29,6 @@ const eventsConfig = {
     [events.ISSUE_CLOSED]: {
         event: 'issues',
         action: 'closed',
-    },
-    [events.ISSUE_OPENED]: {
-        event: 'issues',
-        action: 'opened',
     },
     [events.ISSUE_EDITED]: {
         event: 'issues',
