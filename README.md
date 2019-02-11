@@ -1,7 +1,10 @@
-# git-2-gus-app
+# Git2Gus Application
 
-a [Sails v1](https://sailsjs.com) application
+a Github application to keep in sync issues with GUS work items.
 
+# Documentation
+
+This application was created on top of [Sails v1](https://sailsjs.com).
 
 ### Links
 

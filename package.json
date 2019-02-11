@@ -2,7 +2,7 @@
     "name": "git-2-gus-app",
     "private": true,
     "version": "0.1.0",
-    "description": "a Sails application",
+    "description": "Keeps Github issues in sync with GUS work items.",
     "keywords": [],
     "dependencies": {
         "@octokit/rest": "^15.16.1",
@@ -42,7 +42,7 @@
     "author": "reinierguerra",
     "license": "",
     "engines": {
-        "node": ">=9.10"
+        "node": ">=9.10.0"
     },
     "pre-push": [
         "lint"
