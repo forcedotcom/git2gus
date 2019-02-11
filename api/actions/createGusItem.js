@@ -1,6 +1,7 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github =  require('../services/Github');
+const Logger = require('../services/Logger');
 
 async function resolveBuild(config, milestone) {
     const build = milestone ? milestone.title : config.defaultBuild;
@@ -37,6 +38,7 @@ module.exports = {
             repository,
         } = req.body;
         const { config } = req.git2gus;
+        Logger.log({ message: `handling ${GithubEvents.events.ISSUE_LABELED} event` });
 
         if (Github.isGusLabel(label.name)) {
             const priority = Github.getPriority(labels);
@@ -45,13 +47,20 @@ module.exports = {
             try {
                 foundInBuild = await resolveBuild(config, milestone);
             } catch(error) {
-                console.log(error);
-                return await req.octokitClient.issues.createComment({
+                const comment = {
                     owner: repository.owner.login,
                     repo: repository.name,
                     number,
                     body: getBuildErrorMessage(milestone),
+                };
+                Logger.log({
+                    type: 'error',
+                    message: error.message || error,
+                    event: {
+                        create_github_comment: comment,
+                    },
                 });
+                return await req.octokitClient.issues.createComment(comment);
             }
 
             if (priority && foundInBuild) {
@@ -64,7 +73,7 @@ module.exports = {
                     foundInBuild,
                     priority,
                     relatedUrl: url,
-                }, () => console.log('done createGusItem action'));
+                }, () => Logger.log({ message: 'done createGusItem action' }));
             }
         }
     }

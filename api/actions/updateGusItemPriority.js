@@ -1,5 +1,6 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Github =  require('../services/Github');
+const Logger = require('../services/Logger');
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_UNLABELED,
@@ -9,16 +10,17 @@ module.exports = {
                 labels,
                 url,
             },
-            label: { name },
+            label,
         } = req.body;
+        Logger.log({ message: `handling ${GithubEvents.events.ISSUE_UNLABELED} event` });
 
-        if (Github.isGusLabel(name)) {
+        if (label && Github.isGusLabel(label.name)) {
             const priority = Github.getPriority(labels);
             sails.hooks['issues-hook'].queue.push({
                 name: 'UPDATE_GUS_ITEM_PRIORITY',
                 priority,
                 relatedUrl: url,
-            }, () => console.log('done updateGusItemPriority action'));
+            }, () => Logger.log({ message: 'done updateGusItemPriority action' }));
         }
     }
 };

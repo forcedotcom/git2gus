@@ -1,4 +1,12 @@
-const Issues = require('./../services/Issues');
+const Issues = require('../services/Issues');
+const Logger = require('../services/Logger');
+
+function logError(error) {
+    return Logger.log({
+        type: 'error',
+        message: error,
+    });
+}
 
 module.exports = {
     async getAll(req, res) {
@@ -9,22 +17,23 @@ module.exports = {
         try {
             const issue = await Issues.create(req.body);
             return res.json(issue);
-        } catch(err) {
-            return res.serverError(err);
+        } catch(error) {
+            logError(error);
+            return res.serverError(error);
         }
     },
     async getById(req, res) {
         try {
             const issue = await Issues.getById(req.params.id);
             return res.json(issue);
-        } catch(err) {
-            console.error(err);
+        } catch(error) {
+            logError(error);
             try {
                 const issue = await Issues.getByName(req.params.id);
                 return res.json(issue);
-            } catch(err) {
-                console.error(err);
-                return res.notFound(err);
+            } catch(error) {
+                logError(error);
+                return res.notFound(error);
             }
         }
     },
