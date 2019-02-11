@@ -1,4 +1,5 @@
 const asyncQueue = require('async/queue');
+const Logger = require('../../services/Logger');
 
 function handleQueue(task) {
     const {
@@ -8,14 +9,20 @@ function handleQueue(task) {
         name,
         color,
     } = task;
-
-    console.log(`create deleted ${name} label`);
-    return createLabel({
+    const label = {
         owner,
         repo,
         name,
         color,
+    };
+
+    Logger.log({
+        message: `create deleted ${name} label`,
+        event: {
+            create_github_label: label,
+        }
     });
+    return createLabel(label);
 }
 
 module.exports = function labelsHook() {

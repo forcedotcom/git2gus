@@ -1,4 +1,5 @@
 const GithubEvents = require('../modules/GithubEvents');
+const Logger = require('../services/Logger');
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_EDITED,
@@ -11,13 +12,14 @@ module.exports = {
             },
         } = req.body;
         const isDescriptionEdited = !!changes.body;
+        Logger.log({ message: `handling ${GithubEvents.events.ISSUE_EDITED} event` });
 
         if (isDescriptionEdited) {
             sails.hooks['issues-hook'].queue.push({
                 name: 'UPDATE_GUS_ITEM_DESCRIPTION',
                 description: body,
                 relatedUrl: url,
-            }, () => console.log('done updateGusItemDescription action'));
+            }, () => Logger.log({ message: 'done updateGusItemDescription action' }));
         }
     }
 };
