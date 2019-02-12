@@ -1,5 +1,5 @@
-const octokit = require('@octokit/rest');
-const jwt = require('jsonwebtoken');
+const Octokit = require('@octokit/rest');
+const App = require('@octokit/app');
 const fs = require('fs');
 const Logger = require('../services/Logger');
 
@@ -17,42 +17,31 @@ try {
     `);
 }
 
-function generateJwt(appId) {
-    const payload = {
-        exp: Math.floor(Date.now() / 1000) + 60,  // JWT expiration time
-        iat: Math.floor(Date.now() / 1000),       // Issued at time
-        iss: appId                                // GitHub App ID
-    };
-    // Sign with RSA SHA256
-    return jwt.sign(payload, cert, { algorithm: 'RS256' });
-}
-
 module.exports = async function isGithubAuth(req, res, next) {
     const { installation } = req.body;
-    const octokitClient = octokit();
-
-    octokitClient.authenticate({
-        type: 'app',
-        token: generateJwt(process.env.GITHUB_APP_ID),
+    const app = new App({
+        id: process.env.GITHUB_APP_ID,
+        privateKey: cert,
     });
-
-    let installationAccessToken;
-    try {
-        installationAccessToken = await octokitClient.apps.createInstallationToken({ installation_id: installation.id });
-    } catch(error) {
-        Logger.log({
-            type: 'error',
-            message: error,
-        });
-        return res.status(401).send({
-            code: 'UNAUTHORIZED_REQUEST',
-            message: 'The request requires authentication.',
-        });
-    }
-
-    octokitClient.authenticate({
-        type: 'token',
-        token: installationAccessToken.data.token,
+    const octokitClient = new Octokit({
+        async auth () {
+            let installationAccessToken;
+            try {
+                installationAccessToken = await app.getInstallationAccessToken({
+                    installationId: installation.id,
+                });
+            } catch (error) {
+                Logger.log({
+                    type: 'error',
+                    message: error,
+                });
+                return res.status(401).send({
+                    code: 'UNAUTHORIZED_REQUEST',
+                    message: 'The request requires authentication.',
+                });
+            }
+            return `token ${installationAccessToken}`;
+        }
     });
     req.octokitClient = octokitClient;
     next();

@@ -1,4 +1,5 @@
-const Github = require('./../services/Github');
+const Github = require('../services/Github');
+const Logger = require('../services/Logger');
 
 function resolveNumber(payload) {
     if (payload.issue) {
@@ -37,14 +38,26 @@ module.exports = async function hasConfig(req, res, next) {
         });
         return next();
     } catch(error) {
+        Logger.log({
+            type: 'error',
+            message: error.message || error,
+        });
         const number = resolveNumber(req.body);
         if (error.code === 404) {
             if (isIssueOrPrOpened) {
-                await req.octokitClient.issues.createComment({
+                const comment = {
                     ...params,
                     number,
                     body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`,
+                };
+                Logger.log({
+                    type: 'error',
+                    message: error.message || error,
+                    event: {
+                        create_github_comment: comment,
+                    },
                 });
+                await req.octokitClient.issues.createComment(comment);
             }
             return res.notFound({
                 code: 'CONFIG_NOT_FOUND',
@@ -52,11 +65,19 @@ module.exports = async function hasConfig(req, res, next) {
             });
         }
         if (isIssueOrPrOpened) {
-            await req.octokitClient.issues.createComment({
+            const comment = {
                 ...params,
                 number,
                 body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't have right values. You should add the required configuration.`,
+            };
+            Logger.log({
+                type: 'error',
+                message: error.message || error,
+                event: {
+                    create_github_comment: comment,
+                },
             });
+            await req.octokitClient.issues.createComment(comment);
         }
         return res.status(403).send(error);
     }
