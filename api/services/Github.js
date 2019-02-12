@@ -1,6 +1,6 @@
 module.exports = {
     async getConfig({ octokitClient, owner, repo }) {
-        const file = await octokitClient.repos.getContent({ owner, repo, path: '.git2gus/config.json' });
+        const file = await octokitClient.repos.getContents({ owner, repo, path: '.git2gus/config.json' });
         const buffer = Buffer.from(file.data.content, 'base64');
         const jsonData = buffer.toString();
         const config = JSON.parse(jsonData);

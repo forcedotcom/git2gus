@@ -1,5 +1,5 @@
 const verify = require('@octokit/webhooks/verify');
-const Logger = require('./../services/Logger');
+const Logger = require('../services/Logger');
 const secret = process.env.GITHUB_WEBHOOK_SECRET;
 
 module.exports = function isGithubReq(req, res, next) {
