@@ -66,18 +66,18 @@
     transition: all 0.2s ease;
 }
 
-.homepage-getting-started-container {
+.homepage-section-container {
     padding: 72px 100px 0 100px;
 }
 
-.homepage-getting-started-title {
+.homepage-section-title {
     color: rgb(21, 158, 217);
     font-weight: 100;
     margin-bottom: 24px;
     text-align: center;
 }
 
-.homepage-getting-started-subtitle {
+.homepage-section-subtitle {
     color: rgb(164, 167, 181);
     font-weight: 100;
     margin-bottom: 72px;
@@ -100,6 +100,64 @@
 }
 
 .homepage-getting-started-step-description {
+    color: rgb(164, 167, 181);
+}
+
+.homepage-config-file-text {
+    color: rgb(6, 28, 63);
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.homepage-badge {
+    background-color: rgb(244, 246, 249);
+    color: rgb(87, 101, 116);
+    padding: 0 5px;
+}
+
+.homepage-example-text {
+    color: rgb(87, 101, 116);
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.homepage-code {
+    background-color: rgb(244, 246, 249);
+    font-size: 14px;
+}
+
+.homepage-config-keys-list {
+    padding: 38px 0 54px 0;
+}
+
+.homepage-config-keys-item {
+    margin-bottom: 26px;
+}
+
+.homepage-config-key-description {
+    color: rgb(164, 167, 181);
+    font-size: 20px;
+}
+
+.homepage-flow-title {
+    color: rgb(6, 28, 63);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.homepage-flow-step-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 65px;
+}
+
+.homepage-flow-step-title {
+    color: rgb(6, 28, 63);
+    margin-bottom: 12px;
+}
+
+.homepage-flow-step-description {
     color: rgb(164, 167, 181);
 }
 
@@ -129,8 +187,23 @@
         width: 100vw;
     }
 
-    .homepage-getting-started-container {
+    .homepage-section-container {
         padding: 40px 60px 0 60px;
+    }
+
+    .homepage-flow-step-container {
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .homepage-flow-step-image {
+        margin-bottom: 24px;
+        order: 1;
+    }
+
+    .homepage-flow-step {
+        order: 2;
     }
 }
 
@@ -147,7 +220,7 @@
         margin-top: 30px;
     }
 
-    .homepage-getting-started-container {
+    .homepage-section-container {
         padding: 40px 16px 0 16px;
     }
 
@@ -167,5 +240,9 @@
 
     .homepage-getting-started-step-description {
         text-align: center;
+    }
+
+    .homepage-config-keys-list {
+        padding-left: 16px;
     }
 }
