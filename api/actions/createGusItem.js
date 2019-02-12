@@ -38,7 +38,9 @@ module.exports = {
             repository,
         } = req.body;
         const { config } = req.git2gus;
-        Logger.log({ message: `handling ${GithubEvents.events.ISSUE_LABELED} event` });
+        Logger.log({
+            message: `Handling ${GithubEvents.events.ISSUE_LABELED} event`,
+        });
 
         if (Github.isGusLabel(label.name)) {
             const priority = Github.getPriority(labels);
@@ -73,7 +75,9 @@ module.exports = {
                     foundInBuild,
                     priority,
                     relatedUrl: url,
-                }, () => Logger.log({ message: 'done createGusItem action' }));
+                }, () => Logger.log({
+                    message: 'Done createGusItem action.',
+                }));
             }
         }
     }

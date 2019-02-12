@@ -4,6 +4,7 @@ const updateGusItemPriority = require('./update-gus-item-priority');
 const updateGusItemTitle = require('./update-gus-item-title');
 const updateGusItemDescription = require('./update-gus-item-description');
 const integrateGusItem =  require('./integrate-gus-item');
+const linkToGusItem = require('./link-to-gus-item');
 
 function handleQueue(task) {
     switch (task.name) {
@@ -22,6 +23,8 @@ function handleQueue(task) {
         case 'INTEGRATE_GUS_ITEM':
             return integrateGusItem(task);
 
+        case 'LINK_TO_GUS_ITEM':
+            return linkToGusItem(task);
         default:
             return null;
     }

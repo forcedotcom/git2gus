@@ -5,6 +5,7 @@ module.exports = {
         relatedUrl: {
             type: 'string',
             columnName: 'related_url__c',
+            allowNull: true,
         },
         subject: {
             type: 'string',
@@ -61,7 +62,12 @@ module.exports = {
             type: 'string',
             columnName: '_hc_lastop',
             allowNull: true,
-        }
+        },
+        createdById: {
+            type: 'string',
+            columnName: 'createdbyid',
+            allowNull: true,
+        },
     },
     migrate: 'safe',
 };

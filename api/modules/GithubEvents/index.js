@@ -8,6 +8,7 @@ const events = {
     ISSUE_UNLABELED: 'ISSUE_UNLABELED',
     ISSUE_CLOSED: 'ISSUE_CLOSED',
     ISSUE_EDITED: 'ISSUE_EDITED',
+    ISSUE_OPENED: 'ISSUE_OPENED',
 };
 
 const eventsConfig = {
@@ -35,6 +36,10 @@ const eventsConfig = {
         event: 'issues',
         action: 'edited',
     },
+    [events.ISSUE_OPENED]: {
+        event: 'issues',
+        action: 'opened',
+    }
 };
 
 class GithubEvents extends EventEmitter {

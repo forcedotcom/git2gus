@@ -6,4 +6,5 @@ module.exports.gus = {
         'GUS P3',
     ],
     labelColor: 'ededed',
+    gusUserId: process.env.GUS_USER_ID,
 };

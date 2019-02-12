@@ -18,7 +18,7 @@ module.exports = async function createOrUpdateGusItem(task) {
     if (!hasLowestPriority) {
         if (issue) {
             Logger.log({
-                message: `update gus item to ${priority} priority when issue is labeled`,
+                message: `Updating GUS item id:${issue} to ${priority} priority.`,
                 event: {
                     update_gus_item: {
                         id: issue.id,
@@ -38,7 +38,7 @@ module.exports = async function createOrUpdateGusItem(task) {
             relatedUrl,
         };
         Logger.log({
-            message: 'create gus item when issue labeled',
+            message: 'Creating GUS item when issue labeled.',
             event: {
                 create_gus_item: item,
             }
