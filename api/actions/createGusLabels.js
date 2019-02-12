@@ -29,7 +29,7 @@ module.exports = {
                             create_github_label: label,
                         },
                     });
-                    await req.octokitClient.issues.createLabel(label);
+                    await req.octokitClient.request('POST /repos/:owner/:repo/labels', label);
                 } catch(err) {
                     Logger.log({
                         type: 'error',
