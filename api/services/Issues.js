@@ -28,7 +28,7 @@ module.exports = {
     async update(id, issue) {
         return await Issues.update({id}, issue).fetch();
     },
-    weCreateIssue({ id }) {
-        return id === sails.config.gus.gusUserId;
+    weCreateIssue({ createdById }) {
+        return createdById === sails.config.gus.gusUserId;
     },
 };

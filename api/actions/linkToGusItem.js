@@ -15,12 +15,22 @@ module.exports = {
             },
             changes,
         } = req.body;
+        Logger.log({
+            message: 'Trying to to link issue with GUS item',
+            event: {
+                context: {
+                    url,
+                    description,
+                    changes,
+                },
+            },
+        });
         if (action === 'edited' && !changes.body) {
             return;
         }
 
         if (typeof description === 'string') {
-            const matches = description.match(/@w-\d{6}@/ig);
+            const matches = description.match(/@w-\d+@/ig);
             if (Array.isArray(matches) && matches.length > 0) {
                 sails.hooks['issues-hook'].queue.push({
                     name: 'LINK_TO_GUS_ITEM',

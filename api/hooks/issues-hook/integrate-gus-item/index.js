@@ -6,7 +6,7 @@ module.exports = async function integrateGusItem({ relatedUrl }) {
     const isNotIntegrated = issue && issue.status !== 'INTEGRATE';
     if (isNotIntegrated) {
         Logger.log({
-            message: 'update gus item status to: INTEGRATE',
+            message: 'Updating GUS item  to status: INTEGRATE',
             event: {
                 update_gus_item: {
                     id: issue.id,
@@ -18,5 +18,14 @@ module.exports = async function integrateGusItem({ relatedUrl }) {
             status: 'INTEGRATE',
         });
     }
+    Logger.log({
+        type: 'error',
+        message: `There isn't a GUS item related found.`,
+        event: {
+            context: {
+                relatedUrl,
+            }
+        },
+    });
     return null;
 };

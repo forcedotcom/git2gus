@@ -15,5 +15,15 @@ module.exports = async function updateGusItemTitle({ subject, relatedUrl }) {
         });
         return Issues.update(issue.id, { subject });
     }
+    Logger.log({
+        type: 'error',
+        message: `There isn't a GUS item related found or it wasn't created by us`,
+        event: {
+            context: {
+                gusUserId: sails.config.gus.gusUserId,
+                issue,
+            }
+        },
+    });
     return null;
 };
