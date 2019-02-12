@@ -9,8 +9,9 @@ module.exports = {
             sender,
         } = req.body;
         const owner = sender.login;
-        Logger.log({ message: `handling ${GithubEvents.events.INSTALLATION_CREATED} event` });
-
+        Logger.log({
+            message: `handling ${GithubEvents.events.INSTALLATION_CREATED} event`,
+        });
         repositories.forEach((repository) => {
             const repo = repository.name;
             const { labels, labelColor } = sails.config.gus;
@@ -23,7 +24,7 @@ module.exports = {
                         color: labelColor,
                     };
                     Logger.log({
-                        message: `create ${name} github label in ${repo} repo`,
+                        message: `Creating ${name} Github label in ${repo} repo`,
                         event: {
                             create_github_label: label,
                         },

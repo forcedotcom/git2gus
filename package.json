@@ -5,8 +5,8 @@
     "description": "Keeps Github issues in sync with GUS work items.",
     "keywords": [],
     "dependencies": {
-        "@octokit/rest": "^15.16.1",
-        "@octokit/webhooks": "^5.0.2",
+        "@octokit/rest": "^16.15.0",
+        "@octokit/webhooks": "^5.3.2",
         "@sailshq/connect-redis": "^3.2.1",
         "@sailshq/lodash": "^3.10.3",
         "@sailshq/socket.io-redis": "^5.2.0",
