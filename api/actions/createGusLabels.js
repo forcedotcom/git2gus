@@ -6,9 +6,9 @@ module.exports = {
     fn: async function (req) {
         const {
             repositories,
-            sender,
+            installation,
         } = req.body;
-        const owner = sender.login;
+        const owner = installation.account.login;
         Logger.log({
             message: `handling ${GithubEvents.events.INSTALLATION_CREATED} event`,
         });
@@ -29,7 +29,7 @@ module.exports = {
                             create_github_label: label,
                         },
                     });
-                    await req.octokitClient.request('POST /repos/:owner/:repo/labels', label);
+                    await req.octokitClient.issues.createLabel(label);
                 } catch(err) {
                     Logger.log({
                         type: 'error',
