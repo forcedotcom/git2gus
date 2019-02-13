@@ -2,6 +2,8 @@
 
 a Github application to keep in sync issues with GUS work items.
 
+[![CircleCI](https://circleci.com/gh/reiniergs/git2gus-app/tree/master.svg?style=svg&circle-token=d99221df302173c68e625ceb8a0671a19cb5c212)](https://circleci.com/gh/reiniergs/git2gus-app/tree/master)
+
 # Documentation
 
 This application was created on top of [Sails v1](https://sailsjs.com).
