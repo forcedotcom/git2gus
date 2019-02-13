@@ -112,7 +112,9 @@
 .homepage-badge {
     background-color: rgb(244, 246, 249);
     color: rgb(87, 101, 116);
-    padding: 0 5px;
+    padding: 5px 5px;
+    font-size: 20px;
+    border-radius: 4px;
 }
 
 .homepage-example-text {
@@ -123,7 +125,8 @@
 
 .homepage-code {
     background-color: rgb(244, 246, 249);
-    font-size: 14px;
+    font-size: 20px;
+    border-radius: 4px;
 }
 
 .homepage-config-keys-list {
