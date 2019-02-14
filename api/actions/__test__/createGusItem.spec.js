@@ -102,27 +102,28 @@ describe('createGusItem action', () => {
     });
     it('should not call anything when the label is not a gus label', async () => {
         expect.assertions(2);
-        req.octokitClient.issues.createComment.mockReset();
+        Github.createComment.mockReset();
         sails.hooks['issues-hook'].queue.push.mockReset();
         Github.isGusLabel.mockReturnValue(false);
         await fn(req);
-        expect(req.octokitClient.issues.createComment).not.toHaveBeenCalled();
+        expect(Github.createComment).not.toHaveBeenCalled();
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
     it('should create a comment when the "done" callback return the new gusItem', async () => {
         expect.assertions(2);
-        req.octokitClient.issues.createComment.mockReset();
+        Github.createComment.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockReset();
         Github.isGusLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve({ id: 'B12345' }));
         getGusItemUrl.mockReset();
-        getGusItemUrl.mockReturnValue('http://12345.com');
+        getGusItemUrl.mockReturnValue('https://12345.com');
         sails.hooks['issues-hook']
             .queue.push = (data, done) => {
                 done({ id : '12345' });
             };
         await fn(req);
         expect(getGusItemUrl).toHaveBeenCalledWith({ id: '12345' });
-        expect(Github.createComment).not.toHaveBeenCalledWith({
+        expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body: `This issue has been linked to a new GUS work item: https://12345.com`,
         });
