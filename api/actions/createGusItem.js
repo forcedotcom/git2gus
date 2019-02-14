@@ -1,6 +1,7 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github =  require('../services/Github');
+const { getGusItemUrl } =  require('../services/Issues');
 
 function getBuildErrorMessage(config, milestone) {
     if (milestone) {
@@ -19,10 +20,8 @@ module.exports = {
                 title,
                 body,
                 milestone,
-                number,
             },
             label,
-            repository,
         } = req.body;
         const { config } = req.git2gus;
 
@@ -40,12 +39,17 @@ module.exports = {
                     foundInBuild,
                     priority,
                     relatedUrl: url,
+                }, (item) => {
+                    if (item) {
+                        Github.createComment({
+                            req,
+                            body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(item)}`,
+                        });
+                    }
                 });
             }
-            return await req.octokitClient.issues.createComment({
-                owner: repository.owner.login,
-                repo: repository.name,
-                number,
+            return await Github.createComment({
+                req,
                 body: getBuildErrorMessage(config, milestone),
             });
         }

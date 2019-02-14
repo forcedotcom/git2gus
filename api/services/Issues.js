@@ -31,4 +31,7 @@ module.exports = {
     weCreateIssue({ createdById }) {
         return createdById === sails.config.gus.gusUserId;
     },
+    getGusItemUrl(item) {
+        return `https://gus.lightning.force.com/lightning/r/ADM_Work__c/${item.id}/view`;
+    },
 };
