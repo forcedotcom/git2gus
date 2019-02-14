@@ -1,7 +1,7 @@
 const { fn } = require('../createGusItem');
 const Builds = require('../../services/Builds');
 const Github =  require('../../services/Github');
-const { getGusItemUrl } = require('./../../services/Issues');
+const { getGusItemUrl, waitUntilSynced } = require('./../../services/Issues');
 
 jest.mock('../../services/Builds', () => ({
     resolveBuild: jest.fn(),
@@ -13,6 +13,7 @@ jest.mock('../../services/Github', () => ({
 }));
 jest.mock('../../services/Issues', () => ({
     getGusItemUrl: jest.fn(),
+    waitUntilSynced: jest.fn(),
 }));
 
 global.sails = {
@@ -110,19 +111,24 @@ describe('createGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
     it('should create a comment when the "done" callback return the new gusItem', async () => {
-        expect.assertions(2);
-        req.octokitClient.issues.createComment.mockReset();
+        // expect.assertions(1);
+        Github.createComment.mockReset();
         Github.isGusLabel.mockReturnValue(true);
-        Builds.resolveBuild.mockReturnValue(Promise.resolve({ id: 'B12345' }));
+        Builds.resolveBuild.mockReturnValue(Promise.resolve({ sfid: 'B12345' }));
         getGusItemUrl.mockReset();
+        waitUntilSynced.mockReturnValue(Promise.resolve({ sfci: 'SF123456' }));
         getGusItemUrl.mockReturnValue('http://12345.com');
         sails.hooks['issues-hook']
             .queue.push = (data, done) => {
-                done({ id : '12345' });
+                done(null, { id : '12345' });
             };
         await fn(req);
         expect(getGusItemUrl).toHaveBeenCalledWith({ id: '12345' });
-        expect(Github.createComment).not.toHaveBeenCalledWith({
+        expect(waitUntilSynced).toHaveBeenCalledWith(
+            { id: '12345' },
+            { interval: 60000, times: 5 },
+        );
+        expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body: `This issue has been linked to a new GUS work item: https://12345.com`,
         });

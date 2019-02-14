@@ -1,7 +1,10 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github =  require('../services/Github');
-const { getGusItemUrl } =  require('../services/Issues');
+const {
+    getGusItemUrl,
+    waitUntilSynced,
+} =  require('../services/Issues');
 
 function getBuildErrorMessage(config, milestone) {
     if (milestone) {
@@ -28,7 +31,6 @@ module.exports = {
         if (Github.isGusLabel(label.name)) {
             const priority = Github.getPriority(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
-
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push({
                     name: 'CREATE_GUS_ITEM',
@@ -39,15 +41,23 @@ module.exports = {
                     foundInBuild,
                     priority,
                     relatedUrl: url,
-                }, (item) => {
+                }, async (error, item) => {
                     if (item) {
-                        Github.createComment({
+                        const syncedItem = await waitUntilSynced(item, { times: 5, interval: 60000});
+                        if (syncedItem) {
+                            return await Github.createComment({
+                                req,
+                                body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(syncedItem)}`,
+                            });
+                        }
+                        return await Github.createComment({
                             req,
-                            body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(item)}`,
+                            body: `Sorry we could wait until Heroku connect make the syncronization.`,
                         });
                     }
                 });
             }
+            console.log('pinga');
             return await Github.createComment({
                 req,
                 body: getBuildErrorMessage(config, milestone),

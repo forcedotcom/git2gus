@@ -1,4 +1,5 @@
 const pick = require('lodash/pick');
+const retry = require('async/retry');
 
 module.exports = {
     async getAll() {
@@ -32,6 +33,21 @@ module.exports = {
         return createdById === sails.config.gus.gusUserId;
     },
     getGusItemUrl(item) {
-        return `https://gus.lightning.force.com/lightning/r/ADM_Work__c/${item.id}/view`;
+        return `https://gus.lightning.force.com/lightning/r/ADM_Work__c/${item.sfid}/view`;
+    },
+    async waitUntilSynced({ id }, config = {}) {
+        const method = async () => {
+            const issue = await Issues.findOne({ id });
+            if (issue.syncState === 'SYNCED') {
+                return issue;
+            }
+            throw new Error(`Issue ${issue.id} it's not synced yet.`);
+        };
+        const { times = 5, interval = 1000 } = config;
+        return new Promise((resolve) => {
+            retry({ times, interval }, method, (error, result) => {
+                return resolve(result);
+            });
+        });
     },
 };

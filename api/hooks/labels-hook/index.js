@@ -1,10 +1,9 @@
 const asyncQueue = require('async/queue');
 
 module.exports = function labelsHook() {
-    const queue = asyncQueue(async (task, done = () => {}) => {
+    const queue = asyncQueue(async function labelQueueConsumer(task, done = () => {}) {
         await task.execute();
-        done();
+        return done();
     }, 1);
-
     return { queue };
 };
