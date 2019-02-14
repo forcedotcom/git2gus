@@ -1,5 +1,4 @@
 const GithubEvents = require('../modules/GithubEvents');
-const Logger = require('../services/Logger');
 
 module.exports = {
     eventName: [
@@ -15,16 +14,7 @@ module.exports = {
             },
             changes,
         } = req.body;
-        Logger.log({
-            message: 'Trying to to link issue with GUS item',
-            event: {
-                context: {
-                    url,
-                    description,
-                    changes,
-                },
-            },
-        });
+
         if (action === 'edited' && !changes.body) {
             return;
         }
@@ -36,10 +26,6 @@ module.exports = {
                     name: 'LINK_TO_GUS_ITEM',
                     relatedUrl: url,
                     gusItemName: matches[0].replace(/@/g, ''),
-                }, () => {
-                    Logger.log({
-                        message: 'Done linking to GUS item.',
-                    });
                 });
             }
         }
