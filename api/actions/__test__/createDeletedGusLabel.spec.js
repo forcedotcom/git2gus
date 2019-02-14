@@ -52,6 +52,7 @@ describe('createDeletedGusLabel action', () => {
     });
     describe('execute', () => {
         it('should call createLabel with the right values', async () => {
+            expect.assertions(1);
             Github.isGusLabel.mockReturnValue(true);
             fn(req);
             const { execute } = sails.hooks['labels-hook'].queue.push.mock.calls[0][0];
