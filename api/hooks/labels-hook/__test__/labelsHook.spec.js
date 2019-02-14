@@ -21,6 +21,7 @@ describe('labelsHook', () => {
     });
     describe('labelHook worker', () => {
         it('should call task.execute and done functions passed to the worker', async () => {
+            expect.assertions(2);
             asyncQueue.mockReset();
             labelsHook();
             const task = {
