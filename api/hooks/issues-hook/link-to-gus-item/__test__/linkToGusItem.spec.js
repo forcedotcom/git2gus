@@ -1,4 +1,3 @@
-
 const linkToGusItem = require('../');
 const Issues = require('../../../../services/Issues');
 
