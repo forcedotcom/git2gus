@@ -19,7 +19,7 @@ describe('labelsHook', () => {
             },
         });
     });
-    describe('labelHook worker', () => {
+    describe('worker', () => {
         it('should call task.execute and done functions passed to the worker', async () => {
             expect.assertions(2);
             asyncQueue.mockReset();
