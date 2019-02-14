@@ -1,6 +1,7 @@
 const { fn } = require('../createGusItem');
 const Builds = require('../../services/Builds');
 const Github =  require('../../services/Github');
+const { getGusItemUrl } = require('./../../services/Issues');
 
 jest.mock('../../services/Builds', () => ({
     resolveBuild: jest.fn(),
@@ -8,6 +9,10 @@ jest.mock('../../services/Builds', () => ({
 jest.mock('../../services/Github', () => ({
     isGusLabel: jest.fn(),
     getPriority: () => 'P1',
+    createComment: jest.fn(),
+}));
+jest.mock('../../services/Issues', () => ({
+    getGusItemUrl: jest.fn(),
 }));
 
 global.sails = {
@@ -20,7 +25,7 @@ global.sails = {
     },
 };
 
-let req = {
+const req = {
     body: {
         issue: {
             url: 'github/git2gus-test/#30',
@@ -64,36 +69,33 @@ describe('createGusItem action', () => {
             foundInBuild: 'qwerty1234',
             priority: 'P1',
             relatedUrl: 'github/git2gus-test/#30',
-        });
+        }, expect.any(Function));
     });
     it('should create a github comment when there is not a valid build and milestone', async () => {
         expect.assertions(2);
         sails.hooks['issues-hook'].queue.push.mockReset();
         Github.isGusLabel.mockReturnValue(true);
+        Github.createComment.mockReset();
         Builds.resolveBuild.mockReturnValue(Promise.resolve(null));
         await fn(req);
-        expect(req.octokitClient.issues.createComment).toHaveBeenCalledWith({
-            owner: 'john',
-            repo: 'git2gus-test',
-            number: 30,
+        expect(Github.createComment).toHaveBeenCalledWith({
+            req,
             body: 'The defaultBuild value 218 in `.git2gus/config.json` doesn\'t match any valid build in GUS.',
         });
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
     it('should create a github comment when there is not a valid build but there is a milestone', async () => {
         expect.assertions(2);
-        req.octokitClient.issues.createComment.mockReset();
         sails.hooks['issues-hook'].queue.push.mockReset();
         Github.isGusLabel.mockReturnValue(true);
+        Github.createComment.mockReset();
         Builds.resolveBuild.mockReturnValue(Promise.resolve(null));
         req.body.issue.milestone = {
             title: 220,
         };
         await fn(req);
-        expect(req.octokitClient.issues.createComment).toHaveBeenCalledWith({
-            owner: 'john',
-            repo: 'git2gus-test',
-            number: 30,
+        expect(Github.createComment).toHaveBeenCalledWith({
+            req,
             body: 'The milestone assigned to the issue doesn\'t match any valid build in GUS.',
         });
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
@@ -106,5 +108,23 @@ describe('createGusItem action', () => {
         await fn(req);
         expect(req.octokitClient.issues.createComment).not.toHaveBeenCalled();
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
+    });
+    it('should create a comment when the "done" callback return the new gusItem', async () => {
+        expect.assertions(2);
+        req.octokitClient.issues.createComment.mockReset();
+        Github.isGusLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve({ id: 'B12345' }));
+        getGusItemUrl.mockReset();
+        getGusItemUrl.mockReturnValue('http://12345.com');
+        sails.hooks['issues-hook']
+            .queue.push = (data, done) => {
+                done({ id : '12345' });
+            };
+        await fn(req);
+        expect(getGusItemUrl).toHaveBeenCalledWith({ id: '12345' });
+        expect(Github.createComment).not.toHaveBeenCalledWith({
+            req,
+            body: `This issue has been linked to a new GUS work item: https://12345.com`,
+        });
     });
 });
