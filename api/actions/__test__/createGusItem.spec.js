@@ -103,11 +103,11 @@ describe('createGusItem action', () => {
     });
     it('should not call anything when the label is not a gus label', async () => {
         expect.assertions(2);
-        req.octokitClient.issues.createComment.mockReset();
+        Github.createComment.mockReset();
         sails.hooks['issues-hook'].queue.push.mockReset();
         Github.isGusLabel.mockReturnValue(false);
         await fn(req);
-        expect(req.octokitClient.issues.createComment).not.toHaveBeenCalled();
+        expect(Github.createComment).not.toHaveBeenCalled();
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
     it('should create a comment when the "done" callback return the new gusItem and it is synced', async () => {
