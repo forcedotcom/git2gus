@@ -110,27 +110,45 @@ describe('createGusItem action', () => {
         expect(req.octokitClient.issues.createComment).not.toHaveBeenCalled();
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
-    it('should create a comment when the "done" callback return the new gusItem', async () => {
-        // expect.assertions(1);
+    it('should create a comment when the "done" callback return the new gusItem and it is synced', async () => {
+        expect.assertions(3);
         Github.createComment.mockReset();
         Github.isGusLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve({ sfid: 'B12345' }));
         getGusItemUrl.mockReset();
         waitUntilSynced.mockReturnValue(Promise.resolve({ sfci: 'SF123456' }));
-        getGusItemUrl.mockReturnValue('http://12345.com');
+        getGusItemUrl.mockReturnValue('https://12345.com');
         sails.hooks['issues-hook']
-            .queue.push = (data, done) => {
+            .queue.push = async (data, done) => {
                 done(null, { id : '12345' });
             };
         await fn(req);
-        expect(getGusItemUrl).toHaveBeenCalledWith({ id: '12345' });
         expect(waitUntilSynced).toHaveBeenCalledWith(
             { id: '12345' },
             { interval: 60000, times: 5 },
         );
+        expect(getGusItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' });
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body: `This issue has been linked to a new GUS work item: https://12345.com`,
+        });
+    });
+    it('should create a comment when the "done" callback return the new gusItem but it not get synced', async () => {
+        expect.assertions(3);
+        Github.createComment.mockReset();
+        Github.isGusLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve({ sfid: 'B12345' }));
+        getGusItemUrl.mockReset();
+        waitUntilSynced.mockReturnValue(Promise.resolve(undefined));
+        await fn(req);
+        expect(waitUntilSynced).toHaveBeenCalledWith(
+            { id: '12345' },
+            { interval: 60000, times: 5 },
+        );
+        expect(getGusItemUrl).not.toHaveBeenCalled();
+        expect(Github.createComment).toHaveBeenCalledWith({
+            req,
+            body: 'Sorry we could wait until Heroku connect make the syncronization.',
         });
     });
 });

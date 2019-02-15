@@ -52,12 +52,11 @@ module.exports = {
                         }
                         return await Github.createComment({
                             req,
-                            body: `Sorry we could wait until Heroku connect make the syncronization.`,
+                            body: 'Sorry we could wait until Heroku connect make the syncronization.',
                         });
                     }
                 });
             }
-            console.log('pinga');
             return await Github.createComment({
                 req,
                 body: getBuildErrorMessage(config, milestone),
