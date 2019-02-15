@@ -77,4 +77,20 @@ describe('createOrUpdateGusItem issues hook', () => {
         expect(Issues.update).not.toHaveBeenCalled();
         expect(Issues.create).not.toHaveBeenCalled();
     });
+    it('should return the GUS item created', async () => {
+        expect.assertions(1);
+        const gusItem = { id: '12345' };
+        Issues.getByRelatedUrl.mockReturnValue(null);
+        Issues.create.mockReturnValue(Promise.resolve(gusItem));
+        const issue = await createOrUpdateGusItem(task);
+        expect(issue).toBe(gusItem);
+    });
+    it('should return the GUS item updated', async () => {
+        expect.assertions(1);
+        const gusItem = { id: '12345' };
+        Issues.getByRelatedUrl.mockReturnValue(gusItem);
+        Issues.update.mockReturnValue(Promise.resolve(gusItem));
+        const issue = await createOrUpdateGusItem(task);
+        expect(issue).toBe(gusItem);
+    });
 });

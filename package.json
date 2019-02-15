@@ -44,7 +44,7 @@
     "author": "reinierguerra",
     "license": "",
     "engines": {
-        "node": ">=9.10.0"
+        "node": ">=10.15.1"
     },
     "pre-push": [
         "lint",

@@ -2,6 +2,7 @@ module.exports = {
     tableName: 'adm_work__c',
     attributes: {
         name: 'string',
+        sfid: 'string',
         relatedUrl: {
             type: 'string',
             columnName: 'related_url__c',

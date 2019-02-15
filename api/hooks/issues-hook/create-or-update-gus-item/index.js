@@ -16,7 +16,7 @@ module.exports = async function createOrUpdateGusItem(task) {
 
     if (!hasLowestPriority) {
         if (issue) {
-            return Issues.update(issue.id, { priority });
+            return await Issues.update(issue.id, { priority });
         }
         const item = {
             subject,
@@ -27,6 +27,6 @@ module.exports = async function createOrUpdateGusItem(task) {
             priority,
             relatedUrl,
         };
-        return Issues.create(item);
+        return await Issues.create(item);
     }
 };

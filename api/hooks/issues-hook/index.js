@@ -6,35 +6,33 @@ const updateGusItemDescription = require('./update-gus-item-description');
 const integrateGusItem =  require('./integrate-gus-item');
 const linkToGusItem = require('./link-to-gus-item');
 
-function handleQueue(task) {
+async function handleQueue(task) {
     switch (task.name) {
         case 'CREATE_GUS_ITEM':
-            return createOrUpdateGusItem(task);
+            return await createOrUpdateGusItem(task);
 
         case 'UPDATE_GUS_ITEM_PRIORITY':
-            return updateGusItemPriority(task);
+            return await updateGusItemPriority(task);
 
         case 'UPDATE_GUS_ITEM_TITLE':
-            return updateGusItemTitle(task);
+            return await updateGusItemTitle(task);
 
         case 'UPDATE_GUS_ITEM_DESCRIPTION':
-            return updateGusItemDescription(task);
+            return await updateGusItemDescription(task);
 
         case 'INTEGRATE_GUS_ITEM':
-            return integrateGusItem(task);
+            return await integrateGusItem(task);
 
         case 'LINK_TO_GUS_ITEM':
-            return linkToGusItem(task);
+            return await linkToGusItem(task);
         default:
             return null;
     }
 }
 
 module.exports = function issuesHook() {
-    const queue = asyncQueue(async (task, done = () => {}) => {
-        await handleQueue(task);
-        done();
-    }, 1);
-
+    const queue = asyncQueue(async (task) => {
+        return await handleQueue(task);
+    });
     return { queue };
 };
