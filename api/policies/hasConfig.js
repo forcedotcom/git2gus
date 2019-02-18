@@ -11,6 +11,13 @@ function resolveNumber(payload) {
     return undefined;
 }
 
+const skipEvents = [
+    'installation',
+    'integration_installation',
+    'integration_installation_repositories',
+    'installation_repositories',
+];
+
 module.exports = async function hasConfig(req, res, next) {
     const {
         action,
@@ -19,7 +26,7 @@ module.exports = async function hasConfig(req, res, next) {
     const event = req.headers['x-github-event'];
     const isIssueOrPrOpened = (event === 'issues' || event === 'pull_request') && action === 'opened';
 
-    if (event === 'installation' || event === 'integration_installation') {
+    if (skipEvents.indexOf(event) !== -1) {
         return next();
     }
 

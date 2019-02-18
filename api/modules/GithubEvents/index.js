@@ -3,6 +3,7 @@ const Logger = require('../../services/Logger');
 
 const events = {
     INSTALLATION_CREATED: 'INSTALLATION_CREATED',
+    INSTALLATION_REPOSITORIES_ADDED: 'INSTALLATION_REPOSITORIES_ADDED',
     LABEL_DELETED: 'LABEL_DELETED',
     ISSUE_LABELED: 'ISSUE_LABELED',
     ISSUE_UNLABELED: 'ISSUE_UNLABELED',
@@ -15,6 +16,10 @@ const eventsConfig = {
     [events.INSTALLATION_CREATED]: {
         event: 'installation',
         action: 'created',
+    },
+    [events.INSTALLATION_REPOSITORIES_ADDED]: {
+        event: 'installation_repositories',
+        action: 'added',
     },
     [events.LABEL_DELETED]: {
         event: 'label',
@@ -43,11 +48,16 @@ const eventsConfig = {
 };
 
 class GithubEvents extends EventEmitter {
-    emitFromReq(req) {
+    static match(req, eventName) {
         const event = req.headers['x-github-event'];
-        const action = req.body.action;
+        const { action } = req.body;
+        return event === eventsConfig[eventName].event
+            && action === eventsConfig[eventName].action;
+    }
+
+    emitFromReq(req) {
         Object.keys(eventsConfig).forEach((eventName) => {
-            if (event === eventsConfig[eventName].event && action === eventsConfig[eventName].action) {
+            if (GithubEvents.match(req, eventName)) {
                 Logger.log({
                     message: `${event.toUpperCase()} ${action.toUpperCase()} emited`,
                 });
