@@ -1,16 +1,13 @@
 const Octokit = require('@octokit/rest');
 const App = require('@octokit/app');
 const fs = require('fs');
-const Logger = require('../services/Logger');
+const { github } = require('../../config/github');
 
 let cert;
 try {
     cert = process.env.PRIVATE_KEY || fs.readFileSync('private-key.pem');
 } catch(error) {
-    Logger.log({
-        type: 'error',
-        message: error,
-    });
+    console.error(error);
     throw new Error(`
         Failed reading Github App private key.
         Private key should be as PRIVATE_KEY environment variable or in private-key.pem file at the root folder. 
@@ -20,7 +17,7 @@ try {
 module.exports = async function isGithubAuth(req, res, next) {
     const { installation } = req.body;
     const app = new App({
-        id: process.env.GITHUB_APP_ID,
+        id: github.appId,
         privateKey: cert,
     });
     const octokitClient = new Octokit({
@@ -31,10 +28,7 @@ module.exports = async function isGithubAuth(req, res, next) {
                     installationId: installation.id,
                 });
             } catch (error) {
-                Logger.log({
-                    type: 'error',
-                    message: error,
-                });
+                console.error(error);
                 return res.status(401).send({
                     code: 'UNAUTHORIZED_REQUEST',
                     message: 'The request requires authentication.',
