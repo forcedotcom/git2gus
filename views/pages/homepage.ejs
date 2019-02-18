@@ -82,7 +82,7 @@ For more information, see:
         </ul>
     </div>
     <div class="homepage-section-container">
-        <h2 class="homepage-section-title">How Git2Gus work?</h2>
+        <h2 id="how-it-works" class="homepage-section-title">How Git2Gus works?</h2>
         <h3 class="homepage-flow-title">Creating GUS work items automatically.</h3>
         <div class="homepage-flow-step-container">
             <div class="homepage-flow-step">
@@ -100,41 +100,52 @@ For more information, see:
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">2. The new GUS work item</p>
                 <p class="homepage-flow-step-description">
-                    The new GUS work item is going to be created using the priority, title, description specified 
-                    in the Github issue. Also the field FoundInBuild and the ProductTag is going to be equal to the values
-                    in the configuration file. 
+                    The new GUS work item is going to be created using the priority, title and description fields specified 
+                    in the Github issue. Also the <b>FoundInBuild</b> and the <b>ProductTag</b> fields are going to be equal to the values
+                    provided in the configuration file. 
                 </p>
             </div>
         </div>
 
-        <h3 class="homepage-flow-title">Link issue with a GUS card</h3>
+        <h3 class="homepage-flow-title">Link issue with an existing GUS work item.</h3>
         <div class="homepage-flow-step-container">
-            <img class="homepage-flow-step-image" src="/images/add-issue-description.svg" alt="open issue">
+            <img class="homepage-flow-step-image" src="/images/add-comment-issue.svg" alt="open issue">
             <div class="homepage-flow-step">
-                <p class="homepage-flow-step-title">1. Open a Issue with an annotation in description</p>
-                <p class="homepage-flow-step-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                <p class="homepage-flow-step-title">1. Add the annotation @W-1234567@ into the issue description.</p>
+                <p class="homepage-flow-step-description">
+                    Add the <b>@W-1234567@</b> annotation in the issue 
+                    description where <b>W-1234567</b> is the name of the GUS work item you want to link. 
+                </p>
             </div>
         </div>
         <div class="homepage-flow-step-container">
             <div class="homepage-flow-step">
-                <p class="homepage-flow-step-title">2. Link issue with a GUS card</p>
-                <p class="homepage-flow-step-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                <p class="homepage-flow-step-title">2. The Issue and GUS work item are linked.</p>
+                <p class="homepage-flow-step-description">
+                    When an issue gets linked to an existing GUS work item it means that when the issue gets <b>closed</b> the work item in GUS 
+                    it's going to be closed as well.
+                </p>
             </div>
             <img class="homepage-flow-step-image" src="/images/link-issue-with-gus.svg" alt="open issue">
         </div>
 
-        <h3 class="homepage-flow-title">Close a issue</h3>
+        <h3 class="homepage-flow-title">Closing GUS work items automatically.</h3>
         <div class="homepage-flow-step-container">
             <img class="homepage-flow-step-image" src="/images/close-issue.svg" alt="open issue">
             <div class="homepage-flow-step">
-                <p class="homepage-flow-step-title">1. Close a Issue</p>
-                <p class="homepage-flow-step-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                <p class="homepage-flow-step-title">1. Close an issue.</p>
+                <p class="homepage-flow-step-description">
+                    Closing Github issues that were linked to GUS work items will trigger that the work item 
+                    closes automatically.
+                </p>
             </div>
         </div>
         <div class="homepage-flow-step-container">
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">2. Change GUS status to INTEGRATE</p>
-                <p class="homepage-flow-step-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                <p class="homepage-flow-step-description">
+                    GUS work items that close automatically are going to have status INTEGRATE.
+                </p>
             </div>
             <img class="homepage-flow-step-image" src="/images/integrate-gus-card.png" alt="open issue">
         </div>
