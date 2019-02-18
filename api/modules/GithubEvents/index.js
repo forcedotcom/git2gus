@@ -1,5 +1,4 @@
 const EventEmitter = require('events');
-const Logger = require('../../services/Logger');
 
 const events = {
     INSTALLATION_CREATED: 'INSTALLATION_CREATED',
@@ -58,9 +57,6 @@ class GithubEvents extends EventEmitter {
     emitFromReq(req) {
         Object.keys(eventsConfig).forEach((eventName) => {
             if (GithubEvents.match(req, eventName)) {
-                Logger.log({
-                    message: `${event.toUpperCase()} ${action.toUpperCase()} emited`,
-                });
                 this.emit(eventName, req);
             }
         });
