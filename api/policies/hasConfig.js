@@ -1,15 +1,4 @@
-const Github = require('../services/Github');
-const Logger = require('../services/Logger');
-
-function resolveNumber(payload) {
-    if (payload.issue) {
-        return payload.issue.number;
-    }
-    if (payload.pull_request) {
-        return payload.number;
-    }
-    return undefined;
-}
+const { getConfig, createComment } = require('../services/Github');
 
 const skipEvents = [
     'installation',
@@ -24,20 +13,15 @@ module.exports = async function hasConfig(req, res, next) {
         repository,
     } = req.body;
     const event = req.headers['x-github-event'];
-    const isIssueOrPrOpened = (event === 'issues' || event === 'pull_request') && action === 'opened';
 
     if (skipEvents.indexOf(event) !== -1) {
         return next();
     }
 
-    const params = {
-        owner: repository.owner.login,
-        repo: repository.name,
-    };
-
     try {
-        const config = await Github.getConfig({
-            ...params,
+        const config = await getConfig({
+            owner: repository.owner.login,
+            repo: repository.name,
             octokitClient: req.octokitClient,
         });
         req.git2gus = Object.assign({}, req.git2gus, {
@@ -45,26 +29,13 @@ module.exports = async function hasConfig(req, res, next) {
         });
         return next();
     } catch(error) {
-        Logger.log({
-            type: 'error',
-            message: error.message || error,
-        });
-        const number = resolveNumber(req.body);
+        const isIssueOrPrOpened = (event === 'issues' || event === 'pull_request') && action === 'opened';
         if (error.code === 404) {
             if (isIssueOrPrOpened) {
-                const comment = {
-                    ...params,
-                    number,
+                await createComment({
+                    req,
                     body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`,
-                };
-                Logger.log({
-                    type: 'error',
-                    message: error.message || error,
-                    event: {
-                        create_github_comment: comment,
-                    },
                 });
-                await req.octokitClient.issues.createComment(comment);
             }
             return res.notFound({
                 code: 'CONFIG_NOT_FOUND',
@@ -72,19 +43,10 @@ module.exports = async function hasConfig(req, res, next) {
             });
         }
         if (isIssueOrPrOpened) {
-            const comment = {
-                ...params,
-                number,
+            await createComment({
+                req,
                 body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't have right values. You should add the required configuration.`,
-            };
-            Logger.log({
-                type: 'error',
-                message: error.message || error,
-                event: {
-                    create_github_comment: comment,
-                },
             });
-            await req.octokitClient.issues.createComment(comment);
         }
         return res.status(403).send(error);
     }
