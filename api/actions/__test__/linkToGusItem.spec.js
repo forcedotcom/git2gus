@@ -1,5 +1,13 @@
 const { fn } = require('../linkToGusItem');
+const { createComment } = require('../../services/Github');
+const { getGusItemUrl } =  require('../../services/Issues');
 
+jest.mock('../../services/Github', () => ({
+    createComment: jest.fn(),
+}));
+jest.mock('../../services/Issues', () => ({
+    getGusItemUrl: jest.fn(() => 'https://abcd12345.com'),
+}));
 global.sails = {
     hooks: {
         'issues-hook': {
@@ -26,7 +34,7 @@ describe('linkToGusItem action', () => {
             name: 'LINK_TO_GUS_ITEM',
             relatedUrl: 'github/test-gus-app/#32',
             gusItemName: 'w-12345',
-        });
+        }, expect.any(Function));
     });
     it('should call queue push with the right values when the issue description is edited and matches the annotation', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
@@ -47,7 +55,7 @@ describe('linkToGusItem action', () => {
             name: 'LINK_TO_GUS_ITEM',
             relatedUrl: 'github/test-gus-app/#33',
             gusItemName: 'w-12345',
-        });
+        }, expect.any(Function));
     });
     it('should not call queue push when the description does not match the annotation', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
@@ -92,5 +100,27 @@ describe('linkToGusItem action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
+    });
+    it('should create a comment when the "done" callback is called', async () => {
+        expect.assertions(2);
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockImplementation(async (data, done) => {
+            done(null, [{ id : 'abcd1234' }]);
+        });
+        const req = {
+            body: {
+                action: 'opened',
+                issue: {
+                    url: 'github/test-gus-app/#32',
+                    body: '@w-12345@',
+                },
+            },
+        };
+        await fn(req);
+        expect(getGusItemUrl).toHaveBeenCalledWith({ id : 'abcd1234' });
+        expect(createComment).toHaveBeenCalledWith({
+            req,
+            body: 'This issue has been linked to a new GUS work item: https://abcd12345.com',
+        });
     });
 });

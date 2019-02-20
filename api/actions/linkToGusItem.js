@@ -1,4 +1,6 @@
 const GithubEvents = require('../modules/GithubEvents');
+const { createComment } = require('../services/Github');
+const { getGusItemUrl } =  require('../services/Issues');
 
 module.exports = {
     eventName: [
@@ -26,6 +28,13 @@ module.exports = {
                     name: 'LINK_TO_GUS_ITEM',
                     relatedUrl: url,
                     gusItemName: matches[0].replace(/@/g, ''),
+                }, async (error, item) => {
+                    if (Array.isArray(item) && item.length > 0) {
+                        return await createComment({
+                            req,
+                            body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(item[0])}`,
+                        });
+                    }
                 });
             }
         }

@@ -5,6 +5,7 @@ const updateGusItemTitle = require('./update-gus-item-title');
 const updateGusItemDescription = require('./update-gus-item-description');
 const integrateGusItem =  require('./integrate-gus-item');
 const linkToGusItem = require('./link-to-gus-item');
+const unlinkGusItem = require('./unlink-gus-item');
 
 async function handleQueue(task) {
     switch (task.name) {
@@ -25,6 +26,9 @@ async function handleQueue(task) {
 
         case 'LINK_TO_GUS_ITEM':
             return await linkToGusItem(task);
+
+        case 'UNLINK_GUS_ITEM':
+            return await unlinkGusItem(task);
         default:
             return null;
     }
