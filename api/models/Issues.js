@@ -43,6 +43,7 @@ module.exports = {
         qa_engineer: {
             type: 'string',
             columnName: 'qa_engineer__c',
+            allowNull: true,
         },
         productOwner: {
             type: 'string',

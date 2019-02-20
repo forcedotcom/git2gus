@@ -1,6 +1,6 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
-const Github =  require('../services/Github');
+const Github = require('../services/Github');
 const {
     getGusItemUrl,
     waitUntilSynced,
