@@ -1,21 +1,26 @@
 const GithubEvents = require('../modules/GithubEvents');
+const {
+    getAnnotation,
+    isSameAnnotation,
+} =  require('../services/Issues');
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_EDITED,
     fn: async function (req) {
         const {
+            issue: {
+                body: description,
+            },
             changes,
         } = req.body;
+        const prevDescription = changes.body && changes.body.from;
+        const prevAnnotation = getAnnotation(prevDescription);
 
-        if (changes.body && typeof changes.body.from === 'string') {
-            const prevDescription = changes.body.from;
-            const matches = prevDescription.match(/@w-\d+@/ig);
-            if (Array.isArray(matches) && matches.length > 0) {
-                sails.hooks['issues-hook'].queue.push({
-                    name: 'UNLINK_GUS_ITEM',
-                    gusItemName: matches[0].replace(/@/g, ''),
-                });
-            }
+        if (prevAnnotation && !isSameAnnotation(prevDescription, description)) {
+            sails.hooks['issues-hook'].queue.push({
+                name: 'UNLINK_GUS_ITEM',
+                gusItemName: prevAnnotation,
+            });
         }
     }
 };

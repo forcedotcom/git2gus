@@ -14,9 +14,12 @@ describe('unlinkGusItem action', () => {
     it('should call queue push with the right values when the previous description matches the annotation', () => {
         const req = {
             body: {
+                issue: {
+                    body: '',
+                },
                 changes: {
                     body: {
-                        from: '@w-123@ issue description',
+                        from: '@W-123@ issue description',
                     },
                 },
             },
@@ -24,13 +27,16 @@ describe('unlinkGusItem action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'UNLINK_GUS_ITEM',
-            gusItemName: 'w-123',
+            gusItemName: 'W-123',
         });
     });
     it('should not call queue push when the previous description does not match the annotation', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
         const req = {
             body: {
+                issue: {
+                    body: '',
+                },
                 changes: {
                     body: {
                         from: 'issue description',
@@ -45,9 +51,29 @@ describe('unlinkGusItem action', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
         const req = {
             body: {
+                issue: {
+                    body: '',
+                },
                 changes: {
                     title: {
                         from: 'issue title',
+                    },
+                },
+            },
+        };
+        fn(req);
+        expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
+    });
+    it('should not call queue push when the previous and next description have the same annotation', () => {
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        const req = {
+            body: {
+                issue: {
+                    body: '@W-123@',
+                },
+                changes: {
+                    body: {
+                        from: '@W-123@ issue description',
                     },
                 },
             },
