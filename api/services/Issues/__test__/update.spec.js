@@ -1,18 +1,16 @@
 const update = require('../update');
 
 global.Issues = {
-    update: jest.fn(() => ({
-        fetch: jest.fn(() => Promise.resolve('updated issue')),
-    })),
+    updateOne: jest.fn(() => Promise.resolve('updated issue')),
 };
 const issue = {
     subject: 'new title',
 };
 
 describe('update issues service', () => {
-    it('should call Issues.update with the right values', () => {
+    it('should call Issues.updateOne with the right values', () => {
         update('12345', issue);
-        expect(global.Issues.update).toHaveBeenCalledWith({
+        expect(global.Issues.updateOne).toHaveBeenCalledWith({
             id: '12345'
         }, issue);
     });

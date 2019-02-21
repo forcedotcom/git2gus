@@ -3,6 +3,7 @@ const createTable = require('./createTable');
 const isGusLabel = require('./isGusLabel');
 const getPriority = require('./getPriority');
 const createComment = require('./createComment');
+const addLabels = require('./addLabels');
 
 module.exports = {
     getConfig,
@@ -10,4 +11,5 @@ module.exports = {
     isGusLabel,
     getPriority,
     createComment,
+    addLabels,
 };

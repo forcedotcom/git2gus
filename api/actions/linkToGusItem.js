@@ -1,5 +1,5 @@
 const GithubEvents = require('../modules/GithubEvents');
-const { createComment } = require('../services/Github');
+const { createComment, addLabels } = require('../services/Github');
 const getGusItemUrl = require('../services/Issues/getGusItemUrl');
 const {
     getAnnotation,
@@ -33,10 +33,16 @@ module.exports = {
                 relatedUrl: url,
                 gusItemName: annotation,
             }, async (error, item) => {
-                if (Array.isArray(item) && item.length > 0) {
+                if (item) {
+                    if (item.priority) {
+                        await addLabels({
+                            req,
+                            labels: [`GUS ${item.priority}`],
+                        });
+                    }
                     return await createComment({
                         req,
-                        body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(item[0])}`,
+                        body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(item)}`,
                     });
                 }
             });
