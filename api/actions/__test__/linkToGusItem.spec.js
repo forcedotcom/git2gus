@@ -1,13 +1,11 @@
 const { fn } = require('../linkToGusItem');
 const { createComment } = require('../../services/Github');
-const { getGusItemUrl } =  require('../../services/Issues');
+const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
 }));
-jest.mock('../../services/Issues', () => ({
-    getGusItemUrl: jest.fn(() => 'https://abcd12345.com'),
-}));
+jest.mock('../../services/Issues/getGusItemUrl', () => jest.fn(() => 'https://abcd12345.com'));
 global.sails = {
     hooks: {
         'issues-hook': {
@@ -25,7 +23,7 @@ describe('linkToGusItem action', () => {
                 action: 'opened',
                 issue: {
                     url: 'github/test-gus-app/#32',
-                    body: '@w-12345@ issue description',
+                    body: '@W-12345@ issue description',
                 },
             },
         };
@@ -33,7 +31,7 @@ describe('linkToGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'LINK_TO_GUS_ITEM',
             relatedUrl: 'github/test-gus-app/#32',
-            gusItemName: 'w-12345',
+            gusItemName: 'W-12345',
         }, expect.any(Function));
     });
     it('should call queue push with the right values when the issue description is edited and matches the annotation', () => {
@@ -43,10 +41,12 @@ describe('linkToGusItem action', () => {
                 action: 'edited',
                 issue: {
                     url: 'github/test-gus-app/#33',
-                    body: '@w-12345@ description',
+                    body: '@W-12345@ description',
                 },
                 changes: {
-                    body: '@w-12345@ description',
+                    body: {
+                        from: '@W-123@ description',
+                    },
                 },
             },
         };
@@ -54,7 +54,7 @@ describe('linkToGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'LINK_TO_GUS_ITEM',
             relatedUrl: 'github/test-gus-app/#33',
-            gusItemName: 'w-12345',
+            gusItemName: 'W-12345',
         }, expect.any(Function));
     });
     it('should not call queue push when the description does not match the annotation', () => {
@@ -65,6 +65,25 @@ describe('linkToGusItem action', () => {
                 issue: {
                     url: 'github/test-gus-app/#32',
                     body: 'issue description',
+                },
+            },
+        };
+        fn(req);
+        expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
+    });
+    it('should not call queue push when the issue description is edited but the previous and next description have the same annotation', () => {
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        const req = {
+            body: {
+                action: 'edited',
+                issue: {
+                    url: 'github/test-gus-app/#33',
+                    body: '@W-12345@',
+                },
+                changes: {
+                    body: {
+                        from: '@W-12345@ description',
+                    },
                 },
             },
         };
@@ -94,7 +113,9 @@ describe('linkToGusItem action', () => {
                     body: 'issue description',
                 },
                 changes: {
-                    title: 'new title',
+                    title: {
+                        from: 'new title',
+                    },
                 },
             },
         };
@@ -112,7 +133,7 @@ describe('linkToGusItem action', () => {
                 action: 'opened',
                 issue: {
                     url: 'github/test-gus-app/#32',
-                    body: '@w-12345@',
+                    body: '@W-12345@',
                 },
             },
         };
