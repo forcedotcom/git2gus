@@ -1,9 +1,10 @@
 const { fn } = require('../linkToGusItem');
-const { createComment } = require('../../services/Github');
+const { createComment, addLabels } = require('../../services/Github');
 const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
+    addLabels: jest.fn(),
 }));
 jest.mock('../../services/Issues/getGusItemUrl', () => jest.fn(() => 'https://abcd12345.com'));
 global.sails = {
@@ -122,11 +123,11 @@ describe('linkToGusItem action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
-    it('should create a comment when the "done" callback is called', async () => {
-        expect.assertions(2);
+    it('should create a comment and not add label when the "done" callback is called but the item has not priority', async () => {
+        expect.assertions(3);
         sails.hooks['issues-hook'].queue.push.mockReset();
         sails.hooks['issues-hook'].queue.push.mockImplementation(async (data, done) => {
-            done(null, [{ id : 'abcd1234' }]);
+            done(null, { id : 'abcd1234' });
         });
         const req = {
             body: {
@@ -142,6 +143,33 @@ describe('linkToGusItem action', () => {
         expect(createComment).toHaveBeenCalledWith({
             req,
             body: 'This issue has been linked to a new GUS work item: https://abcd12345.com',
+        });
+        expect(addLabels).not.toHaveBeenCalled();
+    });
+    it('should add label when the "done" callback is called and the item has priority', async () => {
+        expect.assertions(2);
+        createComment.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockImplementation(async (data, done) => {
+            done(null, {
+                id : 'abcd1234',
+                priority: 'P3',
+            });
+        });
+        const req = {
+            body: {
+                action: 'opened',
+                issue: {
+                    url: 'github/test-gus-app/#32',
+                    body: '@W-12345@',
+                },
+            },
+        };
+        await fn(req);
+        expect(createComment).toHaveBeenCalledTimes(1);
+        expect(addLabels).toHaveBeenCalledWith({
+            req,
+            labels: ['GUS P3'],
         });
     });
 });
