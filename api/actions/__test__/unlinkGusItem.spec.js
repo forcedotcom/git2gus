@@ -1,5 +1,9 @@
 const { fn } = require('../unlinkGusItem');
+const { deleteLinkedComment } = require('../../services/Git2Gus');
 
+jest.mock('../../services/Git2Gus', () => ({
+    deleteLinkedComment: jest.fn(),
+}));
 global.sails = {
     hooks: {
         'issues-hook': {
@@ -28,7 +32,7 @@ describe('unlinkGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'UNLINK_GUS_ITEM',
             gusItemName: 'W-123',
-        });
+        }, expect.any(Function));
     });
     it('should not call queue push when the previous description does not match the annotation', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
@@ -80,5 +84,53 @@ describe('unlinkGusItem action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
+    });
+    it('should delete the linked comment when the "done" callback is called', async () => {
+        expect.assertions(1);
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockImplementation(async (data, done) => {
+            done(null, { sfid : 'abcd1234' });
+        });
+        const req = {
+            body: {
+                issue: {
+                    url: 'github/test-gus-app/#32',
+                    body: '@W-12345@',
+                },
+                changes: {
+                    body: {
+                        from: '@W-123@',
+                    },
+                },
+            },
+        };
+        await fn(req);
+        expect(deleteLinkedComment).toHaveBeenCalledWith({
+            req,
+            sfid : 'abcd1234',
+        });
+    });
+    it('should not delete the linked comment when the "done" callback is called but there is not item', async () => {
+        expect.assertions(1);
+        deleteLinkedComment.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockImplementation(async (data, done) => {
+            done(null, null);
+        });
+        const req = {
+            body: {
+                issue: {
+                    url: 'github/test-gus-app/#32',
+                    body: '@W-12345@',
+                },
+                changes: {
+                    body: {
+                        from: '@W-123@',
+                    },
+                },
+            },
+        };
+        await fn(req);
+        expect(deleteLinkedComment).not.toHaveBeenCalled();
     });
 });
