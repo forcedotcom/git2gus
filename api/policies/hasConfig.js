@@ -1,11 +1,5 @@
 const { getConfig, createComment } = require('../services/Github');
-
-const skipEvents = [
-    'installation',
-    'integration_installation',
-    'integration_installation_repositories',
-    'installation_repositories',
-];
+const { github } = require('../../config/github');
 
 module.exports = async function hasConfig(req, res, next) {
     const {
@@ -14,7 +8,7 @@ module.exports = async function hasConfig(req, res, next) {
     } = req.body;
     const event = req.headers['x-github-event'];
 
-    if (skipEvents.indexOf(event) !== -1) {
+    if (github.installationEvents.indexOf(event) !== -1) {
         return next();
     }
 
