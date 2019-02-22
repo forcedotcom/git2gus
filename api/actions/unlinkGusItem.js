@@ -3,6 +3,7 @@ const {
     getAnnotation,
     isSameAnnotation,
 } =  require('../services/Issues');
+const { deleteLinkedComment } = require('../services/Git2Gus');
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_EDITED,
@@ -20,6 +21,13 @@ module.exports = {
             sails.hooks['issues-hook'].queue.push({
                 name: 'UNLINK_GUS_ITEM',
                 gusItemName: prevAnnotation,
+            }, async (error, item) => {
+                if (item) {
+                    return await deleteLinkedComment({
+                        req,
+                        sfid: item.sfid,
+                    });
+                }
             });
         }
     }
