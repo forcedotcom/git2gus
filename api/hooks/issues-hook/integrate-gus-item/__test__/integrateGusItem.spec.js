@@ -7,10 +7,11 @@ jest.mock('../../../../services/Issues', () => ({
 }));
 const payload = {
     relatedUrl: 'github/test-app/#45',
+    status: 'INTEGRATE',
 };
 
 describe('integrateGusItem issues hook', () => {
-    it('should call Issues.update with the right values when the issue exists and is not integrated', async () => {
+    it('should call Issues.update with the right values when the issue exists', async () => {
         expect.assertions(1);
         Issues.getByRelatedUrl.mockReturnValue(Promise.resolve({
             id: '1234qwerty',
@@ -20,17 +21,6 @@ describe('integrateGusItem issues hook', () => {
         expect(Issues.update).toHaveBeenCalledWith('1234qwerty', {
             status: 'INTEGRATE',
         });
-    });
-    it('should not call Issues.update when the issue exists and is already integrated', async () => {
-        expect.assertions(1);
-        Issues.getByRelatedUrl.mockReset();
-        Issues.update.mockReset();
-        Issues.getByRelatedUrl.mockReturnValue(Promise.resolve({
-            id: '1234qwerty',
-            status: 'INTEGRATE',
-        }));
-        await integrateGusItem(payload);
-        expect(Issues.update).not.toHaveBeenCalled();
     });
     it('should not call Issues.update when the issue does not exists', async () => {
         expect.assertions(1);

@@ -7,4 +7,9 @@ module.exports.gus = {
     ],
     labelColor: 'ededed',
     gusUserId: process.env.GUS_USER_ID,
+    status: [
+        'INTEGRATE',
+        'FIXED',
+        'CLOSED',
+    ],
 };
