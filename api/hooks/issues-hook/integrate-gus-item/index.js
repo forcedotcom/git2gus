@@ -1,11 +1,10 @@
 const Issues = require('../../../services/Issues');
 
-module.exports = async function integrateGusItem({ relatedUrl }) {
+module.exports = async function integrateGusItem({ relatedUrl, status }) {
     const issue = await Issues.getByRelatedUrl(relatedUrl);
-    const isNotIntegrated = issue && issue.status !== 'INTEGRATE';
-    if (isNotIntegrated) {
+    if (issue) {
         return Issues.update(issue.id, {
-            status: 'INTEGRATE',
+            status,
         });
     }
     return null;
