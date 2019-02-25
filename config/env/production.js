@@ -378,4 +378,12 @@ module.exports = {
         //--------------------------------------------------------------------------
 
     },
+
+    policies: {
+        GithubController: {
+            'processEvent': [
+                'isFromSalesforceOrg',
+            ]
+        },
+    },
 };
