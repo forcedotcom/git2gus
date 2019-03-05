@@ -21,6 +21,7 @@ module.exports.policies = {
     GithubController: {
         'processEvent': [
             'isGithubReq',
+            'isFromSalesforceOrg',
             'isGithubAuth',
             'hasConfig',
         ]
