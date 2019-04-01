@@ -9,7 +9,6 @@
  */
 
 module.exports.policies = {
-
     /***************************************************************************
      *                                                                          *
      * Default policy for all controllers and actions, unless overridden.       *
@@ -19,11 +18,11 @@ module.exports.policies = {
 
     // '*': true,
     GithubController: {
-        'processEvent': [
+        processEvent: [
             'isGithubReq',
             'isFromSalesforceOrg',
             'isGithubAuth',
-            'hasConfig',
+            'hasConfig'
         ]
     }
 };

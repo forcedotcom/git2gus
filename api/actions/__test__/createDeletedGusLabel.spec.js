@@ -1,23 +1,23 @@
 const { fn } = require('./../createDeletedGusLabel');
-const Github =  require('../../services/Github');
+const Github = require('../../services/Github');
 
 jest.mock('../../services/Github', () => ({
-    isGusLabel: jest.fn(),
+    isGusLabel: jest.fn()
 }));
 
 global.sails = {
     hooks: {
         'labels-hook': {
             queue: {
-                push: jest.fn(),
-            },
-        },
+                push: jest.fn()
+            }
+        }
     },
     config: {
         gus: {
-            labelColor: '#ccc',
-        },
-    },
+            labelColor: '#ccc'
+        }
+    }
 };
 
 const req = {
@@ -26,15 +26,15 @@ const req = {
         repository: {
             name: 'test-app',
             owner: {
-                login: 'pepe',
-            },
-        },
+                login: 'pepe'
+            }
+        }
     },
     octokitClient: {
         issues: {
-            createLabel: jest.fn(),
-        },
-    },
+            createLabel: jest.fn()
+        }
+    }
 };
 
 describe('createDeletedGusLabel action', () => {
@@ -42,7 +42,7 @@ describe('createDeletedGusLabel action', () => {
         Github.isGusLabel.mockReturnValue(true);
         fn(req);
         expect(sails.hooks['labels-hook'].queue.push).toHaveBeenCalledWith({
-            execute: expect.any(Function),
+            execute: expect.any(Function)
         });
     });
     it('should not queue the label creation for different label', () => {
@@ -55,13 +55,15 @@ describe('createDeletedGusLabel action', () => {
             expect.assertions(1);
             Github.isGusLabel.mockReturnValue(true);
             fn(req);
-            const { execute } = sails.hooks['labels-hook'].queue.push.mock.calls[0][0];
+            const { execute } = sails.hooks[
+                'labels-hook'
+            ].queue.push.mock.calls[0][0];
             await execute();
             expect(req.octokitClient.issues.createLabel).toHaveBeenCalledWith({
                 owner: 'pepe',
                 repo: 'test-app',
                 name: 'GUS P1',
-                color: '#ccc',
+                color: '#ccc'
             });
         });
     });

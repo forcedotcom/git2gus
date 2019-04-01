@@ -5,26 +5,26 @@ describe('getComments github service', () => {
         const req = {
             body: {
                 issue: {
-                    number: 15,
+                    number: 15
                 },
                 repository: {
                     name: 'test-app',
                     owner: {
-                        login: 'pepe',
-                    },
-                },
+                        login: 'pepe'
+                    }
+                }
             },
             octokitClient: {
                 issues: {
-                    listComments: jest.fn(),
-                },
-            },
+                    listComments: jest.fn()
+                }
+            }
         };
         await getComments({ req });
         expect(req.octokitClient.issues.listComments).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'test-app',
-            number: 15,
+            number: 15
         });
     });
 });

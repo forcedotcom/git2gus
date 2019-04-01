@@ -5,14 +5,14 @@ module.exports = {
         createdAt: {
             type: 'ref',
             columnType: 'datetime',
-            columnName: 'createddate',
+            columnName: 'createddate'
         },
         endsAt: {
             type: 'ref',
             columnType: 'datetime',
-            columnName: 'release_freeze_datetime__c',
+            columnName: 'release_freeze_datetime__c'
         },
-        sfid: 'string',
+        sfid: 'string'
     },
-    migrate: 'safe',
+    migrate: 'safe'
 };

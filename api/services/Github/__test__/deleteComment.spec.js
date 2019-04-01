@@ -7,24 +7,24 @@ describe('deleteComment github service', () => {
                 repository: {
                     name: 'test-app',
                     owner: {
-                        login: 'pepe',
-                    },
-                },
+                        login: 'pepe'
+                    }
+                }
             },
             octokitClient: {
                 issues: {
-                    deleteComment: jest.fn(),
-                },
-            },
+                    deleteComment: jest.fn()
+                }
+            }
         };
         await deleteComment({
             req,
-            id: 'comment-46',
+            id: 'comment-46'
         });
         expect(req.octokitClient.issues.deleteComment).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'test-app',
-            comment_id: 'comment-46',
+            comment_id: 'comment-46'
         });
     });
 });

@@ -10,7 +10,7 @@ module.exports = function createTable({ data = [], columns = [] }) {
     });
 
     let tableBody = '';
-    data.forEach((item) => {
+    data.forEach(item => {
         tableBody += '\n|';
         columns.forEach(({ fieldName }) => {
             tableBody += ` ${item[fieldName]} |`;

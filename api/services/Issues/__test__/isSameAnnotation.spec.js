@@ -7,9 +7,9 @@ describe('isSameAnnotation issues service', () => {
             'some text @W-12345@',
             'text@W-12345@',
             'some @W-12345@ text',
-            'some@W-12345@text',
+            'some@W-12345@text'
         ];
-        descriptions.forEach((description) => {
+        descriptions.forEach(description => {
             expect(isSameAnnotation(description, '@W-12345@')).toBe(true);
         });
     });
@@ -28,9 +28,9 @@ describe('isSameAnnotation issues service', () => {
             undefined,
             {},
             [],
-            12345,
+            12345
         ];
-        descriptions.forEach((description) => {
+        descriptions.forEach(description => {
             expect(isSameAnnotation(description, '@W-12345@')).toBe(false);
         });
     });

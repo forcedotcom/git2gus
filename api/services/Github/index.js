@@ -15,5 +15,5 @@ module.exports = {
     createComment,
     addLabels,
     getComments,
-    deleteComment,
+    deleteComment
 };

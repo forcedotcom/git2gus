@@ -47,11 +47,10 @@ module.exports.routes = {
 
     'POST /webhook': {
         controller: 'GithubController',
-        action: 'processEvent',
+        action: 'processEvent'
     }
 
     //  ╔╦╗╦╔═╗╔═╗
     //  ║║║║╚═╗║
     //  ╩ ╩╩╚═╝╚═╝
-
 };

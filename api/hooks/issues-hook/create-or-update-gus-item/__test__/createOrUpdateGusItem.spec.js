@@ -1,11 +1,10 @@
-
 const createOrUpdateGusItem = require('../');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
     getByRelatedUrl: jest.fn(),
     update: jest.fn(),
-    create: jest.fn(),
+    create: jest.fn()
 }));
 const task = {
     subject: 'issue 35',
@@ -14,13 +13,15 @@ const task = {
     status: 'NEW',
     foundInBuild: 'qwerty1234',
     priority: 'P1',
-    relatedUrl: 'github/test-app/#15',
+    relatedUrl: 'github/test-app/#15'
 };
 
 describe('createOrUpdateGusItem issues hook', () => {
     it('should call Issues.getByRelatedUrl with the right value', () => {
         createOrUpdateGusItem(task);
-        expect(Issues.getByRelatedUrl).toHaveBeenCalledWith('github/test-app/#15');
+        expect(Issues.getByRelatedUrl).toHaveBeenCalledWith(
+            'github/test-app/#15'
+        );
     });
     it('should call Issues.update with the right values when the issue exists and have a great priority', async () => {
         expect.assertions(1);
@@ -28,11 +29,11 @@ describe('createOrUpdateGusItem issues hook', () => {
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReturnValue({
             id: '12345',
-            priority: 'P2',
+            priority: 'P2'
         });
         await createOrUpdateGusItem(task);
         expect(Issues.update).toHaveBeenCalledWith('12345', {
-            priority: 'P1',
+            priority: 'P1'
         });
     });
     it('should call Issues.create with the right values when the issue does not exists', async () => {
@@ -48,7 +49,7 @@ describe('createOrUpdateGusItem issues hook', () => {
             status: 'NEW',
             foundInBuild: 'qwerty1234',
             priority: 'P1',
-            relatedUrl: 'github/test-app/#15',
+            relatedUrl: 'github/test-app/#15'
         });
     });
     it('should not call anything when the issue exists and have the same priority', async () => {
@@ -58,7 +59,7 @@ describe('createOrUpdateGusItem issues hook', () => {
         Issues.create.mockReset();
         Issues.getByRelatedUrl.mockReturnValue({
             id: '12345',
-            priority: 'P1',
+            priority: 'P1'
         });
         await createOrUpdateGusItem(task);
         expect(Issues.update).not.toHaveBeenCalled();
@@ -71,7 +72,7 @@ describe('createOrUpdateGusItem issues hook', () => {
         Issues.create.mockReset();
         Issues.getByRelatedUrl.mockReturnValue({
             id: '12345',
-            priority: 'P0',
+            priority: 'P0'
         });
         await createOrUpdateGusItem(task);
         expect(Issues.update).not.toHaveBeenCalled();

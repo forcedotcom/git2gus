@@ -7,10 +7,7 @@ const types = new Set(['info', 'warn', 'error']);
 
 class Logger {
     log(payload) {
-        const {
-            message,
-            event,
-        } = payload;
+        const { message, event } = payload;
         let { type } = payload;
         if (!types.has(type)) {
             type = 'info';

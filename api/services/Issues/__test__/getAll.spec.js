@@ -2,8 +2,8 @@ const getAll = require('../getAll');
 
 global.Issues = {
     find: jest.fn(() => ({
-        limit: jest.fn(),
-    })),
+        limit: jest.fn()
+    }))
 };
 
 describe('getAll issues service', () => {
@@ -14,7 +14,7 @@ describe('getAll issues service', () => {
     it('should Issues.find().limit with the right value', () => {
         global.Issues.find.mockReset();
         global.Issues.find.mockReturnValue({
-            limit: jest.fn(),
+            limit: jest.fn()
         });
         getAll();
         expect(Issues.find().limit).toHaveBeenCalledWith(25);

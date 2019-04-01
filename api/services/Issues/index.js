@@ -21,5 +21,5 @@ module.exports = {
     getGusItemUrl,
     waitUntilSynced,
     getAnnotation,
-    isSameAnnotation,
+    isSameAnnotation
 };

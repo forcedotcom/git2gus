@@ -4,10 +4,10 @@ global.sails = {
     hooks: {
         'issues-hook': {
             queue: {
-                push: jest.fn(),
-            },
-        },
-    },
+                push: jest.fn()
+            }
+        }
+    }
 };
 
 describe('updateGusItemTitle action', () => {
@@ -16,18 +16,18 @@ describe('updateGusItemTitle action', () => {
             body: {
                 issue: {
                     title: 'new title',
-                    url: 'github/git2gus-app/#55',
+                    url: 'github/git2gus-app/#55'
                 },
                 changes: {
-                    title: 'new title',
-                },
+                    title: 'new title'
+                }
             }
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'UPDATE_GUS_ITEM_TITLE',
             subject: 'new title',
-            relatedUrl: 'github/git2gus-app/#55',
+            relatedUrl: 'github/git2gus-app/#55'
         });
     });
     it('should not call queue push when title is not edited', () => {
@@ -36,11 +36,11 @@ describe('updateGusItemTitle action', () => {
             body: {
                 issue: {
                     title: 'issue title',
-                    url: 'github/test-git2gus-app/#11',
+                    url: 'github/test-git2gus-app/#11'
                 },
                 changes: {
-                    body: 'new description',
-                },
+                    body: 'new description'
+                }
             }
         };
         fn(req);

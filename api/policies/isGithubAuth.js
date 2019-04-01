@@ -6,7 +6,7 @@ const { github } = require('../../config/github');
 let cert;
 try {
     cert = process.env.PRIVATE_KEY || fs.readFileSync('private-key.pem');
-} catch(error) {
+} catch (error) {
     console.error(error);
     throw new Error(`
         Failed reading Github App private key.
@@ -18,20 +18,20 @@ module.exports = async function isGithubAuth(req, res, next) {
     const { installation } = req.body;
     const app = new App({
         id: github.appId,
-        privateKey: cert,
+        privateKey: cert
     });
     const octokitClient = new Octokit({
-        async auth () {
+        async auth() {
             let installationAccessToken;
             try {
                 installationAccessToken = await app.getInstallationAccessToken({
-                    installationId: installation.id,
+                    installationId: installation.id
                 });
             } catch (error) {
                 console.error(error);
                 return res.status(401).send({
                     code: 'UNAUTHORIZED_REQUEST',
-                    message: 'The request requires authentication.',
+                    message: 'The request requires authentication.'
                 });
             }
             return `token ${installationAccessToken}`;

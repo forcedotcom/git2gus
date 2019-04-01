@@ -8,7 +8,7 @@ module.exports = async function createOrUpdateGusItem(task) {
         status,
         foundInBuild,
         priority,
-        relatedUrl,
+        relatedUrl
     } = task;
 
     const issue = await Issues.getByRelatedUrl(relatedUrl);
@@ -25,7 +25,7 @@ module.exports = async function createOrUpdateGusItem(task) {
             status,
             foundInBuild,
             priority,
-            relatedUrl,
+            relatedUrl
         };
         return await Issues.create(item);
     }

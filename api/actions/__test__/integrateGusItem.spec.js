@@ -2,33 +2,33 @@ const { fn } = require('./../integrateGusItem');
 const { isGusItemClosed } = require('../../services/Git2Gus');
 
 jest.mock('../../services/Git2Gus', () => ({
-    isGusItemClosed: jest.fn(),
+    isGusItemClosed: jest.fn()
 }));
 global.sails = {
     hooks: {
         'issues-hook': {
             queue: {
-                push: jest.fn(),
-            },
-        },
-    },
+                push: jest.fn()
+            }
+        }
+    }
 };
 
 describe('integrateGusItem action', () => {
     it('should call queue push with the right values when there is not statusWhenClosed in config', () => {
         const req = {
             body: {
-                issue: { url: 'github/pepe/test-app/#53' },
+                issue: { url: 'github/pepe/test-app/#53' }
             },
             git2gus: {
-                config: {},
-            },
+                config: {}
+            }
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'INTEGRATE_GUS_ITEM',
             relatedUrl: 'github/pepe/test-app/#53',
-            status: 'INTEGRATED',
+            status: 'INTEGRATED'
         });
     });
     it('should call queue push with the right values when there is a valid statusWhenClosed in config', () => {
@@ -36,19 +36,19 @@ describe('integrateGusItem action', () => {
         isGusItemClosed.mockReturnValue(true);
         const req = {
             body: {
-                issue: { url: 'github/pepe/test-app/#53' },
+                issue: { url: 'github/pepe/test-app/#53' }
             },
             git2gus: {
                 config: {
                     statusWhenClosed: 'CLOSED'
-                },
-            },
+                }
+            }
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'INTEGRATE_GUS_ITEM',
             relatedUrl: 'github/pepe/test-app/#53',
-            status: 'CLOSED',
+            status: 'CLOSED'
         });
     });
 });

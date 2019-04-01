@@ -5,30 +5,30 @@ describe('addLabels github service', () => {
         const req = {
             body: {
                 issue: {
-                    number: 30,
+                    number: 30
                 },
                 repository: {
                     name: 'git2gus-test-app',
                     owner: {
-                        login: 'pepe',
-                    },
-                },
+                        login: 'pepe'
+                    }
+                }
             },
             octokitClient: {
                 issues: {
-                    addLabels: jest.fn(),
-                },
-            },
+                    addLabels: jest.fn()
+                }
+            }
         };
         await addLabels({
             req,
-            labels: ['GUS P1', 'GUS P2'],
+            labels: ['GUS P1', 'GUS P2']
         });
         expect(req.octokitClient.issues.addLabels).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'git2gus-test-app',
             number: 30,
-            labels: ['GUS P1', 'GUS P2'],
+            labels: ['GUS P1', 'GUS P2']
         });
     });
 });

@@ -3,13 +3,13 @@ const getBuildByName = require('../getBuildByName');
 
 jest.mock('../getBuildByName', () => jest.fn());
 const config = {
-    defaultBuild: 220,
+    defaultBuild: 220
 };
 
 describe('resolveBuild builds service', () => {
     it('should call getBuildByName with the right value when a milsetone is passed', () => {
         const milestone = {
-            title: 218,
+            title: 218
         };
         resolveBuild(config, milestone);
         expect(getBuildByName).toHaveBeenCalledWith(218);
@@ -21,9 +21,11 @@ describe('resolveBuild builds service', () => {
     });
     it('should return the right build', async () => {
         getBuildByName.mockReset();
-        getBuildByName.mockReturnValue(Promise.resolve({
-            sfid: 'qwerty1234',
-        }));
+        getBuildByName.mockReturnValue(
+            Promise.resolve({
+                sfid: 'qwerty1234'
+            })
+        );
         const build = await resolveBuild(config);
         expect(build).toBe('qwerty1234');
     });
