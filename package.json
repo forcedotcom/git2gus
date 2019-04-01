@@ -36,8 +36,8 @@
         "test": "jest --verbose",
         "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
         "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-        "prettier": "prettier -l \"**/*.{js,ts,json,md}\"",
-        "prettier:fix": "prettier --write \"**/*.{js,ts,json,md}\""
+        "prettier": "prettier -l \"**/*.{js,ts,json,md,ejs}\"",
+        "prettier:fix": "prettier --write \"**/*.{js,ts,json,md,ejs}\""
     },
     "main": "app.js",
     "repository": {
