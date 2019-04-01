@@ -29,7 +29,7 @@ For more information, see:
                 <span>
                     <h3 class="homepage-getting-started-step-label">1. Install Git2Gus application</h3>
                     <p class="homepage-getting-started-step-description">
-                        Navigate to <a target="_blank" rel="noopener noreferrer" href="https://github.com/apps/git2gus">https://github.com/apps/git2gus</a> and 
+                        Navigate to <a target="_blank" rel="noopener noreferrer" href="https://github.com/apps/git2gus">https://github.com/apps/git2gus</a> and
                         install the app in you repo.
                     </p>
                 </span>
@@ -39,14 +39,14 @@ For more information, see:
                 <span>
                     <h3 class="homepage-getting-started-step-label">2. Commit the configuration file into your repo.</h3>
                     <p class="homepage-getting-started-step-description">
-                        In order to customize your repo for your team you have to commit a configuration file 
+                        In order to customize your repo for your team you have to commit a configuration file
                         <b>.git2gus/config.json</b> with specific data about your team. e.g.
                         <pre class="homepage-code"><code>
 {
     "productTag": "a1aB0000000Jgm7IAC",
     "defaultBuild": "218"
-}                                  
-                        </code></pre>    
+}
+                        </code></pre>
                     </p>
                 </span>
             </li>
@@ -55,7 +55,7 @@ For more information, see:
                 <span>
                     <h3 class="homepage-getting-started-step-label">3. Enjoy the syncronization.</h3>
                     <p class="homepage-getting-started-step-description">
-                        Since the app was installed and the config file is in then the app is going 
+                        Since the app was installed and the config file is in then the app is going
                         to start reacting to events on the issues.
                     </p>
                 </span>
@@ -69,13 +69,13 @@ For more information, see:
                 <span class="homepage-badge">productTag</span>
                 <span class="homepage-config-key-description">
                         The unique ID of the productTag used by your team in GUS. When a new GUS work item is going to be created
-                        this is the id the application is going to use.
+                        this is the id the application is going to use. To see your Product Tags go to the App Launcher in GUS and search "product tags".
                 </span>
             </li>
             <li class="homepage-config-keys-item">
                 <span class="homepage-badge">defaultBuild</span>
                 <span class="homepage-config-key-description">
-                    The build number the application is going to use by default when it creates a new GUS work item. Notice this value 
+                    The build number the application is going to use by default when it creates a new GUS work item. Notice this value
                     might need to be changed every release.
                 </span>
             </li>
@@ -89,7 +89,7 @@ For more information, see:
                 <p class="homepage-flow-step-title">1. Add a GUS priority label to the issue.</p>
                 <p class="homepage-flow-step-description">
                     When the application gets installed in your repo, a set of labels are added automatically.
-                    <b>GUS P0</b>, <b>GUS P1</b>, <b>GUS P2</b> ..., Adding this label to a Github issue is going to automatically create a 
+                    <b>GUS P0</b>, <b>GUS P1</b>, <b>GUS P2</b> ..., Adding this label to a Github issue is going to automatically create a
                     GUS work item and keep the new ticket in sync with the Github issue.
                 </p>
             </div>
@@ -100,9 +100,9 @@ For more information, see:
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">2. The new GUS work item</p>
                 <p class="homepage-flow-step-description">
-                    The new GUS work item is going to be created using the priority, title and description fields specified 
+                    The new GUS work item is going to be created using the priority, title and description fields specified
                     in the Github issue. Also the <b>FoundInBuild</b> and the <b>ProductTag</b> fields are going to be equal to the values
-                    provided in the configuration file. 
+                    provided in the configuration file.
                 </p>
             </div>
         </div>
@@ -113,8 +113,8 @@ For more information, see:
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">1. Add the annotation @W-1234567@ into the issue description.</p>
                 <p class="homepage-flow-step-description">
-                    Add the <b>@W-1234567@</b> annotation in the issue 
-                    description where <b>W-1234567</b> is the name of the GUS work item you want to link. 
+                    Add the <b>@W-1234567@</b> annotation in the issue
+                    description where <b>W-1234567</b> is the name of the GUS work item you want to link.
                 </p>
             </div>
         </div>
@@ -122,7 +122,7 @@ For more information, see:
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">2. The Issue and GUS work item are linked.</p>
                 <p class="homepage-flow-step-description">
-                    When an issue gets linked to an existing GUS work item it means that when the issue gets <b>closed</b> the work item in GUS 
+                    When an issue gets linked to an existing GUS work item it means that when the issue gets <b>closed</b> the work item in GUS
                     it's going to be closed as well.
                 </p>
             </div>
@@ -135,7 +135,7 @@ For more information, see:
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">1. Close an issue.</p>
                 <p class="homepage-flow-step-description">
-                    Closing Github issues that were linked to GUS work items will trigger that the work item 
+                    Closing Github issues that were linked to GUS work items will trigger that the work item
                     closes automatically.
                 </p>
             </div>
