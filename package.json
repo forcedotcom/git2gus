@@ -28,6 +28,7 @@
     "devDependencies": {
         "@sailshq/eslint": "^4.19.3",
         "eslint": "^5.13.0",
+        "eslint-config-prettier": "^4.1.0",
         "pre-push": "^0.1.1",
         "prettier": "^1.16.4"
     },
