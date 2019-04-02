@@ -3,23 +3,15 @@ const isGusItemClosed = require('../isGusItemClosed');
 global.sails = {
     config: {
         gus: {
-            status: [
-                'INTEGRATE',
-                'FIXED',
-                'CLOSED',
-            ],
-        },
-    },
+            status: ['INTEGRATE', 'FIXED', 'CLOSED']
+        }
+    }
 };
 
 describe('isGusItemClosed git2gus service', () => {
     it('should return true when status is closed', () => {
-        const labels = [
-            'INTEGRATE',
-            'FIXED',
-            'CLOSED',
-        ];
-        labels.forEach((label) => {
+        const labels = ['INTEGRATE', 'FIXED', 'CLOSED'];
+        labels.forEach(label => {
             expect(isGusItemClosed(label)).toBe(true);
         });
     });

@@ -4,7 +4,7 @@ const Logger = require('../services/Logger');
 function logError(error) {
     return Logger.log({
         type: 'error',
-        message: error,
+        message: error
     });
 }
 
@@ -17,7 +17,7 @@ module.exports = {
         try {
             const issue = await Issues.create(req.body);
             return res.json(issue);
-        } catch(error) {
+        } catch (error) {
             logError(error);
             return res.serverError(error);
         }
@@ -26,12 +26,12 @@ module.exports = {
         try {
             const issue = await Issues.getById(req.params.id);
             return res.json(issue);
-        } catch(error) {
+        } catch (error) {
             logError(error);
             try {
                 const issue = await Issues.getByName(req.params.id);
                 return res.json(issue);
-            } catch(error) {
+            } catch (error) {
                 logError(error);
                 return res.notFound(error);
             }

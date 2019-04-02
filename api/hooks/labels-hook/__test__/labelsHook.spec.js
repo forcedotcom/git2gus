@@ -11,12 +11,12 @@ describe('labelsHook', () => {
     it('should return the queue', () => {
         asyncQueue.mockReset();
         asyncQueue.mockReturnValue({
-            push: () => {},
+            push: () => {}
         });
         expect(labelsHook()).toEqual({
             queue: {
-                push: expect.any(Function),
-            },
+                push: expect.any(Function)
+            }
         });
     });
     describe('worker', () => {
@@ -25,7 +25,7 @@ describe('labelsHook', () => {
             asyncQueue.mockReset();
             labelsHook();
             const task = {
-                execute: jest.fn(),
+                execute: jest.fn()
             };
             const done = jest.fn();
             const worker = asyncQueue.mock.calls[0][0];

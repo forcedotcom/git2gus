@@ -5,30 +5,30 @@ describe('createComment github service', () => {
         const req = {
             body: {
                 issue: {
-                    number: 30,
+                    number: 30
                 },
                 repository: {
                     name: 'git2gus-test',
                     owner: {
-                        login: 'john',
-                    },
-                },
+                        login: 'john'
+                    }
+                }
             },
             octokitClient: {
                 issues: {
-                    createComment: jest.fn(),
-                },
-            },
+                    createComment: jest.fn()
+                }
+            }
         };
         await createComment({
             req,
-            body: 'Hello World!',
+            body: 'Hello World!'
         });
         expect(req.octokitClient.issues.createComment).toHaveBeenCalledWith({
             owner: 'john',
             repo: 'git2gus-test',
             number: 30,
-            body: 'Hello World!',
+            body: 'Hello World!'
         });
     });
     it('should call createComment with the right values in an pull request', async () => {
@@ -39,25 +39,25 @@ describe('createComment github service', () => {
                 repository: {
                     name: 'test-app',
                     owner: {
-                        login: 'pepe',
-                    },
-                },
+                        login: 'pepe'
+                    }
+                }
             },
             octokitClient: {
                 issues: {
-                    createComment: jest.fn(),
-                },
-            },
+                    createComment: jest.fn()
+                }
+            }
         };
         await createComment({
             req,
-            body: 'Hello World Pull Request!',
+            body: 'Hello World Pull Request!'
         });
         expect(req.octokitClient.issues.createComment).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'test-app',
             number: 35,
-            body: 'Hello World Pull Request!',
+            body: 'Hello World Pull Request!'
         });
     });
 });

@@ -1,12 +1,12 @@
 const GithubEvents = require('../modules/GithubEvents');
-const Github =  require('../services/Github');
+const Github = require('../services/Github');
 
 module.exports = {
     eventName: GithubEvents.events.LABEL_DELETED,
-    fn: function (req) {
+    fn: function(req) {
         const {
             label: { name },
-            repository,
+            repository
         } = req.body;
         const { labelColor } = sails.config.gus;
 
@@ -17,10 +17,10 @@ module.exports = {
                         owner: repository.owner.login,
                         repo: repository.name,
                         name,
-                        color: labelColor,
+                        color: labelColor
                     };
                     return await req.octokitClient.issues.createLabel(label);
-                },
+                }
             });
         }
     }

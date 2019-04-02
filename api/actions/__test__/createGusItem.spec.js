@@ -1,29 +1,29 @@
 const { fn } = require('../createGusItem');
 const Builds = require('../../services/Builds');
-const Github =  require('../../services/Github');
+const Github = require('../../services/Github');
 const { getGusItemUrl, waitUntilSynced } = require('./../../services/Issues');
 
 jest.mock('../../services/Builds', () => ({
-    resolveBuild: jest.fn(),
+    resolveBuild: jest.fn()
 }));
 jest.mock('../../services/Github', () => ({
     isGusLabel: jest.fn(),
     getPriority: () => 'P1',
-    createComment: jest.fn(),
+    createComment: jest.fn()
 }));
 jest.mock('../../services/Issues', () => ({
     getGusItemUrl: jest.fn(),
-    waitUntilSynced: jest.fn(),
+    waitUntilSynced: jest.fn()
 }));
 
 global.sails = {
     hooks: {
         'issues-hook': {
             queue: {
-                push: jest.fn(),
-            },
-        },
-    },
+                push: jest.fn()
+            }
+        }
+    }
 };
 
 const req = {
@@ -32,27 +32,27 @@ const req = {
             url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
-            number: 30,
+            number: 30
         },
         label: 'GUS P1',
         repository: {
             name: 'git2gus-test',
             owner: {
-                login: 'john',
-            },
-        },
+                login: 'john'
+            }
+        }
     },
     git2gus: {
         config: {
             productTag: 'abcd1234',
-            defaultBuild: '218',
-        },
+            defaultBuild: '218'
+        }
     },
     octokitClient: {
         issues: {
-            createComment: jest.fn(),
-        },
-    },
+            createComment: jest.fn()
+        }
+    }
 };
 
 describe('createGusItem action', () => {
@@ -61,16 +61,19 @@ describe('createGusItem action', () => {
         Github.isGusLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
         await fn(req);
-        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'CREATE_GUS_ITEM',
-            subject: 'new issue',
-            description: 'some description',
-            productTag: 'abcd1234',
-            status: 'NEW',
-            foundInBuild: 'qwerty1234',
-            priority: 'P1',
-            relatedUrl: 'github/git2gus-test/#30',
-        }, expect.any(Function));
+        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
+            {
+                name: 'CREATE_GUS_ITEM',
+                subject: 'new issue',
+                description: 'some description',
+                productTag: 'abcd1234',
+                status: 'NEW',
+                foundInBuild: 'qwerty1234',
+                priority: 'P1',
+                relatedUrl: 'github/git2gus-test/#30'
+            },
+            expect.any(Function)
+        );
     });
     it('should create a github comment when there is not a valid build and milestone', async () => {
         expect.assertions(2);
@@ -81,7 +84,8 @@ describe('createGusItem action', () => {
         await fn(req);
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
-            body: 'The defaultBuild value 218 in `.git2gus/config.json` doesn\'t match any valid build in GUS.',
+            body:
+                "The defaultBuild value 218 in `.git2gus/config.json` doesn't match any valid build in GUS."
         });
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
@@ -92,12 +96,13 @@ describe('createGusItem action', () => {
         Github.createComment.mockReset();
         Builds.resolveBuild.mockReturnValue(Promise.resolve(null));
         req.body.issue.milestone = {
-            title: 220,
+            title: 220
         };
         await fn(req);
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
-            body: 'The milestone assigned to the issue doesn\'t match any valid build in GUS.',
+            body:
+                "The milestone assigned to the issue doesn't match any valid build in GUS."
         });
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
@@ -114,41 +119,45 @@ describe('createGusItem action', () => {
         expect.assertions(3);
         Github.createComment.mockReset();
         Github.isGusLabel.mockReturnValue(true);
-        Builds.resolveBuild.mockReturnValue(Promise.resolve({ sfid: 'B12345' }));
+        Builds.resolveBuild.mockReturnValue(
+            Promise.resolve({ sfid: 'B12345' })
+        );
         getGusItemUrl.mockReset();
         waitUntilSynced.mockReturnValue(Promise.resolve({ sfci: 'SF123456' }));
         getGusItemUrl.mockReturnValue('https://12345.com');
-        sails.hooks['issues-hook']
-            .queue.push = async (data, done) => {
-                done(null, { id : '12345' });
-            };
+        sails.hooks['issues-hook'].queue.push = async (data, done) => {
+            done(null, { id: '12345' });
+        };
         await fn(req);
         expect(waitUntilSynced).toHaveBeenCalledWith(
             { id: '12345' },
-            { interval: 60000, times: 5 },
+            { interval: 60000, times: 5 }
         );
         expect(getGusItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' });
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
-            body: `This issue has been linked to a new GUS work item: https://12345.com`,
+            body: `This issue has been linked to a new GUS work item: https://12345.com`
         });
     });
     it('should create a comment when the "done" callback return the new gusItem but it not get synced', async () => {
         expect.assertions(3);
         Github.createComment.mockReset();
         Github.isGusLabel.mockReturnValue(true);
-        Builds.resolveBuild.mockReturnValue(Promise.resolve({ sfid: 'B12345' }));
+        Builds.resolveBuild.mockReturnValue(
+            Promise.resolve({ sfid: 'B12345' })
+        );
         getGusItemUrl.mockReset();
         waitUntilSynced.mockReturnValue(Promise.resolve(undefined));
         await fn(req);
         expect(waitUntilSynced).toHaveBeenCalledWith(
             { id: '12345' },
-            { interval: 60000, times: 5 },
+            { interval: 60000, times: 5 }
         );
         expect(getGusItemUrl).not.toHaveBeenCalled();
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
-            body: 'Sorry we could wait until Heroku connect make the syncronization.',
+            body:
+                'Sorry we could wait until Heroku connect make the syncronization.'
         });
     });
 });

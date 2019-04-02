@@ -9,13 +9,11 @@ function getNumber(body) {
 }
 
 module.exports = async function createComment({ req, body }) {
-    const {
-        repository,
-    } = req.body;
+    const { repository } = req.body;
     return await req.octokitClient.issues.createComment({
         owner: repository.owner.login,
         repo: repository.name,
         number: getNumber(req.body),
-        body,
+        body
     });
 };

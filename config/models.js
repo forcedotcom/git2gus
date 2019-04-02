@@ -14,8 +14,6 @@
  */
 
 module.exports.models = {
-
-
     /***************************************************************************
      *                                                                          *
      * Whether the `.create()` and `.update()` model methods should ignore      *
@@ -37,7 +35,6 @@ module.exports.models = {
 
     // schema: true,
 
-
     /***************************************************************************
      *                                                                          *
      * How and whether Sails will attempt to automatically rebuild the          *
@@ -55,7 +52,6 @@ module.exports.models = {
 
     migrate: 'safe',
 
-
     /***************************************************************************
      *                                                                          *
      * Base attributes that are included in all of your models by default.      *
@@ -71,7 +67,7 @@ module.exports.models = {
     attributes: {
         // createdAt: { type: 'number', autoCreatedAt: true, },
         // updatedAt: { type: 'number', autoUpdatedAt: true, },
-        id: { type: 'number', autoIncrement: true },
+        id: { type: 'number', autoIncrement: true }
         //--------------------------------------------------------------------------
         //  /\   Using MongoDB?
         //  ||   Replace `id` above with this instead:
@@ -84,7 +80,6 @@ module.exports.models = {
         // https://sailsjs.com/docs/tutorials/using-mongo-db
         //--------------------------------------------------------------------------
     },
-
 
     /******************************************************************************
      *                                                                             *
@@ -104,7 +99,6 @@ module.exports.models = {
         default: 'f16kSaRKpzAPJ6UToKkVsvUUEIEQ/ans+QJgRCyaZsA='
     },
 
-
     /***************************************************************************
      *                                                                          *
      * Whether or not implicit records for associations should be cleaned up    *
@@ -119,5 +113,4 @@ module.exports.models = {
      ***************************************************************************/
 
     cascadeOnDestroy: true
-
 };

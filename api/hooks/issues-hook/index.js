@@ -3,7 +3,7 @@ const createOrUpdateGusItem = require('./create-or-update-gus-item');
 const updateGusItemPriority = require('./update-gus-item-priority');
 const updateGusItemTitle = require('./update-gus-item-title');
 const updateGusItemDescription = require('./update-gus-item-description');
-const integrateGusItem =  require('./integrate-gus-item');
+const integrateGusItem = require('./integrate-gus-item');
 const linkToGusItem = require('./link-to-gus-item');
 const unlinkGusItem = require('./unlink-gus-item');
 
@@ -35,7 +35,7 @@ async function handleQueue(task) {
 }
 
 module.exports = function issuesHook() {
-    const queue = asyncQueue(async (task) => {
+    const queue = asyncQueue(async task => {
         return await handleQueue(task);
     });
     return { queue };

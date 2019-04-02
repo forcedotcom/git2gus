@@ -4,22 +4,22 @@ const isGithubReq = require('../policies/isGithubReq');
 jest.mock('@octokit/webhooks/verify', () => jest.fn());
 jest.mock('../../config/github', () => ({
     github: {
-        secret: 'github-webhook-secret',
-    },
+        secret: 'github-webhook-secret'
+    }
 }));
 
 const req = {
     headers: {
-        'x-hub-signature': 'github-sign',
+        'x-hub-signature': 'github-sign'
     },
     body: {
         issue: {
-            id: '410939550',
-        },
-    },
+            id: '410939550'
+        }
+    }
 };
 const res = {
-    badRequest: jest.fn(),
+    badRequest: jest.fn()
 };
 const next = jest.fn();
 
@@ -32,11 +32,15 @@ beforeEach(() => {
 describe('isGithubReq policy', () => {
     it('should call verify with the right values', () => {
         isGithubReq(req, res, next);
-        expect(verify).toHaveBeenCalledWith('github-webhook-secret', {
-            issue: {
-                id: '410939550',
+        expect(verify).toHaveBeenCalledWith(
+            'github-webhook-secret',
+            {
+                issue: {
+                    id: '410939550'
+                }
             },
-        }, 'github-sign');
+            'github-sign'
+        );
     });
     it('should call next', () => {
         verify.mockReturnValue(true);
@@ -47,13 +51,13 @@ describe('isGithubReq policy', () => {
         verify.mockReturnValue(true);
         const request = {
             headers: {
-                'x-hub-signature': 'github-sign',
-            },
+                'x-hub-signature': 'github-sign'
+            }
         };
         isGithubReq(request, res, next);
         expect(res.badRequest).toHaveBeenCalledWith({
             code: 'BAD_GITHUB_REQUEST',
-            message: 'Wrong event payload received.',
+            message: 'Wrong event payload received.'
         });
         expect(next).not.toHaveBeenCalled();
     });
@@ -61,12 +65,12 @@ describe('isGithubReq policy', () => {
         verify.mockReturnValue(true);
         const request = {
             headers: {},
-            body: {},
+            body: {}
         };
         isGithubReq(request, res, next);
         expect(res.badRequest).toHaveBeenCalledWith({
             code: 'BAD_GITHUB_REQUEST',
-            message: 'Wrong event payload received.',
+            message: 'Wrong event payload received.'
         });
         expect(next).not.toHaveBeenCalled();
     });
@@ -75,7 +79,7 @@ describe('isGithubReq policy', () => {
         isGithubReq(req, res, next);
         expect(res.badRequest).toHaveBeenCalledWith({
             code: 'BAD_GITHUB_REQUEST',
-            message: 'Wrong event payload received.',
+            message: 'Wrong event payload received.'
         });
         expect(next).not.toHaveBeenCalled();
     });

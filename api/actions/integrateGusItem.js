@@ -10,18 +10,16 @@ function getStatus(statusWhenClosed) {
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_CLOSED,
-    fn: async function (req) {
+    fn: async function(req) {
         const {
-            issue: {
-                url,
-            },
+            issue: { url }
         } = req.body;
         const { statusWhenClosed } = req.git2gus.config;
 
         sails.hooks['issues-hook'].queue.push({
             name: 'INTEGRATE_GUS_ITEM',
             relatedUrl: url,
-            status: getStatus(statusWhenClosed),
+            status: getStatus(statusWhenClosed)
         });
     }
 };

@@ -8,7 +8,7 @@ module.exports = async function create(data) {
         'status',
         'foundInBuild',
         'priority',
-        'relatedUrl',
+        'relatedUrl'
     ]);
     return await Issues.create(item).fetch();
 };

@@ -3,5 +3,5 @@ const resolveBuild = require('./resolveBuild');
 
 module.exports = {
     getBuildByName,
-    resolveBuild,
+    resolveBuild
 };

@@ -9,7 +9,7 @@ module.exports = async function waitUntilSynced({ id }, config = {}) {
         throw new Error(`Issue ${issue.id} it's not synced yet.`);
     };
     const { times = 5, interval = 1000 } = config;
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         retry({ times, interval }, method, (error, result) => {
             return resolve(result);
         });

@@ -1,4 +1,4 @@
-const GithubEvents =  require('./../api/modules/GithubEvents');
+const GithubEvents = require('./../api/modules/GithubEvents');
 const ghEvents = new GithubEvents();
 
 const actions = require('require-all')({
@@ -7,7 +7,7 @@ const actions = require('require-all')({
     recursive: false
 });
 
-Object.keys(actions).forEach((actionName) => {
+Object.keys(actions).forEach(actionName => {
     const { eventName, fn } = actions[actionName];
 
     if (typeof eventName === 'string') {
@@ -15,7 +15,7 @@ Object.keys(actions).forEach((actionName) => {
         ghEvents.on(eventName, fn);
     }
     if (Array.isArray(eventName)) {
-        eventName.forEach((event) => {
+        eventName.forEach(event => {
             console.log(`attach ${actionName} to ${event}`);
             ghEvents.on(event, fn);
         });

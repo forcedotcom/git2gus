@@ -28,13 +28,17 @@
     "devDependencies": {
         "@sailshq/eslint": "^4.19.3",
         "eslint": "^5.13.0",
-        "pre-push": "^0.1.1"
+        "eslint-config-prettier": "^4.1.0",
+        "pre-push": "^0.1.1",
+        "prettier": "^1.16.4"
     },
     "scripts": {
         "start": "NODE_ENV=production node app.js",
         "test": "jest --verbose",
         "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-        "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
+        "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+        "prettier": "prettier -l \"**/*.{js,ts,json,md,ejs}\"",
+        "prettier:fix": "prettier --write \"**/*.{js,ts,json,md,ejs}\""
     },
     "main": "app.js",
     "repository": {
@@ -47,6 +51,7 @@
         "node": ">=10.15.1"
     },
     "pre-push": [
+        "prettier",
         "lint",
         "test"
     ]

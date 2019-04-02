@@ -2,13 +2,10 @@ const GithubEvents = require('../modules/GithubEvents');
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_EDITED,
-    fn: async function (req) {
+    fn: async function(req) {
         const {
             changes,
-            issue: {
-                body,
-                url,
-            },
+            issue: { body, url }
         } = req.body;
         const isDescriptionEdited = !!changes.body;
 
@@ -16,7 +13,7 @@ module.exports = {
             sails.hooks['issues-hook'].queue.push({
                 name: 'UPDATE_GUS_ITEM_DESCRIPTION',
                 description: body,
-                relatedUrl: url,
+                relatedUrl: url
             });
         }
     }

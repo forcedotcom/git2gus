@@ -4,54 +4,54 @@ const installationEvents = [
     'installation',
     'integration_installation',
     'integration_installation_repositories',
-    'installation_repositories',
+    'installation_repositories'
 ];
 
 const res = {
-    badRequest: jest.fn(),
+    badRequest: jest.fn()
 };
 const next = jest.fn();
 
 describe('isFromSalesforceOrg policy', () => {
     it('should call next when event is one of installations and owner is salesforce', () => {
-        installationEvents.forEach((event) => {
+        installationEvents.forEach(event => {
             next.mockReset();
             const req = {
                 headers: {
-                    'x-github-event': event,
+                    'x-github-event': event
                 },
                 body: {
                     installation: {
                         account: {
-                            login: 'salesforce',
-                        },
-                    },
-                },
+                            login: 'salesforce'
+                        }
+                    }
+                }
             };
             isFromSalesforceOrg(req, res, next);
             expect(next).toHaveBeenCalledTimes(1);
         });
     });
     it('should respond with bad request when event is one of installations and owner is not salesforce', () => {
-        installationEvents.forEach((event) => {
+        installationEvents.forEach(event => {
             next.mockReset();
             const req = {
                 headers: {
-                    'x-github-event': event,
+                    'x-github-event': event
                 },
                 body: {
                     installation: {
                         account: {
-                            login: 'john doe',
-                        },
-                    },
-                },
+                            login: 'john doe'
+                        }
+                    }
+                }
             };
             isFromSalesforceOrg(req, res, next);
             expect(next).not.toHaveBeenCalled();
             expect(res.badRequest).toHaveBeenCalledWith({
                 code: 'BAD_GITHUB_REQUEST',
-                message: 'The request received is not from salesforce org.',
+                message: 'The request received is not from salesforce org.'
             });
         });
     });
@@ -59,15 +59,15 @@ describe('isFromSalesforceOrg policy', () => {
         next.mockReset();
         const req = {
             headers: {
-                'x-github-event': 'issues',
+                'x-github-event': 'issues'
             },
             body: {
                 repository: {
                     owner: {
-                        login: 'salesforce',
-                    },
-                },
-            },
+                        login: 'salesforce'
+                    }
+                }
+            }
         };
         isFromSalesforceOrg(req, res, next);
         expect(next).toHaveBeenCalledTimes(1);
@@ -77,21 +77,21 @@ describe('isFromSalesforceOrg policy', () => {
         res.badRequest.mockReset();
         const req = {
             headers: {
-                'x-github-event': 'issues',
+                'x-github-event': 'issues'
             },
             body: {
                 repository: {
                     owner: {
-                        login: 'pepe',
-                    },
-                },
-            },
+                        login: 'pepe'
+                    }
+                }
+            }
         };
         isFromSalesforceOrg(req, res, next);
         expect(next).not.toHaveBeenCalled();
         expect(res.badRequest).toHaveBeenCalledWith({
             code: 'BAD_GITHUB_REQUEST',
-            message: 'The request received is not from salesforce org.',
+            message: 'The request received is not from salesforce org.'
         });
     });
 });

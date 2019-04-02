@@ -3,5 +3,5 @@ const isGusItemClosed = require('./isGusItemClosed');
 
 module.exports = {
     deleteLinkedComment,
-    isGusItemClosed,
+    isGusItemClosed
 };

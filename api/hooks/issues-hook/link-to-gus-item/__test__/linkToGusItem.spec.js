@@ -3,11 +3,11 @@ const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
     getByName: jest.fn(),
-    update: jest.fn(),
+    update: jest.fn()
 }));
 const task = {
     relatedUrl: 'github/test-app/#46',
-    gusItemName: '12345',
+    gusItemName: '12345'
 };
 
 describe('linkToGusItem issues hook', () => {
@@ -19,12 +19,14 @@ describe('linkToGusItem issues hook', () => {
         expect.assertions(1);
         Issues.getByName.mockReset();
         Issues.update.mockReset();
-        Issues.getByName.mockReturnValue(Promise.resolve({
-            id: '1234qwerty',
-        }));
+        Issues.getByName.mockReturnValue(
+            Promise.resolve({
+                id: '1234qwerty'
+            })
+        );
         await linkToGusItem(task);
         expect(Issues.update).toHaveBeenCalledWith('1234qwerty', {
-            relatedUrl: 'github/test-app/#46',
+            relatedUrl: 'github/test-app/#46'
         });
     });
     it('should not call Issues.update when the issue does not exists', async () => {

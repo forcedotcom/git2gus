@@ -5,6 +5,6 @@ module.exports.github = {
         'installation',
         'integration_installation',
         'integration_installation_repositories',
-        'installation_repositories',
-    ],
+        'installation_repositories'
+    ]
 };
