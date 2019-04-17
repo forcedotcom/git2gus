@@ -34,6 +34,7 @@
     },
     "scripts": {
         "start": "NODE_ENV=production node app.js",
+        "dev": "NODE_ENV=development node app.js",
         "test": "jest --verbose",
         "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
         "custom-tests": "echo \"(No other custom tests yet.)\" && echo",

@@ -1,3 +1,4 @@
 yarn.lock
 assets/dependencies/**/*.js
 tasks/
+.tmp/
