@@ -5,7 +5,7 @@ function getStatus(statusWhenClosed) {
     if (statusWhenClosed && isGusItemClosed(statusWhenClosed)) {
         return statusWhenClosed;
     }
-    return 'INTEGRATED';
+    return 'INTEGRATE';
 }
 
 module.exports = {

@@ -28,7 +28,7 @@ describe('integrateGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'INTEGRATE_GUS_ITEM',
             relatedUrl: 'github/pepe/test-app/#53',
-            status: 'INTEGRATED'
+            status: 'INTEGRATE'
         });
     });
     it('should call queue push with the right values when there is a valid statusWhenClosed in config', () => {

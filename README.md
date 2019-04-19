@@ -4,6 +4,8 @@ a Github application to keep in sync issues with GUS work items.
 
 [![CircleCI](https://circleci.com/gh/reiniergs/git2gus-app/tree/master.svg?style=svg&circle-token=d99221df302173c68e625ceb8a0671a19cb5c212)](https://circleci.com/gh/reiniergs/git2gus-app/tree/master)
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 ## Run Locally
 
 First, make sure your dev environment is setup by reading the [contributing section](#contributing).
