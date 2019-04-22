@@ -1,16 +1,15 @@
 const isGusLabel = require('../isGusLabel');
+const { gus } = require('../../../../config/gus');
 
 global.sails = {
     config: {
-        gus: {
-            labels: ['GUS P0', 'GUS P1', 'GUS P2', 'GUS P3']
-        }
+        gus
     }
 };
 
 describe('isGusLabel github service', () => {
     it('should return true when a gus label is passed', () => {
-        const labels = ['GUS P0', 'GUS P1', 'GUS P2', 'GUS P3'];
+        const labels = ['GUS P0', 'GUS P1', 'GUS P2', 'GUS P3', 'GUS STORY'];
         labels.forEach(label => {
             expect(isGusLabel(label)).toBe(true);
         });

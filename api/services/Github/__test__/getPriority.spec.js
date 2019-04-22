@@ -1,10 +1,9 @@
 const getPriority = require('../getPriority');
+const { gus } = require('../../../../config/gus');
 
 global.sails = {
     config: {
-        gus: {
-            labels: ['GUS P0', 'GUS P1', 'GUS P2', 'GUS P3']
-        }
+        gus
     }
 };
 

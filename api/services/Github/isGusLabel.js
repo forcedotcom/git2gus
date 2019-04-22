@@ -1,3 +1,6 @@
+const isGusBugLabel = require('./isGusBugLabel');
+const isGusStoryLabel = require('./isGusStoryLabel');
+
 module.exports = function isGusLabel(name) {
-    return sails.config.gus.labels.indexOf(name) !== -1;
+    return isGusBugLabel(name) || isGusStoryLabel(name);
 };

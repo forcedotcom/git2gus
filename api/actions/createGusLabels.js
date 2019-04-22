@@ -22,17 +22,32 @@ module.exports = {
         const owner = installation.account.login;
         const repositories = getRepositories(req);
 
-        repositories.forEach(repository => {
+        repositories.forEach(async repository => {
             const repo = repository.name;
-            const { labels, labelColor } = sails.config.gus;
-            labels.forEach(async name => {
+            const {
+                bugLabels,
+                bugLabelColor,
+                storyLabel,
+                storyLabelColor
+            } = sails.config.gus;
+
+            // add the bug labels
+            bugLabels.forEach(async name => {
                 const label = {
                     owner,
                     repo,
                     name,
-                    color: labelColor
+                    color: bugLabelColor
                 };
                 await req.octokitClient.issues.createLabel(label);
+            });
+
+            // add the story label
+            await req.octokitClient.issues.createLabel({
+                owner,
+                repo,
+                name: storyLabel,
+                color: storyLabelColor
             });
         });
     }
