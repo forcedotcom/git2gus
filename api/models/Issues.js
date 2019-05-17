@@ -58,7 +58,7 @@ module.exports = {
             type: 'string',
             columnName: 'priority__c',
             isIn: ['P0', 'P1', 'P2', 'P3'],
-            required: true
+            required: false
         },
         syncState: {
             type: 'string',
@@ -69,6 +69,14 @@ module.exports = {
             type: 'string',
             columnName: 'createdbyid',
             allowNull: true
+        },
+        recordTypeId: {
+            type: 'string',
+            columnName: 'RecordTypeId',
+            isIn: [
+                '012T00000004MUHIA2' /* BUG (adm_work__c default record type) */,
+                '0129000000006gDAAQ' /* USER STORY */
+            ]
         }
     },
     migrate: 'safe'

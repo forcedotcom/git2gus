@@ -84,3 +84,7 @@ Make sure your test app has Read & Write access to Issues, Pull Requests, and Co
 ### Seeding your dev db
 
 Sails has a built-in development db, called sails-disk, which is just a set of json files under `<repo root>/.tmp/localDiskDb`. The git2gus app will validate that the "build" you specified in the config is in the database so you'll need to make sure you've got an entry for that "build" in the `adm_build__c.db` file. For example, add a line like `{"name":"218","sfid":"218","_id":1}` to that file if your config is set to build "218".
+
+// TODO: delete this before merging
+SOQL query:
+`SELECT Subject__c,RecordTypeId,Priority__c,Assignee__c,Details__c,Details_and_Steps_to_Reproduce__c,Product_Tag__c,Related_URL__c,Scrum_Team__c,Status__c FROM ADM_Work__c WHERE Id IN ('a07B0000006S72GIAS','a07B0000006S2GjIAK')`

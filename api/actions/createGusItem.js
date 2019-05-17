@@ -34,7 +34,8 @@ module.exports = {
                         status: 'NEW',
                         foundInBuild,
                         priority,
-                        relatedUrl: url
+                        relatedUrl: url,
+                        recordTypeId: Github.isGusBugLabel ? '' : '' // TODO: wes - use const's here exported from issues model
                     },
                     async (error, item) => {
                         if (item) {
