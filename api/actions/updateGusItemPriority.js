@@ -17,5 +17,9 @@ module.exports = {
                 relatedUrl: url
             });
         }
+
+        // TODO - wes - you might need to change record type id
+        // if you removed a story label and there is still a bug
+        // label on the issue - need an issue hook for UPDATE_GUS_RECORDTYPEID
     }
 };

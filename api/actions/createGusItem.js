@@ -35,7 +35,9 @@ module.exports = {
                         foundInBuild,
                         priority,
                         relatedUrl: url,
-                        recordTypeId: Github.isGusBugLabel ? '' : '' // TODO: wes - use const's here exported from issues model
+                        recordTypeId: Github.isGusBugLabel
+                            ? Issues.BUG_RECORDTYPEID
+                            : Issues.USER_STORY_RECORDTYPEID
                     },
                     async (error, item) => {
                         if (item) {

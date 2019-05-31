@@ -1,3 +1,7 @@
+const USER_STORY_RECORDTYPEID = '0129000000006gDAAQ'; /* USER STORY */
+const BUG_RECORDTYPEID =
+    '012T00000004MUHIA2'; /* BUG (adm_work__c default record type) */
+
 module.exports = {
     tableName: 'adm_work__c',
     attributes: {
@@ -73,11 +77,11 @@ module.exports = {
         recordTypeId: {
             type: 'string',
             columnName: 'RecordTypeId',
-            isIn: [
-                '012T00000004MUHIA2' /* BUG (adm_work__c default record type) */,
-                '0129000000006gDAAQ' /* USER STORY */
-            ]
+            defaultsTo: BUG_RECORDTYPEID,
+            isIn: [BUG_RECORDTYPEID, USER_STORY_RECORDTYPEID]
         }
     },
-    migrate: 'safe'
+    migrate: 'safe',
+    BUG_RECORDTYPEID,
+    USER_STORY_RECORDTYPEID
 };
