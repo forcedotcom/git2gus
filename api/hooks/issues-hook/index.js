@@ -1,6 +1,7 @@
 const asyncQueue = require('async/queue');
 const createOrUpdateGusItem = require('./create-or-update-gus-item');
 const updateGusItemPriority = require('./update-gus-item-priority');
+const updateGusItemRecordTypeId = require('./update-gus-item-recordtypeid');
 const updateGusItemTitle = require('./update-gus-item-title');
 const updateGusItemDescription = require('./update-gus-item-description');
 const integrateGusItem = require('./integrate-gus-item');
@@ -14,6 +15,9 @@ async function handleQueue(task) {
 
         case 'UPDATE_GUS_ITEM_PRIORITY':
             return await updateGusItemPriority(task);
+
+        case 'UPDATE_GUS_ITEM_RECORDTYPEID':
+            return await updateGusItemRecordTypeId(task);
 
         case 'UPDATE_GUS_ITEM_TITLE':
             return await updateGusItemTitle(task);
