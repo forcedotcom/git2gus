@@ -13,12 +13,12 @@ module.exports = async function createOrUpdateGusItem(task) {
     } = task;
 
     const issue = await Issues.getByRelatedUrl(relatedUrl);
-    const hasLowestPriority = issue && issue.priority <= priority;
+    const currentIssueHasLowestPriority =
+        issue && issue.priority !== '' && issue.priority <= priority;
+    const currentIssueRecordTypeIdIsSame =
+        issue && issue.recordTypeId === recordTypeId;
 
-    // TODO: wes - need to check if recordTypeId changed and if so update the
-    // Issue
-
-    if (!hasLowestPriority) {
+    if (!currentIssueHasLowestPriority || !currentIssueRecordTypeIdIsSame) {
         if (issue) {
             return await Issues.update(issue.id, { priority, recordTypeId });
         }

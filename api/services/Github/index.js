@@ -6,6 +6,7 @@ const createComment = require('./createComment');
 const addLabels = require('./addLabels');
 const getComments = require('./getComments');
 const deleteComment = require('./deleteComment');
+const getRecordTypeId = require('./getRecordTypeId');
 
 module.exports = {
     getConfig,
@@ -15,5 +16,6 @@ module.exports = {
     createComment,
     addLabels,
     getComments,
-    deleteComment
+    deleteComment,
+    getRecordTypeId
 };

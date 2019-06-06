@@ -23,6 +23,7 @@ module.exports = {
 
         if (Github.isGusLabel(label.name)) {
             const priority = Github.getPriority(labels);
+            const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push(
@@ -35,9 +36,7 @@ module.exports = {
                         foundInBuild,
                         priority,
                         relatedUrl: url,
-                        recordTypeId: Github.isGusBugLabel
-                            ? Issues.BUG_RECORDTYPEID
-                            : Issues.USER_STORY_RECORDTYPEID
+                        recordTypeId
                     },
                     async (error, item) => {
                         if (item) {
