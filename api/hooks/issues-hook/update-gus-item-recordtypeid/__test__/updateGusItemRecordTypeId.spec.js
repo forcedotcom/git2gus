@@ -45,6 +45,19 @@ describe('updateGusItemRecordTypeId issues hook', () => {
         await updateGusItemRecordTypeId(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
+    it('should not call Issues.update when the issue is linked but the new record type is undefined', async () => {
+        expect.assertions(1);
+        Issues.update.mockReset();
+        Issues.getByRelatedUrl.mockReset();
+        Issues.getByRelatedUrl.mockReturnValue(
+            Promise.resolve({
+                id: '1234abcd',
+                recordTypeId: 'story123'
+            })
+        );
+        await updateGusItemRecordTypeId({ ...task, recordTypeId: undefined });
+        expect(Issues.update).not.toHaveBeenCalled();
+    });
     it('should not call Issues.update when the issue is not linked', async () => {
         expect.assertions(1);
         Issues.update.mockReset();

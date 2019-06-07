@@ -11,7 +11,7 @@ const Issues = require('../../../services/Issues');
 async function updateGusItemRecordTypeId({ recordTypeId, relatedUrl }) {
     const issue = await Issues.getByRelatedUrl(relatedUrl);
     const newRecordTypeId = issue && issue.recordTypeId !== recordTypeId;
-    if (newRecordTypeId) {
+    if (newRecordTypeId && recordTypeId !== undefined) {
         return Issues.update(issue.id, { recordTypeId });
     }
     return null;
