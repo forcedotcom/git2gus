@@ -1,5 +1,6 @@
 // @ts-check
 const isGusStoryLabel = require('./isGusStoryLabel');
+const isGusBugLabel = require('./isGusBugLabel');
 
 /**
  * @typedef {import('../../models/Issues')} Issues
@@ -9,19 +10,23 @@ const isGusStoryLabel = require('./isGusStoryLabel');
 
 /**
  * Gets the RecordTypeId based on the labels. USER STORY label takes precedence
- * over BUG labels.
+ * over BUG labels. If no Story or Bug labels are present undefined is returned.
  *
  * @param {Label[]} labels
  * @returns {string}
  */
 function getRecordTypeId(labels) {
-    const hasStoryLabel = labels.some(l => isGusStoryLabel(l.name));
-
-    if (hasStoryLabel) {
+    if (labels.some(l => isGusStoryLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.gus
             .userStoryRecordTypeId;
     }
-    return /** @type{TypedGlobal} */ (global).sails.config.gus.bugRecordTypeId;
+
+    if (labels.some(l => isGusBugLabel(l.name))) {
+        return /** @type{TypedGlobal} */ (global).sails.config.gus
+            .bugRecordTypeId;
+    }
+
+    return undefined;
 }
 
 module.exports = getRecordTypeId;
