@@ -3,7 +3,7 @@ const isGusStoryLabel = require('./isGusStoryLabel');
 
 /**
  * @typedef {import('../../models/Issues')} Issues
- * @typedef {global & {Issues: Issues}} TypedGlobal
+ * @typedef {global & {sails: any}} TypedGlobal
  * @typedef {import("@octokit/rest").IssuesGetEventResponseIssueLabelsItem} Label
  */
 
@@ -15,9 +15,13 @@ const isGusStoryLabel = require('./isGusStoryLabel');
  * @returns {string}
  */
 function getRecordTypeId(labels) {
-    return labels.some(l => isGusStoryLabel(l.name))
-        ? /** @type{TypedGlobal} */ (global).Issues.USER_STORY_RECORDTYPEID
-        : /** @type{TypedGlobal} */ (global).Issues.BUG_RECORDTYPEID;
+    const hasStoryLabel = labels.some(l => isGusStoryLabel(l.name));
+
+    if (hasStoryLabel) {
+        return /** @type{TypedGlobal} */ (global).sails.config.gus
+            .userStoryRecordTypeId;
+    }
+    return /** @type{TypedGlobal} */ (global).sails.config.gus.bugRecordTypeId;
 }
 
 module.exports = getRecordTypeId;
