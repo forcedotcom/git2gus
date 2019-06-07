@@ -67,6 +67,7 @@ describe('createGusItem action', () => {
                 name: 'CREATE_GUS_ITEM',
                 subject: 'new issue',
                 description: 'some description',
+                storyDetails: 'some description',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',

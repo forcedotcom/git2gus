@@ -30,12 +30,21 @@ module.exports = {
                 },
                 async (error, item) => {
                     if (item) {
-                        if (item.priority) {
+                        if (
+                            item.recordTypeId ===
+                            sails.config.gus.userStoryRecordTypeId
+                        ) {
+                            await addLabels({
+                                req,
+                                labels: [sails.config.gus.storyLabel]
+                            });
+                        } else if (item.priority) {
                             await addLabels({
                                 req,
                                 labels: [`GUS ${item.priority}`]
                             });
                         }
+
                         return await createComment({
                             req,
                             body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(
