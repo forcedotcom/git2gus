@@ -9,13 +9,14 @@ const Github = require('../services/Github');
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_UNLABELED,
+    /**
+     * @param {{ body: { issue: any; label: Label; }; }} req
+     */
     fn: async function(req) {
         const {
-            issue: { labels, url }
+            issue: { labels, url },
+            label
         } = req.body;
-
-        /**@type{Label}*/
-        const label = req.body.label;
 
         if (label && Github.isGusLabel(label.name)) {
             const recordTypeId = Github.getRecordTypeId(labels);
