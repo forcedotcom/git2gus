@@ -9,6 +9,7 @@ jest.mock('../../services/Builds', () => ({
 jest.mock('../../services/Github', () => ({
     isGusLabel: jest.fn(),
     getPriority: () => 'P1',
+    getRecordTypeId: () => 'bug',
     createComment: jest.fn()
 }));
 jest.mock('../../services/Issues', () => ({
@@ -70,7 +71,8 @@ describe('createGusItem action', () => {
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
                 priority: 'P1',
-                relatedUrl: 'github/git2gus-test/#30'
+                relatedUrl: 'github/git2gus-test/#30',
+                recordTypeId: 'bug'
             },
             expect.any(Function)
         );

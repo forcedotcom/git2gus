@@ -1,9 +1,9 @@
-const { fn } = require('../updateGusItemPriority');
+const { fn } = require('../updateGusItemRecordTypeId');
 const Github = require('../../services/Github');
 
 jest.mock('../../services/Github', () => ({
-    isGusBugLabel: jest.fn(),
-    getPriority: jest.fn()
+    isGusLabel: jest.fn(),
+    getRecordTypeId: jest.fn()
 }));
 
 global.sails = {
@@ -16,24 +16,24 @@ global.sails = {
     }
 };
 
-describe('updateGusItemPriority action', () => {
+describe('updateGusItemRecordTypeId action', () => {
     it('should call queue push with the right values', () => {
-        Github.isGusBugLabel.mockReturnValue(true);
-        Github.getPriority.mockReturnValue('P0');
+        Github.isGusLabel.mockReturnValue(true);
+        Github.getRecordTypeId.mockReturnValue('story123');
         const req = {
             body: {
                 issue: {
                     url: 'github/test-git2gus/#110'
                 },
                 label: {
-                    name: 'GUS P0'
+                    name: 'GUS STORY'
                 }
             }
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'UPDATE_GUS_ITEM_PRIORITY',
-            priority: 'P0',
+            name: 'UPDATE_GUS_ITEM_RECORDTYPEID',
+            recordTypeId: 'story123',
             relatedUrl: 'github/test-git2gus/#110'
         });
     });
@@ -49,9 +49,9 @@ describe('updateGusItemPriority action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
-    it('should not call queue push when is not a gus bug label', () => {
+    it('should not call queue push when is not a gus label', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isGusBugLabel.mockReturnValue(false);
+        Github.isGusLabel.mockReturnValue(false);
         const req = {
             body: {
                 issue: {
