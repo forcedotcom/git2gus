@@ -13,6 +13,7 @@ module.exports = {
             sails.hooks['issues-hook'].queue.push({
                 name: 'UPDATE_GUS_ITEM_DESCRIPTION',
                 description: body,
+                storyDetails: body,
                 relatedUrl: url
             });
         }

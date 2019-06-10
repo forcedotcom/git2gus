@@ -18,6 +18,11 @@ module.exports = {
             columnName: 'details_and_steps_to_reproduce__c',
             allowNull: true
         },
+        storyDetails: {
+            type: 'string',
+            columnName: 'details__c',
+            allowNull: true
+        },
         status: {
             type: 'string',
             columnName: 'status__c'
@@ -58,7 +63,7 @@ module.exports = {
             type: 'string',
             columnName: 'priority__c',
             isIn: ['P0', 'P1', 'P2', 'P3'],
-            required: true
+            required: false
         },
         syncState: {
             type: 'string',
@@ -69,6 +74,15 @@ module.exports = {
             type: 'string',
             columnName: 'createdbyid',
             allowNull: true
+        },
+        recordTypeId: {
+            type: 'string',
+            columnName: 'RecordTypeId',
+            defaultsTo: sails.config.gus.bugRecordTypeId,
+            isIn: [
+                sails.config.gus.bugRecordTypeId,
+                sails.config.gus.userStoryRecordTypeId
+            ]
         }
     },
     migrate: 'safe'

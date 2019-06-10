@@ -1,5 +1,6 @@
 const { fn } = require('./../createDeletedGusLabel');
 const Github = require('../../services/Github');
+const { gus } = require('../../../config/gus');
 
 jest.mock('../../services/Github', () => ({
     isGusLabel: jest.fn()
@@ -14,15 +15,13 @@ global.sails = {
         }
     },
     config: {
-        gus: {
-            labelColor: '#ccc'
-        }
+        gus: gus
     }
 };
 
 const req = {
     body: {
-        label: { name: 'GUS P1' },
+        label: { name: 'GUS P1', color: 'ededed' },
         repository: {
             name: 'test-app',
             owner: {
@@ -63,7 +62,7 @@ describe('createDeletedGusLabel action', () => {
                 owner: 'pepe',
                 repo: 'test-app',
                 name: 'GUS P1',
-                color: '#ccc'
+                color: 'ededed'
             });
         });
     });

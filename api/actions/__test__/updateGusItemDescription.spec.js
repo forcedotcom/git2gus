@@ -27,6 +27,7 @@ describe('updateGusItemDescription action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
             name: 'UPDATE_GUS_ITEM_DESCRIPTION',
             description: 'new description',
+            storyDetails: 'new description',
             relatedUrl: 'github/test-git2gus-app/#10'
         });
     });

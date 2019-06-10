@@ -13,8 +13,10 @@ module.exports = function isSalesforceReq(req, res, next) {
     const isFromDevelopmentGithubRepo =
         process.env.NODE_ENV === 'development' &&
         process.env.GITHUB_TEST_ORG &&
-        repository &&
-        repository.owner.login === process.env.GITHUB_TEST_ORG;
+        ((repository &&
+            repository.owner.login === process.env.GITHUB_TEST_ORG) ||
+            (installation.account &&
+                installation.account.login === process.env.GITHUB_TEST_ORG));
 
     if (
         isSalesforceInstallation ||
