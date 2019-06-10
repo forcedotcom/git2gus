@@ -18,6 +18,11 @@ module.exports = {
             columnName: 'details_and_steps_to_reproduce__c',
             allowNull: true
         },
+        storyDetails: {
+            type: 'string',
+            columnName: 'details__c',
+            allowNull: true
+        },
         status: {
             type: 'string',
             columnName: 'status__c'

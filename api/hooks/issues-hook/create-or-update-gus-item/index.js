@@ -4,6 +4,7 @@ module.exports = async function createOrUpdateGusItem(task) {
     const {
         subject,
         description,
+        storyDetails,
         productTag,
         status,
         foundInBuild,
@@ -32,6 +33,7 @@ module.exports = async function createOrUpdateGusItem(task) {
     return await Issues.create({
         subject,
         description,
+        storyDetails,
         productTag,
         status,
         foundInBuild,

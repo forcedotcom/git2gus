@@ -9,6 +9,7 @@ jest.mock('../../../../services/Issues', () => ({
 const task = {
     subject: 'issue 35',
     description: 'fix bugs',
+    storyDetails: 'fix bugs',
     productTag: 'abcd1234',
     status: 'NEW',
     foundInBuild: 'qwerty1234',
@@ -45,6 +46,7 @@ describe('createOrUpdateGusItem issues hook', () => {
         expect(Issues.create).toHaveBeenCalledWith({
             subject: 'issue 35',
             description: 'fix bugs',
+            storyDetails: 'fix bugs',
             productTag: 'abcd1234',
             status: 'NEW',
             foundInBuild: 'qwerty1234',

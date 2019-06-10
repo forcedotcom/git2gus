@@ -1,6 +1,7 @@
 const { fn } = require('../linkToGusItem');
 const { createComment, addLabels } = require('../../services/Github');
 const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
+const { gus } = require('../../../config/gus');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
@@ -16,6 +17,9 @@ global.sails = {
                 push: jest.fn()
             }
         }
+    },
+    config: {
+        gus: gus
     }
 };
 
@@ -131,7 +135,7 @@ describe('linkToGusItem action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
-    it('should create a comment and not add label when the "done" callback is called but the item has not priority', async () => {
+    it('should create a comment and not add label when the "done" callback is called but the item has not priority and not user story', async () => {
         expect.assertions(3);
         sails.hooks['issues-hook'].queue.push.mockReset();
         sails.hooks['issues-hook'].queue.push.mockImplementation(
@@ -156,6 +160,34 @@ describe('linkToGusItem action', () => {
                 'This issue has been linked to a new GUS work item: https://abcd12345.com'
         });
         expect(addLabels).not.toHaveBeenCalled();
+    });
+    it('should story add label when the "done" callback is called and item is user story', async () => {
+        expect.assertions(2);
+        createComment.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockImplementation(
+            async (data, done) => {
+                done(null, {
+                    id: 'abcd1234',
+                    recordTypeId: sails.config.gus.userStoryRecordTypeId
+                });
+            }
+        );
+        const req = {
+            body: {
+                action: 'opened',
+                issue: {
+                    url: 'github/test-gus-app/#32',
+                    body: '@W-12345@'
+                }
+            }
+        };
+        await fn(req);
+        expect(createComment).toHaveBeenCalledTimes(1);
+        expect(addLabels).toHaveBeenCalledWith({
+            req,
+            labels: [sails.config.gus.storyLabel]
+        });
     });
     it('should add label when the "done" callback is called and the item has priority', async () => {
         expect.assertions(2);

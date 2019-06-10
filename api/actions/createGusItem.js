@@ -31,6 +31,7 @@ module.exports = {
                         name: 'CREATE_GUS_ITEM',
                         subject: title,
                         description: body,
+                        storyDetails: body,
                         productTag: config.productTag,
                         status: 'NEW',
                         foundInBuild,
