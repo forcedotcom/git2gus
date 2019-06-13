@@ -1,14 +1,22 @@
 const { github } = require('../../config/github');
 
+const orgsRegex = [/^salesforce$/i, /^sfdc$/i, /^forcedotcom$/i];
+
+function isSalesforceOrg(name) {
+    return orgsRegex.some(regex => {
+        return regex.test(name);
+    });
+}
+
 module.exports = function isSalesforceReq(req, res, next) {
     const { repository, installation } = req.body;
     const event = req.headers['x-github-event'];
     const isSalesforceInstallation =
         github.installationEvents.indexOf(event) !== -1 &&
         installation.account &&
-        installation.account.login === 'salesforce';
+        isSalesforceOrg(installation.account.login);
     const isEventFromSalesforce =
-        repository && repository.owner.login === 'salesforce';
+        repository && isSalesforceOrg(repository.owner.login);
 
     const isFromDevelopmentGithubRepo =
         process.env.NODE_ENV === 'development' &&
