@@ -3,6 +3,7 @@ const { gus } = require('../../../../config/gus');
 const Github = require('../index');
 
 jest.mock('..', () => ({
+    isGusInvestigationLabel: jest.fn(),
     isGusStoryLabel: jest.fn(),
     isGusBugLabel: jest.fn()
 }));

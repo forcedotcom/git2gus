@@ -11,9 +11,9 @@ module.exports = function getPriority(labels) {
             priority = `P${name[5]}`;
         } else if (
             isGusInvestigationLabel(name) &&
-            (priority === undefined || name[20] < priority[1])
+            (priority === undefined || name[19] < priority[1])
         ) {
-            priority = `P${name[20]}`;
+            priority = `P${name[19]}`;
         }
     });
     return priority;

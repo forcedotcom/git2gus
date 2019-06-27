@@ -27,10 +27,10 @@ describe('isGusInvestigationLabel github service', () => {
     });
     it('should return false when a gus bug label is passed', () => {
         gus.bugLabels.forEach(label => {
-            expect(isGusStoryLabel(label)).toBe(false);
+            expect(isGusInvestigationLabel(label)).toBe(false);
         });
     });
     it('should return false when a gus story label is passed', () => {
-        expect(isGusBugLabel(gus.storyLabel)).toBe(false);
+        expect(isGusInvestigationLabel(gus.storyLabel)).toBe(false);
     });
 });

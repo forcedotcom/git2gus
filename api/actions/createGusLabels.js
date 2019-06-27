@@ -44,14 +44,6 @@ module.exports = {
                 await req.octokitClient.issues.createLabel(label);
             });
 
-            // add the story label
-            await req.octokitClient.issues.createLabel({
-                owner,
-                repo,
-                name: storyLabel,
-                color: storyLabelColor
-            });
-
             // add the investigation labels
             investigationLabels.forEach(async name => {
                 const label = {
@@ -61,6 +53,14 @@ module.exports = {
                     color: investigationLabelColor
                 };
                 await req.octokitClient.issues.createLabel(label);
+            });
+
+            // add the story label
+            await req.octokitClient.issues.createLabel({
+                owner,
+                repo,
+                name: storyLabel,
+                color: storyLabelColor
             });
         });
     }

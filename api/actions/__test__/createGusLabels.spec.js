@@ -75,7 +75,7 @@ describe('createGusLabels', () => {
                 color: 'ededed'
             });
         });
-        it('should call createLabel with the story label', () => {
+        it('should call createLabel with the investigation label', () => {
             req.octokitClient.issues.createLabel.mockReset();
             fn(req);
             expect(
@@ -83,20 +83,20 @@ describe('createGusLabels', () => {
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
-                name: 'GUS STORY',
-                color: 'a2eeef'
+                name: 'GUS INVESTIGATION P0',
+                color: 'd4a3f0'
             });
         });
-        it('should call createLabel with the investigation label', () => {
+        it('should call createLabel with the story label', () => {
             req.octokitClient.issues.createLabel.mockReset();
             fn(req);
             expect(
-                req.octokitClient.issues.createLabel.mock.calls[5][0]
+                req.octokitClient.issues.createLabel.mock.calls[8][0]
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
-                name: 'GUS INVESTIGATION P0',
-                color: 'd4a3f0'
+                name: 'GUS STORY',
+                color: 'a2eeef'
             });
         });
     });
@@ -119,18 +119,6 @@ describe('createGusLabels', () => {
                 color: 'ededed'
             });
         });
-        it('should call createLabel with the story label', () => {
-            reqOrg.octokitClient.issues.createLabel.mockReset();
-            fn(reqOrg);
-            expect(
-                reqOrg.octokitClient.issues.createLabel.mock.calls[4][0]
-            ).toEqual({
-                owner: 'john',
-                repo: 'repo-1',
-                name: 'GUS STORY',
-                color: 'a2eeef'
-            });
-        });
         it('should call createLabel with the investigation label', () => {
             reqOrg.octokitClient.issues.createLabel.mockReset();
             fn(reqOrg);
@@ -141,6 +129,18 @@ describe('createGusLabels', () => {
                 repo: 'repo-1',
                 name: 'GUS INVESTIGATION P0',
                 color: 'd4a3f0'
+            });
+        });
+        it('should call createLabel with the story label', () => {
+            reqOrg.octokitClient.issues.createLabel.mockReset();
+            fn(reqOrg);
+            expect(
+                reqOrg.octokitClient.issues.createLabel.mock.calls[8][0]
+            ).toEqual({
+                owner: 'john',
+                repo: 'repo-1',
+                name: 'GUS STORY',
+                color: 'a2eeef'
             });
         });
     });
