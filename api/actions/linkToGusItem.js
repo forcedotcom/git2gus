@@ -32,6 +32,14 @@ module.exports = {
                     if (item) {
                         if (
                             item.recordTypeId ===
+                            sails.config.gus.investigationRecordTypeId
+                        ) {
+                            await addLabels({
+                                req,
+                                labels: [`GUS INVESTIGATION ${item.priority}`]
+                            });
+                        } else if (
+                            item.recordTypeId ===
                             sails.config.gus.userStoryRecordTypeId
                         ) {
                             await addLabels({
