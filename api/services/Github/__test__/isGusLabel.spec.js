@@ -9,7 +9,17 @@ global.sails = {
 
 describe('isGusLabel github service', () => {
     it('should return true when a gus label is passed', () => {
-        const labels = ['GUS P0', 'GUS P1', 'GUS P2', 'GUS P3', 'GUS STORY'];
+        const labels = [
+            'GUS P0',
+            'GUS P1',
+            'GUS P2',
+            'GUS P3',
+            'GUS INVESTIGATION P0',
+            'GUS INVESTIGATION P1',
+            'GUS INVESTIGATION P2',
+            'GUS INVESTIGATION P3',
+            'GUS STORY'
+        ];
         labels.forEach(label => {
             expect(isGusLabel(label)).toBe(true);
         });
