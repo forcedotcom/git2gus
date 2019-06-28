@@ -13,7 +13,7 @@ module.exports = function isGithubReq(req, res, next) {
         return next();
     }
     return res.badRequest({
-        code: 'BAD_GITHUB_REQUEST',
+        status: 'BAD_GITHUB_REQUEST',
         message: 'Wrong event payload received.'
     });
 };
