@@ -1,9 +1,9 @@
 const { fn } = require('./../createGusLabels');
-const { gus } = require('../../../config/gus');
+const { ghLabels } = require('../../../config/ghLabels');
 
 global.sails = {
     config: {
-        gus: gus
+        ghLabels: ghLabels
     }
 };
 

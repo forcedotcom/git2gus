@@ -1,6 +1,6 @@
 const { fn } = require('./../createDeletedGusLabel');
 const Github = require('../../services/Github');
-const { gus } = require('../../../config/gus');
+const { ghLabels } = require('../../../config/ghLabels');
 
 jest.mock('../../services/Github', () => ({
     isGusLabel: jest.fn()
@@ -15,7 +15,7 @@ global.sails = {
         }
     },
     config: {
-        gus: gus
+        ghLabels: ghLabels
     }
 };
 

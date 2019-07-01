@@ -1,5 +1,6 @@
 const getRecordTypeId = require('../getRecordTypeId');
 const { gus } = require('../../../../config/gus');
+const { ghLabels } = require('../../../../config/ghLabels');
 const Github = require('../index');
 
 jest.mock('..', () => ({
@@ -9,7 +10,8 @@ jest.mock('..', () => ({
 
 global.sails = {
     config: {
-        gus
+        gus,
+        ghLabels
     }
 };
 
