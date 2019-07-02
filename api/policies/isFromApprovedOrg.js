@@ -1,20 +1,19 @@
-const { github } = require('../../config/github');
-
-function isSalesforceOrg(name) {
-    return github.approvedOrgs.some(org => {
+function isApprovedOrg(name) {
+    return sails.config.github.approvedOrgs.some(org => {
         return org.toLowerCase() === name.toLowerCase();
     });
 }
 
-module.exports = function isSalesforceReq(req, res, next) {
+module.exports = function isApprovedReq(req, res, next) {
+    const github = sails.config.github;
     const { repository, installation } = req.body;
     const event = req.headers['x-github-event'];
     const isSalesforceInstallation =
         github.installationEvents.indexOf(event) !== -1 &&
         installation.account &&
-        isSalesforceOrg(installation.account.login);
+        isApprovedOrg(installation.account.login);
     const isEventFromSalesforce =
-        repository && isSalesforceOrg(repository.owner.login);
+        repository && isApprovedOrg(repository.owner.login);
 
     const isFromDevelopmentGithubRepo =
         process.env.NODE_ENV === 'development' &&
@@ -33,6 +32,6 @@ module.exports = function isSalesforceReq(req, res, next) {
     }
     return res.badRequest({
         code: 'BAD_GITHUB_REQUEST',
-        message: 'The request received is not from salesforce org.'
+        message: 'The request received is not from an approved org.'
     });
 };
