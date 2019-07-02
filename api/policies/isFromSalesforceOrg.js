@@ -1,6 +1,12 @@
 const { github } = require('../../config/github');
 
-const orgsRegex = [/^salesforce$/i, /^sfdc$/i, /^forcedotcom$/i];
+const orgsRegex = [
+    /^salesforce$/i,
+    /^sfdc$/i,
+    /^forcedotcom$/i,
+    /^salesforce-ux$/i,
+    /^SalesforceFoundation$/i
+];
 
 function isSalesforceOrg(name) {
     return orgsRegex.some(regex => {
