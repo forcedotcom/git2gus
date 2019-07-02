@@ -8,11 +8,11 @@ module.exports = function isApprovedReq(req, res, next) {
     const github = sails.config.github;
     const { repository, installation } = req.body;
     const event = req.headers['x-github-event'];
-    const isSalesforceInstallation =
+    const isApprovedInstallation =
         github.installationEvents.indexOf(event) !== -1 &&
         installation.account &&
         isApprovedOrg(installation.account.login);
-    const isEventFromSalesforce =
+    const isEventFromApprovedSource =
         repository && isApprovedOrg(repository.owner.login);
 
     const isFromDevelopmentGithubRepo =
@@ -24,8 +24,8 @@ module.exports = function isApprovedReq(req, res, next) {
                 installation.account.login === process.env.GITHUB_TEST_ORG));
 
     if (
-        isSalesforceInstallation ||
-        isEventFromSalesforce ||
+        isApprovedInstallation ||
+        isEventFromApprovedSource ||
         isFromDevelopmentGithubRepo
     ) {
         return next();
