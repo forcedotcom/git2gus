@@ -1,7 +1,7 @@
-const hasConfig = require('../policies/hasConfig');
-const { getConfig, createComment } = require('../services/Github');
+const hasConfig = require('../hasConfig');
+const { getConfig, createComment } = require('../../services/Github');
 
-jest.mock('../services/Github', () => ({
+jest.mock('../../services/Github', () => ({
     getConfig: jest.fn(),
     createComment: jest.fn()
 }));
