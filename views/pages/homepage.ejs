@@ -107,11 +107,33 @@ For more information, see:
                 <span class="homepage-badge">productTag</span>
                 <span class="homepage-config-key-description">
                     The unique ID of the productTag used by your team in GUS.
-                    When a new GUS work item is going to be created this is the
-                    id the application is going to use. To see your Product Tags
-                    go to the App Launcher in GUS and search "product tags".
+                    When a new GUS item is created, this is is the id the
+                    application will us by default. To see your Product Tags go
+                    to the App Launcher in GUS and search "product tags".
                 </span>
             </li>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">productTagLabels</span>
+                <span class="homepage-config-key-description">
+                    Custom productTags you can assign to work items via labels.
+                    If a work item has a label corresponding to a key in
+                    productTagLabels, it will use that productTag instead of the
+                    default productTag. If a default productTag isn't provided
+                    in your config and no matching productTagLabel is found, the
+                    work item will not be synced. In the example below, the
+                    GitHub label "area:lwc" corresponds to the productTag
+                    "1234".
+                </span>
+            </li>
+            <pre class="homepage-code">
+                <code>
+                {
+                    "productTag": "a1aB0000000Jgm7IAC",
+                    "productTagLabels": { "area:lwc": "1234", "area:aura": "3456" }
+                    "defaultBuild": "218"
+                }
+                </code>
+            </pre>
             <li class="homepage-config-keys-item">
                 <span class="homepage-badge">defaultBuild</span>
                 <span class="homepage-config-key-description">
