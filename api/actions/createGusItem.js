@@ -22,10 +22,12 @@ module.exports = {
         const { config } = req.git2gus;
 
         let productTag = config.productTag;
-        for (productTagLabel in config.productTagLabels) {
-            if (labels.includes(productTagLabel)) {
-                productTag = productTagLabel;
-            }
+        if (config.productTagLabels) {
+            Object.keys(config.productTagLabels).forEach(label => {
+                if (labels.includes(label)) {
+                    productTag = config.productTagLabels[label];
+                }
+            });
         }
 
         if (Github.isGusLabel(label.name) && productTag) {
