@@ -23,12 +23,14 @@ module.exports = {
 
         let productTag = config.productTag;
         if (config.productTagLabels) {
-            Object.keys(config.productTagLabels).forEach(label => {
-                if (labels.includes(label)) {
-                    productTag = config.productTagLabels[label];
+            Object.keys(config.productTagLabels).forEach(productTagLabel => {
+                if (labels.some(label => label.name === productTagLabel)) {
+                    productTag = config.productTagLabels[productTagLabel];
                 }
             });
         }
+
+        console.log(productTag);
 
         if (Github.isGusLabel(label.name) && productTag) {
             const priority = Github.getPriority(labels);

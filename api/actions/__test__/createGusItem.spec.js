@@ -63,7 +63,7 @@ const reqWithProductTagLabel = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: ['GUS P1', 'testTagLabel']
+            labels: [{ name: 'GUS P1' }, { name: 'testTagLabel' }]
         },
         label: 'GUS P1',
         repository: {
@@ -97,7 +97,7 @@ const reqWithOnlyProductTagLabels = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: ['GUS P1', 'notAProductTagLabelefgh5678']
+            labels: [{ name: 'GUS P1' }, { name: 'notAProductTagLabel' }]
         },
         label: 'GUS P1',
         repository: {
