@@ -8,7 +8,10 @@ const events = {
     ISSUE_UNLABELED: 'ISSUE_UNLABELED',
     ISSUE_CLOSED: 'ISSUE_CLOSED',
     ISSUE_EDITED: 'ISSUE_EDITED',
-    ISSUE_OPENED: 'ISSUE_OPENED'
+    ISSUE_OPENED: 'ISSUE_OPENED',
+    ISSUE_COMMENT_CREATED: 'ISSUE_COMMENT_CREATED',
+    ISSUE_COMMENT_EDITED: 'ISSUE_COMMENT_EDITED',
+    ISSUE_COMMENT_DELETED: 'ISSUE_COMMENT_DELETED'
 };
 
 const eventsConfig = {
@@ -43,6 +46,18 @@ const eventsConfig = {
     [events.ISSUE_OPENED]: {
         event: 'issues',
         action: 'opened'
+    },
+    [events.ISSUE_COMMENT_CREATED]: {
+        event: 'issue_comment',
+        action: 'created'
+    },
+    [events.ISSUE_COMMENT_EDITED]: {
+        event: 'issue_comment',
+        action: 'edited'
+    },
+    [events.ISSUE_COMMENT_DELETED]: {
+        event: 'issue_comment',
+        action: 'deleted'
     }
 };
 
