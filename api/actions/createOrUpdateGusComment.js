@@ -13,7 +13,10 @@ function getBuildErrorMessage(config, milestone) {
 }
 
 module.exports = {
-    eventName: GithubEvents.events.ISSUE_COMMENT_CREATED,
+    eventName: [
+        GithubEvents.events.ISSUE_COMMENT_CREATED,
+        GithubEvents.events.ISSUE_COMMENT_EDITED
+    ],
     fn: async function(req) {
         const {
             issue: { labels, milestone },
