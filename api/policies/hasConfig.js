@@ -23,7 +23,7 @@ module.exports = async function hasConfig(req, res, next) {
         const isIssueOrPrOpened =
             (event === 'issues' || event === 'pull_request') &&
             action === 'opened';
-        if (error.status  === 404) {
+        if (error.status === 404) {
             if (isIssueOrPrOpened) {
                 await createComment({
                     req,
