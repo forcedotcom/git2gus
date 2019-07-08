@@ -34,7 +34,7 @@ module.exports = function isSalesforceReq(req, res, next) {
         return next();
     }
     return res.badRequest({
-        code: 'BAD_GITHUB_REQUEST',
+        status: 'BAD_GITHUB_REQUEST',
         message: 'The request received is not from salesforce org.'
     });
 };
