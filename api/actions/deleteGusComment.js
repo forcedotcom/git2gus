@@ -4,15 +4,6 @@ const Github = require('../services/Github');
 const { ghLabels } = require('../../config/ghLabels');
 const { waitUntilSynced } = require('../services/Issues');
 
-function getBuildErrorMessage(config, milestone) {
-    if (milestone) {
-        return `The milestone assigned to the issue doesn't match any valid build in GUS.`;
-    }
-    return `The defaultBuild value ${
-        config.defaultBuild
-    } in \`.git2gus/config.json\` doesn't match any valid build in GUS.`;
-}
-
 module.exports = {
     eventName: [GithubEvents.events.ISSUE_COMMENT_DELETED],
     fn: async function(req) {
@@ -58,10 +49,6 @@ module.exports = {
                     }
                 );
             }
-            return await Github.createComment({
-                req,
-                body: getBuildErrorMessage(config, milestone)
-            });
         }
         return null;
     }

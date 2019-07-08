@@ -17,11 +17,8 @@ module.exports = {
         const { config } = req.git2gus;
 
         if (
-            labels.some(
-                l =>
-                    Github.isGusLabel(l.name) &&
-                    l.name === ghLabels.commentSyncLabel
-            )
+            labels.some(l => Github.isGusLabel(l.name)) &&
+            labels.some(l => l.name === ghLabels.commentSyncLabel)
         ) {
             const foundInBuild = await Builds.resolveBuild(config, milestone);
             if (foundInBuild) {
