@@ -28,7 +28,9 @@ module.exports = {
                 bugLabels,
                 bugLabelColor,
                 storyLabel,
-                storyLabelColor
+                storyLabelColor,
+                commentSyncLabel,
+                commentSyncLabelColor
             } = sails.config.ghLabels;
 
             // add the bug labels
@@ -48,6 +50,14 @@ module.exports = {
                 repo,
                 name: storyLabel,
                 color: storyLabelColor
+            });
+
+            // add the comment sync label
+            await req.octokitClient.issues.createLabel({
+                owner,
+                repo,
+                name: commentSyncLabel,
+                color: commentSyncLabelColor
             });
         });
     }
