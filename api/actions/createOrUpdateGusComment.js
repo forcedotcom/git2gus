@@ -1,16 +1,8 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github = require('../services/Github');
+const { ghLabels } = require('../../config/ghLabels');
 const { waitUntilSynced } = require('../services/Issues');
-
-function getBuildErrorMessage(config, milestone) {
-    if (milestone) {
-        return `The milestone assigned to the issue doesn't match any valid build in GUS.`;
-    }
-    return `The defaultBuild value ${
-        config.defaultBuild
-    } in \`.git2gus/config.json\` doesn't match any valid build in GUS.`;
-}
 
 module.exports = {
     eventName: [
@@ -24,7 +16,13 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
 
-        if (labels.some(l => Github.isGusLabel(l))) {
+        if (
+            labels.some(
+                l =>
+                    Github.isGusLabel(l.name) &&
+                    l.name === ghLabels.commentSyncLabel
+            )
+        ) {
             const foundInBuild = await Builds.resolveBuild(config, milestone);
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push(
@@ -54,10 +52,7 @@ module.exports = {
                     }
                 );
             }
-            return await Github.createComment({
-                req,
-                body: getBuildErrorMessage(config, milestone)
-            });
+            return;
         }
         return null;
     }
