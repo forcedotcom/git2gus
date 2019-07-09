@@ -9,7 +9,7 @@ const actions = require('require-all')({
 
 Object.keys(actions).forEach(actionName => {
     const { eventName, fn } = actions[actionName];
-    // comment
+
     if (typeof eventName === 'string') {
         console.log(`attach ${actionName} to ${eventName}`);
         ghEvents.on(eventName, fn);
