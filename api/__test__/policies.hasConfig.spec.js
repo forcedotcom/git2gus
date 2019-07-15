@@ -111,7 +111,7 @@ describe('hasConfig policy', () => {
         expect(getConfig).toHaveBeenCalledTimes(1);
         expect(next).toHaveBeenCalledTimes(1);
     });
-    it('should respond with not found error when error code is 404', async () => {
+    it('should respond with not found error when error status is 404', async () => {
         expect.assertions(3);
         next.mockReset();
         createComment.mockReset();
@@ -119,7 +119,7 @@ describe('hasConfig policy', () => {
         getConfig.mockReset();
         getConfig.mockReturnValue(
             Promise.reject({
-                code: 404,
+                status: 404,
                 message: 'get config error'
             })
         );
@@ -131,18 +131,18 @@ describe('hasConfig policy', () => {
         };
         await hasConfig(req, res, next);
         expect(res.notFound).toHaveBeenCalledWith({
-            code: 'CONFIG_NOT_FOUND',
+            status: 'CONFIG_NOT_FOUND',
             message: 'The .git2gus/config.json was not found.'
         });
         expect(next).not.toHaveBeenCalled();
         expect(createComment).not.toHaveBeenCalled();
     });
-    it('should call createComment with the right values when error code is other than 404 and an issue is opened', async () => {
+    it('should call createComment with the right values when error status is other than 404 and an issue is opened', async () => {
         expect.assertions(4);
         getConfig.mockReset();
         getConfig.mockReturnValue(
             Promise.reject({
-                code: 403,
+                status: 403,
                 message: 'get config error'
             })
         );
@@ -169,16 +169,16 @@ describe('hasConfig policy', () => {
         expect(next).not.toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(403);
         expect(res.status().send).toHaveBeenCalledWith({
-            code: 403,
+            status: 403,
             message: 'get config error'
         });
     });
-    it('should call createComment with the right values when error code is other than 404 and a pull request is opened', async () => {
+    it('should call createComment with the right values when error status is other than 404 and a pull request is opened', async () => {
         expect.assertions(4);
         getConfig.mockReset();
         getConfig.mockReturnValue(
             Promise.reject({
-                code: 403,
+                status: 403,
                 message: 'get config error'
             })
         );
@@ -205,11 +205,11 @@ describe('hasConfig policy', () => {
         expect(next).not.toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(403);
         expect(res.status().send).toHaveBeenCalledWith({
-            code: 403,
+            status: 403,
             message: 'get config error'
         });
     });
-    it('should respond with status 403 when error.code is other than 404', async () => {
+    it('should respond with status 403 when error.status is other than 404', async () => {
         expect.assertions(4);
         next.mockReset();
         createComment.mockReset();
@@ -220,7 +220,7 @@ describe('hasConfig policy', () => {
         getConfig.mockReset();
         getConfig.mockReturnValue(
             Promise.reject({
-                code: 403,
+                status: 403,
                 message: 'config error'
             })
         );
@@ -233,18 +233,18 @@ describe('hasConfig policy', () => {
         await hasConfig(req, res, next);
         expect(res.status).toHaveBeenCalledWith(403);
         expect(res.status().send).toHaveBeenCalledWith({
-            code: 403,
+            status: 403,
             message: 'config error'
         });
         expect(next).not.toHaveBeenCalled();
         expect(createComment).not.toHaveBeenCalled();
     });
-    it('should call createComment with the right values when error code is 404 and an issue is opened', async () => {
+    it('should call createComment with the right values when error status is 404 and an issue is opened', async () => {
         expect.assertions(3);
         getConfig.mockReset();
         getConfig.mockReturnValue(
             Promise.reject({
-                code: 404,
+                status: 404,
                 message: 'error message'
             })
         );
@@ -266,17 +266,17 @@ describe('hasConfig policy', () => {
             body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`
         });
         expect(res.notFound).toHaveBeenCalledWith({
-            code: 'CONFIG_NOT_FOUND',
+            status: 'CONFIG_NOT_FOUND',
             message: 'The .git2gus/config.json was not found.'
         });
         expect(next).not.toHaveBeenCalled();
     });
-    it('should call createComment with the right values when error code is 404 and a pull request is opened', async () => {
+    it('should call createComment with the right values when error status is 404 and a pull request is opened', async () => {
         expect.assertions(3);
         getConfig.mockReset();
         getConfig.mockReturnValue(
             Promise.reject({
-                code: 404,
+                status: 404,
                 message: 'error message'
             })
         );
@@ -298,7 +298,7 @@ describe('hasConfig policy', () => {
             body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`
         });
         expect(res.notFound).toHaveBeenCalledWith({
-            code: 'CONFIG_NOT_FOUND',
+            status: 'CONFIG_NOT_FOUND',
             message: 'The .git2gus/config.json was not found.'
         });
         expect(next).not.toHaveBeenCalled();

@@ -20,8 +20,8 @@ global.sails = {
         }
     },
     config: {
-        gus: gus,
-        ghLabels: ghLabels
+        gus,
+        ghLabels
     }
 };
 

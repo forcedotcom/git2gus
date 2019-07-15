@@ -63,7 +63,7 @@ describe('getConfig github service', () => {
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
-            code: 'BAD_CONFIG_FILE',
+            status: 'BAD_CONFIG_FILE',
             message: 'Wrong config received.'
         });
     });
@@ -81,7 +81,7 @@ describe('getConfig github service', () => {
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
-            code: 'BAD_CONFIG_FILE',
+            status: 'BAD_CONFIG_FILE',
             message: 'Wrong config received.'
         });
     });
@@ -97,7 +97,7 @@ describe('getConfig github service', () => {
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
-            code: 'BAD_CONFIG_FILE',
+            status: 'BAD_CONFIG_FILE',
             message: 'Wrong config received.'
         });
     });
@@ -113,7 +113,7 @@ describe('getConfig github service', () => {
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
-            code: 'BAD_CONFIG_FILE',
+            status: 'BAD_CONFIG_FILE',
             message: 'Wrong config received.'
         });
     });

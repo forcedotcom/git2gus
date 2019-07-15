@@ -3,7 +3,7 @@ const { ghLabels } = require('../../../config/ghLabels');
 
 global.sails = {
     config: {
-        ghLabels: ghLabels
+        ghLabels
     }
 };
 
