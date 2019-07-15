@@ -23,7 +23,7 @@ module.exports = async function hasConfig(req, res, next) {
         const isIssueOrPrOpened =
             (event === 'issues' || event === 'pull_request') &&
             action === 'opened';
-        if (error.code === 404) {
+        if (error.status === 404) {
             if (isIssueOrPrOpened) {
                 await createComment({
                     req,
@@ -31,7 +31,7 @@ module.exports = async function hasConfig(req, res, next) {
                 });
             }
             return res.notFound({
-                code: 'CONFIG_NOT_FOUND',
+                status: 'CONFIG_NOT_FOUND',
                 message: 'The .git2gus/config.json was not found.'
             });
         }

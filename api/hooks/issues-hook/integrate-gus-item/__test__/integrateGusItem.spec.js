@@ -24,6 +24,19 @@ describe('integrateGusItem issues hook', () => {
             status: 'INTEGRATE'
         });
     });
+    it('should not call Issues.update when issue is closed', async () => {
+        expect.assertions(1);
+        Issues.getByRelatedUrl.mockReset();
+        Issues.update.mockReset();
+        Issues.getByRelatedUrl.mockReturnValue(
+            Promise.resolve({
+                id: '1234qwerty',
+                status: 'CLOSED'
+            })
+        );
+        await integrateGusItem(payload);
+        expect(Issues.update).not.toHaveBeenCalled();
+    });
     it('should not call Issues.update when the issue does not exists', async () => {
         expect.assertions(1);
         Issues.getByRelatedUrl.mockReset();

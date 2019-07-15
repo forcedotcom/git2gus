@@ -56,7 +56,7 @@ describe('isGithubReq policy', () => {
         };
         isGithubReq(request, res, next);
         expect(res.badRequest).toHaveBeenCalledWith({
-            code: 'BAD_GITHUB_REQUEST',
+            status: 'BAD_GITHUB_REQUEST',
             message: 'Wrong event payload received.'
         });
         expect(next).not.toHaveBeenCalled();
@@ -69,7 +69,7 @@ describe('isGithubReq policy', () => {
         };
         isGithubReq(request, res, next);
         expect(res.badRequest).toHaveBeenCalledWith({
-            code: 'BAD_GITHUB_REQUEST',
+            status: 'BAD_GITHUB_REQUEST',
             message: 'Wrong event payload received.'
         });
         expect(next).not.toHaveBeenCalled();
@@ -78,7 +78,7 @@ describe('isGithubReq policy', () => {
         verify.mockReturnValue(false);
         isGithubReq(req, res, next);
         expect(res.badRequest).toHaveBeenCalledWith({
-            code: 'BAD_GITHUB_REQUEST',
+            status: 'BAD_GITHUB_REQUEST',
             message: 'Wrong event payload received.'
         });
         expect(next).not.toHaveBeenCalled();

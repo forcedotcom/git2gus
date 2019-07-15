@@ -16,7 +16,7 @@ module.exports = async function getConfig({ octokitClient, owner, repo }) {
         return config;
     }
     return Promise.reject({
-        code: 'BAD_CONFIG_FILE',
+        status: 'BAD_CONFIG_FILE',
         message: 'Wrong config received.'
     });
 };
