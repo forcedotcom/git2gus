@@ -50,7 +50,7 @@ describe('isFromSalesforceOrg policy', () => {
             isFromSalesforceOrg(req, res, next);
             expect(next).not.toHaveBeenCalled();
             expect(res.badRequest).toHaveBeenCalledWith({
-                code: 'BAD_GITHUB_REQUEST',
+                status: 'BAD_GITHUB_REQUEST',
                 message: 'The request received is not from salesforce org.'
             });
         });
@@ -90,7 +90,7 @@ describe('isFromSalesforceOrg policy', () => {
         isFromSalesforceOrg(req, res, next);
         expect(next).not.toHaveBeenCalled();
         expect(res.badRequest).toHaveBeenCalledWith({
-            code: 'BAD_GITHUB_REQUEST',
+            status: 'BAD_GITHUB_REQUEST',
             message: 'The request received is not from salesforce org.'
         });
     });

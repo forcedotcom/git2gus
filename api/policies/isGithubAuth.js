@@ -30,7 +30,7 @@ module.exports = async function isGithubAuth(req, res, next) {
             } catch (error) {
                 console.error(error);
                 return res.status(401).send({
-                    code: 'UNAUTHORIZED_REQUEST',
+                    status: 'UNAUTHORIZED_REQUEST',
                     message: 'The request requires authentication.'
                 });
             }
