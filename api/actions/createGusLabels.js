@@ -31,7 +31,7 @@ module.exports = {
                 investigationLabelColor,
                 storyLabel,
                 storyLabelColor
-            } = sails.config.gus;
+            } = sails.config.ghLabels;
 
             // add the bug labels
             bugLabels.forEach(async name => {
