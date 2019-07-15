@@ -36,7 +36,7 @@ module.exports = {
                         ) {
                             await addLabels({
                                 req,
-                                labels: [sails.config.gus.storyLabel]
+                                labels: [sails.config.ghLabels.storyLabel]
                             });
                         } else if (item.priority) {
                             await addLabels({

@@ -2,6 +2,7 @@ const { fn } = require('../linkToGusItem');
 const { createComment, addLabels } = require('../../services/Github');
 const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
 const { gus } = require('../../../config/gus');
+const { ghLabels } = require('../../../config/ghLabels');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
@@ -19,7 +20,8 @@ global.sails = {
         }
     },
     config: {
-        gus: gus
+        gus,
+        ghLabels
     }
 };
 
@@ -186,7 +188,7 @@ describe('linkToGusItem action', () => {
         expect(createComment).toHaveBeenCalledTimes(1);
         expect(addLabels).toHaveBeenCalledWith({
             req,
-            labels: [sails.config.gus.storyLabel]
+            labels: [sails.config.ghLabels.storyLabel]
         });
     });
     it('should add label when the "done" callback is called and the item has priority', async () => {

@@ -5,7 +5,7 @@
  * @returns {boolean}
  */
 function isGusStoryLabel(name) {
-    return sails.config.gus.storyLabel === name;
+    return sails.config.ghLabels.storyLabel === name;
 }
 
 module.exports = isGusStoryLabel;
