@@ -21,7 +21,7 @@ global.sails = {
     },
     config: {
         gus
-        ghLabels: ghLabels
+        ghLabels
     }
 };
 
