@@ -41,13 +41,13 @@ module.exports = {
                         } else if (item.priority) {
                             await addLabels({
                                 req,
-                                labels: [`GUS ${item.priority}`]
+                                labels: [`BUG ${item.priority}`]
                             });
                         }
 
                         return await createComment({
                             req,
-                            body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(
+                            body: `This issue has been linked to a new work item: ${getGusItemUrl(
                                 item
                             )}`
                         });

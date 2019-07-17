@@ -8,11 +8,11 @@ global.sails = {
 };
 
 describe('isGusStoryLabel github service', () => {
-    it('should return true when a gus story label is passed', () => {
-        const label = 'GUS STORY';
+    it('should return true when a USER STORY label is passed', () => {
+        const label = 'USER STORY';
         expect(isGusStoryLabel(label)).toBe(true);
     });
-    it('should return false when not a gus story label is passed', () => {
+    it('should return false when not a USER STORY label is passed', () => {
         const labels = ['security', 'P1', 'bug', 'GUS'];
         labels.forEach(label => {
             expect(isGusStoryLabel(label)).toBe(false);

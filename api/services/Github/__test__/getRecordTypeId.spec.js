@@ -20,10 +20,10 @@ describe('getRecordTypeId github service', () => {
         Github.isGusStoryLabel.mockReturnValue(true);
         Github.isGusBugLabel.mockReturnValue(true);
         const labels = [
-            { name: 'GUS P2' },
+            { name: 'BUG P2' },
             { name: 'bug' },
-            { name: 'GUS STORY' },
-            { name: 'GUS P1' }
+            { name: 'USER STORY' },
+            { name: 'BUG P1' }
         ];
         expect(getRecordTypeId(labels)).toBe(gus.userStoryRecordTypeId);
     });
@@ -31,9 +31,9 @@ describe('getRecordTypeId github service', () => {
         Github.isGusStoryLabel.mockReturnValue(false);
         Github.isGusBugLabel.mockReturnValue(true);
         const labels = [
-            { name: 'GUS P2' },
+            { name: 'BUG P2' },
             { name: 'bug' },
-            { name: 'GUS P1' }
+            { name: 'BUG P1' }
         ];
         expect(getRecordTypeId(labels)).toBe(gus.bugRecordTypeId);
     });

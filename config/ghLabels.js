@@ -1,6 +1,6 @@
 module.exports.ghLabels = {
-    bugLabels: ['GUS P0', 'GUS P1', 'GUS P2', 'GUS P3'],
+    bugLabels: ['BUG P0', 'BUG P1', 'BUG P2', 'BUG P3'],
     bugLabelColor: 'ededed',
-    storyLabel: 'GUS STORY',
+    storyLabel: 'USER STORY',
     storyLabelColor: 'a2eeef'
 };

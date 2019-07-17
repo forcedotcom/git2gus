@@ -35,7 +35,7 @@ const req = {
             body: 'some description',
             number: 30
         },
-        label: 'GUS P1',
+        label: 'BUG P1',
         repository: {
             name: 'git2gus-test',
             owner: {

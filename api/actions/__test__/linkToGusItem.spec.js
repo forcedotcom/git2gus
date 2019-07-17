@@ -1,7 +1,6 @@
 const { fn } = require('../linkToGusItem');
 const { createComment, addLabels } = require('../../services/Github');
 const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
-const { gus } = require('../../../config/gus');
 const { ghLabels } = require('../../../config/ghLabels');
 
 jest.mock('../../services/Github', () => ({
@@ -162,7 +161,7 @@ describe('linkToGusItem action', () => {
         expect(createComment).toHaveBeenCalledWith({
             req,
             body:
-                'This issue has been linked to a new GUS work item: https://abcd12345.com'
+                'This issue has been linked to a new work item: https://abcd12345.com'
         });
         expect(addLabels).not.toHaveBeenCalled();
     });
@@ -219,7 +218,7 @@ describe('linkToGusItem action', () => {
         expect(createComment).toHaveBeenCalledTimes(1);
         expect(addLabels).toHaveBeenCalledWith({
             req,
-            labels: ['GUS P3']
+            labels: ['BUG P3']
         });
     });
 });

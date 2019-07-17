@@ -26,7 +26,7 @@ describe('updateGusItemPriority action', () => {
                     url: 'github/test-git2gus/#110'
                 },
                 label: {
-                    name: 'GUS P0'
+                    name: 'BUG P0'
                 }
             }
         };

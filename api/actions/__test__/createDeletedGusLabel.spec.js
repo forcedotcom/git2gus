@@ -21,7 +21,7 @@ global.sails = {
 
 const req = {
     body: {
-        label: { name: 'GUS P1', color: 'ededed' },
+        label: { name: 'BUG P1', color: 'ededed' },
         repository: {
             name: 'test-app',
             owner: {
@@ -61,7 +61,7 @@ describe('createDeletedGusLabel action', () => {
             expect(req.octokitClient.issues.createLabel).toHaveBeenCalledWith({
                 owner: 'pepe',
                 repo: 'test-app',
-                name: 'GUS P1',
+                name: 'BUG P1',
                 color: 'ededed'
             });
         });

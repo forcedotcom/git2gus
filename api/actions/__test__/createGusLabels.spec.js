@@ -71,7 +71,7 @@ describe('createGusLabels', () => {
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
-                name: 'GUS P0',
+                name: 'BUG P0',
                 color: 'ededed'
             });
         });
@@ -83,7 +83,7 @@ describe('createGusLabels', () => {
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
-                name: 'GUS STORY',
+                name: 'USER STORY',
                 color: 'a2eeef'
             });
         });
@@ -103,7 +103,7 @@ describe('createGusLabels', () => {
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
-                name: 'GUS P0',
+                name: 'BUG P0',
                 color: 'ededed'
             });
         });
@@ -115,7 +115,7 @@ describe('createGusLabels', () => {
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
-                name: 'GUS STORY',
+                name: 'USER STORY',
                 color: 'a2eeef'
             });
         });

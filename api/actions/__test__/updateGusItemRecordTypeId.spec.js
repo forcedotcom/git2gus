@@ -26,7 +26,7 @@ describe('updateGusItemRecordTypeId action', () => {
                     url: 'github/test-git2gus/#110'
                 },
                 label: {
-                    name: 'GUS STORY'
+                    name: 'USER STORY'
                 }
             }
         };
