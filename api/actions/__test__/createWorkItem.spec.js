@@ -1,4 +1,4 @@
-const { fn } = require('../createGusItem');
+const { fn } = require('../createWorkItem');
 const Builds = require('../../services/Builds');
 const Github = require('../../services/Github');
 const { getGusItemUrl, waitUntilSynced } = require('./../../services/Issues');

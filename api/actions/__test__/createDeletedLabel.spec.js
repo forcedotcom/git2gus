@@ -1,4 +1,4 @@
-const { fn } = require('./../createDeletedGusLabel');
+const { fn } = require('../createDeletedLabel');
 const Github = require('../../services/Github');
 const { ghLabels } = require('../../../config/ghLabels');
 

@@ -1,4 +1,4 @@
-const { fn } = require('./../integrateGusItem');
+const { fn } = require('../integrateWorkItem');
 const { isGusItemClosed } = require('../../services/Git2Gus');
 
 jest.mock('../../services/Git2Gus', () => ({

@@ -1,4 +1,4 @@
-const { fn } = require('./../createGusLabels');
+const { fn } = require('../createLabels');
 const { ghLabels } = require('../../../config/ghLabels');
 
 global.sails = {

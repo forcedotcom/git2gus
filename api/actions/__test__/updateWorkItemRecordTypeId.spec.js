@@ -1,4 +1,4 @@
-const { fn } = require('../updateGusItemRecordTypeId');
+const { fn } = require('../updateWorkItemRecordTypeId');
 const Github = require('../../services/Github');
 
 jest.mock('../../services/Github', () => ({

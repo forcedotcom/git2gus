@@ -1,4 +1,4 @@
-const { fn } = require('../unlinkGusItem');
+const { fn } = require('../unlinkWorkItem');
 const { deleteLinkedComment } = require('../../services/Git2Gus');
 
 jest.mock('../../services/Git2Gus', () => ({

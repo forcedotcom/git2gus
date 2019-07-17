@@ -1,4 +1,4 @@
-const { fn } = require('../updateGusItemTitle');
+const { fn } = require('../updateWorkItemDescription');
 
 global.sails = {
     hooks: {
@@ -10,36 +10,37 @@ global.sails = {
     }
 };
 
-describe('updateGusItemTitle action', () => {
-    it('should call queue push with the right values when title is edited', () => {
+describe('updateGusItemDescription action', () => {
+    it('should call queue push with the right values when description is edited', () => {
         const req = {
             body: {
                 issue: {
-                    title: 'new title',
-                    url: 'github/git2gus-app/#55'
+                    body: 'new description',
+                    url: 'github/test-git2gus-app/#10'
                 },
                 changes: {
-                    title: 'new title'
+                    body: 'new description'
                 }
             }
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'UPDATE_GUS_ITEM_TITLE',
-            subject: 'new title',
-            relatedUrl: 'github/git2gus-app/#55'
+            name: 'UPDATE_GUS_ITEM_DESCRIPTION',
+            description: 'new description',
+            storyDetails: 'new description',
+            relatedUrl: 'github/test-git2gus-app/#10'
         });
     });
-    it('should not call queue push when title is not edited', () => {
+    it('should not call queue push when description is not edited', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
         const req = {
             body: {
                 issue: {
-                    title: 'issue title',
+                    body: 'issue description',
                     url: 'github/test-git2gus-app/#11'
                 },
                 changes: {
-                    body: 'new description'
+                    title: 'new title'
                 }
             }
         };

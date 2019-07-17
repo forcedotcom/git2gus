@@ -1,4 +1,4 @@
-const { fn } = require('../linkToGusItem');
+const { fn } = require('../linkToWorkItem');
 const { createComment, addLabels } = require('../../services/Github');
 const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
 const { ghLabels } = require('../../../config/ghLabels');
