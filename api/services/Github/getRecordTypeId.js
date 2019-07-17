@@ -1,6 +1,6 @@
 // @ts-check
-const isGusStoryLabel = require('./isGusStoryLabel');
-const isGusBugLabel = require('./isGusBugLabel');
+const isGusStoryLabel = require('./isSalesforceUserStoryLabel');
+const isGusBugLabel = require('./isSalesforceBugLabel');
 
 /**
  * @typedef {import('../../models/Issues')} Issues

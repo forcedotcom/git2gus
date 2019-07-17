@@ -2,7 +2,7 @@ const { fn } = require('../updateWorkItemRecordTypeId');
 const Github = require('../../services/Github');
 
 jest.mock('../../services/Github', () => ({
-    isGusLabel: jest.fn(),
+    isSalesforceLabel: jest.fn(),
     getRecordTypeId: jest.fn()
 }));
 
@@ -18,7 +18,7 @@ global.sails = {
 
 describe('updateGusItemRecordTypeId action', () => {
     it('should call queue push with the right values', () => {
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Github.getRecordTypeId.mockReturnValue('story123');
         const req = {
             body: {
@@ -51,7 +51,7 @@ describe('updateGusItemRecordTypeId action', () => {
     });
     it('should not call queue push when is not a gus label', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isGusLabel.mockReturnValue(false);
+        Github.isSalesforceLabel.mockReturnValue(false);
         const req = {
             body: {
                 issue: {

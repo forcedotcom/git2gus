@@ -1,4 +1,4 @@
-const isGusBugLabel = require('./isGusBugLabel');
+const isGusBugLabel = require('./isSalesforceBugLabel');
 
 module.exports = function getPriority(labels) {
     let priority;

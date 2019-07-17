@@ -1,4 +1,4 @@
-const isGusStoryLabel = require('../isGusStoryLabel');
+const isGusStoryLabel = require('../isSalesforceUserStoryLabel');
 const { ghLabels } = require('../../../../config/ghLabels');
 
 global.sails = {

@@ -18,7 +18,7 @@ module.exports = {
             label
         } = req.body;
 
-        if (label && Github.isGusLabel(label.name)) {
+        if (label && Github.isSalesforceLabel(label.name)) {
             const recordTypeId = Github.getRecordTypeId(labels);
             /**@type{TypedGlobal} */ (global).sails.hooks[
                 'issues-hook'
