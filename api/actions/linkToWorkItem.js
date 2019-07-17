@@ -24,7 +24,7 @@ module.exports = {
         if (annotation && !isSameAnnotation(prevDescription, description)) {
             sails.hooks['issues-hook'].queue.push(
                 {
-                    name: 'LINK_TO_GUS_ITEM',
+                    name: 'LINK_TO_WORK_ITEM',
                     relatedUrl: url,
                     gusItemName: annotation
                 },

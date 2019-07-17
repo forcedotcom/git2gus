@@ -64,7 +64,7 @@ describe('createGusItem action', () => {
         await fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
-                name: 'CREATE_GUS_ITEM',
+                name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description: 'some description',
                 storyDetails: 'some description',

@@ -28,7 +28,7 @@ module.exports = {
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push(
                     {
-                        name: 'CREATE_GUS_ITEM',
+                        name: 'CREATE_WORK_ITEM',
                         subject: title,
                         description: body,
                         storyDetails: body,

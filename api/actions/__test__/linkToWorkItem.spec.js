@@ -41,7 +41,7 @@ describe('linkToGusItem action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
-                name: 'LINK_TO_GUS_ITEM',
+                name: 'LINK_TO_WORK_ITEM',
                 relatedUrl: 'github/test-gus-app/#32',
                 gusItemName: 'W-12345'
             },
@@ -67,7 +67,7 @@ describe('linkToGusItem action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
-                name: 'LINK_TO_GUS_ITEM',
+                name: 'LINK_TO_WORK_ITEM',
                 relatedUrl: 'github/test-gus-app/#33',
                 gusItemName: 'W-12345'
             },

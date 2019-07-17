@@ -15,7 +15,7 @@ module.exports = {
         if (prevAnnotation && !isSameAnnotation(prevDescription, description)) {
             sails.hooks['issues-hook'].queue.push(
                 {
-                    name: 'UNLINK_GUS_ITEM',
+                    name: 'UNLINK_WORK_ITEM',
                     gusItemName: prevAnnotation
                 },
                 async (error, item) => {

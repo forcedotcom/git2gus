@@ -25,7 +25,7 @@ describe('updateGusItemTitle action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'UPDATE_GUS_ITEM_TITLE',
+            name: 'UPDATE_WORK_ITEM_TITLE',
             subject: 'new title',
             relatedUrl: 'github/git2gus-app/#55'
         });

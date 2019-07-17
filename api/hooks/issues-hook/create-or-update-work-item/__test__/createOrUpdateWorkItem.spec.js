@@ -1,4 +1,4 @@
-const createOrUpdateGusItem = require('../');
+const createOrUpdateGusItem = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({

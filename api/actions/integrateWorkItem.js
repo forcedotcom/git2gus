@@ -17,7 +17,7 @@ module.exports = {
         const { statusWhenClosed } = req.git2gus.config;
 
         sails.hooks['issues-hook'].queue.push({
-            name: 'INTEGRATE_GUS_ITEM',
+            name: 'INTEGRATE_WORK_ITEM',
             relatedUrl: url,
             status: getStatus(statusWhenClosed)
         });

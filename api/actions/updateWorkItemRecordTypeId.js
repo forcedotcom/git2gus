@@ -23,7 +23,7 @@ module.exports = {
             /**@type{TypedGlobal} */ (global).sails.hooks[
                 'issues-hook'
             ].queue.push({
-                name: 'UPDATE_GUS_ITEM_RECORDTYPEID',
+                name: 'UPDATE_WORK_ITEM_RECORDTYPEID',
                 recordTypeId,
                 relatedUrl: url
             });

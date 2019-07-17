@@ -1,4 +1,4 @@
-const updateGusItemPriority = require('../');
+const updateGusItemPriority = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({

@@ -32,7 +32,7 @@ describe('updateGusItemPriority action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'UPDATE_GUS_ITEM_PRIORITY',
+            name: 'UPDATE_WORK_ITEM_PRIORITY',
             priority: 'P0',
             relatedUrl: 'github/test-git2gus/#110'
         });

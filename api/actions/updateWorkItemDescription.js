@@ -11,7 +11,7 @@ module.exports = {
 
         if (isDescriptionEdited) {
             sails.hooks['issues-hook'].queue.push({
-                name: 'UPDATE_GUS_ITEM_DESCRIPTION',
+                name: 'UPDATE_WORK_ITEM_DESCRIPTION',
                 description: body,
                 storyDetails: body,
                 relatedUrl: url

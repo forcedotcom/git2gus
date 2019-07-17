@@ -1,4 +1,4 @@
-const updateGusItemTitle = require('../');
+const updateGusItemDescription = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -7,43 +7,43 @@ jest.mock('../../../../services/Issues', () => ({
     update: jest.fn()
 }));
 const task = {
-    subject: 'new title',
-    relatedUrl: 'github/git2gus-app/#354'
+    description: 'new description',
+    relatedUrl: 'github/test-git2gus-app/#5'
 };
 
-describe('updateGusItemTitle issues hook', () => {
+describe('updateGusItemDescription issues hook', () => {
     it('should call Issues.getByRelatedUrl with the right value', () => {
-        updateGusItemTitle(task);
+        updateGusItemDescription(task);
         expect(Issues.getByRelatedUrl).toHaveBeenCalledWith(
-            'github/git2gus-app/#354'
+            'github/test-git2gus-app/#5'
         );
     });
-    it('should call Issues.update with the right values when the issue is linked and is created by us', async () => {
+    it('should call Issues.update with the right values when the issue already exists and is created by us', async () => {
         expect.assertions(1);
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(
             Promise.resolve({
-                id: 'abcd1234'
+                id: '1234qwerty'
             })
         );
         Issues.weCreateIssue.mockReturnValue(true);
-        await updateGusItemTitle(task);
-        expect(Issues.update).toHaveBeenCalledWith('abcd1234', {
-            subject: 'new title'
+        await updateGusItemDescription(task);
+        expect(Issues.update).toHaveBeenCalledWith('1234qwerty', {
+            description: 'new description'
         });
     });
-    it('should not call Issues.update when the issue is linked but is not created by us', async () => {
+    it('should not call Issues.update when the issue already exists but is not created by us', async () => {
         expect.assertions(1);
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(
             Promise.resolve({
-                id: 'abcd1234'
+                id: '1234qwerty'
             })
         );
         Issues.weCreateIssue.mockReturnValue(false);
-        await updateGusItemTitle(task);
+        await updateGusItemDescription(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
     it('should not call Issues.update when the issue does not exists', async () => {
@@ -51,7 +51,7 @@ describe('updateGusItemTitle issues hook', () => {
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(null);
-        await updateGusItemTitle(task);
+        await updateGusItemDescription(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

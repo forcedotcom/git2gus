@@ -31,7 +31,7 @@ describe('unlinkGusItem action', () => {
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
-                name: 'UNLINK_GUS_ITEM',
+                name: 'UNLINK_WORK_ITEM',
                 gusItemName: 'W-123'
             },
             expect.any(Function)

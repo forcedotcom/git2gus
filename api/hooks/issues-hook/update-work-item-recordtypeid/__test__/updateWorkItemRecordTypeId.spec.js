@@ -1,4 +1,4 @@
-const updateGusItemRecordTypeId = require('../');
+const updateGusItemRecordTypeId = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({

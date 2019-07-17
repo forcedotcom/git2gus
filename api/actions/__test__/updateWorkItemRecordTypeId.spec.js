@@ -32,7 +32,7 @@ describe('updateGusItemRecordTypeId action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'UPDATE_GUS_ITEM_RECORDTYPEID',
+            name: 'UPDATE_WORK_ITEM_RECORDTYPEID',
             recordTypeId: 'story123',
             relatedUrl: 'github/test-git2gus/#110'
         });

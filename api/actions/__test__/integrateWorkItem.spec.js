@@ -26,7 +26,7 @@ describe('integrateGusItem action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'INTEGRATE_GUS_ITEM',
+            name: 'INTEGRATE_WORK_ITEM',
             relatedUrl: 'github/pepe/test-app/#53',
             status: 'INTEGRATE'
         });
@@ -46,7 +46,7 @@ describe('integrateGusItem action', () => {
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'INTEGRATE_GUS_ITEM',
+            name: 'INTEGRATE_WORK_ITEM',
             relatedUrl: 'github/pepe/test-app/#53',
             status: 'CLOSED'
         });

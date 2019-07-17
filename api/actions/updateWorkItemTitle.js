@@ -11,7 +11,7 @@ module.exports = {
 
         if (isTitleEdited) {
             sails.hooks['issues-hook'].queue.push({
-                name: 'UPDATE_GUS_ITEM_TITLE',
+                name: 'UPDATE_WORK_ITEM_TITLE',
                 subject: title,
                 relatedUrl: url
             });
