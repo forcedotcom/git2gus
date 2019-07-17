@@ -1,4 +1,4 @@
-const isGusStoryLabel = require('../isSalesforceUserStoryLabel');
+const isSalesforceUserStoryLabel = require('../isSalesforceUserStoryLabel');
 const { ghLabels } = require('../../../../config/ghLabels');
 
 global.sails = {
@@ -7,20 +7,20 @@ global.sails = {
     }
 };
 
-describe('isGusStoryLabel github service', () => {
+describe('isSalesforceUserStoryLabel github service', () => {
     it('should return true when a USER STORY label is passed', () => {
         const label = 'USER STORY';
-        expect(isGusStoryLabel(label)).toBe(true);
+        expect(isSalesforceUserStoryLabel(label)).toBe(true);
     });
     it('should return false when not a USER STORY label is passed', () => {
-        const labels = ['security', 'P1', 'bug', 'GUS'];
+        const labels = ['security', 'P1', 'bug', 'Salesforce'];
         labels.forEach(label => {
-            expect(isGusStoryLabel(label)).toBe(false);
+            expect(isSalesforceUserStoryLabel(label)).toBe(false);
         });
     });
-    it('should return false when a gus bug label is passed', () => {
+    it('should return false when a Salesforce bug label is passed', () => {
         ghLabels.bugLabels.forEach(label => {
-            expect(isGusStoryLabel(label)).toBe(false);
+            expect(isSalesforceUserStoryLabel(label)).toBe(false);
         });
     });
 });

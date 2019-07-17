@@ -1,4 +1,4 @@
-const updateGusItemPriority = require('..');
+const updateWorkItemPriority = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -10,9 +10,9 @@ const task = {
     relatedUrl: 'github/test-app/#230'
 };
 
-describe('updateGusItemPriority issues hook', () => {
+describe('updateWorkItemPriority issues hook', () => {
     it('should call Issues.getByRelatedUrl with the right value', () => {
-        updateGusItemPriority(task);
+        updateWorkItemPriority(task);
         expect(Issues.getByRelatedUrl).toHaveBeenCalledWith(
             'github/test-app/#230'
         );
@@ -27,7 +27,7 @@ describe('updateGusItemPriority issues hook', () => {
                 priority: 'P1'
             })
         );
-        await updateGusItemPriority(task);
+        await updateWorkItemPriority(task);
         expect(Issues.update).toHaveBeenCalledWith('1234abcd', {
             priority: 'P2'
         });
@@ -53,7 +53,7 @@ describe('updateGusItemPriority issues hook', () => {
             }
         ];
         taskArray.forEach(async taskItem => {
-            await updateGusItemPriority(taskItem);
+            await updateWorkItemPriority(taskItem);
             expect(Issues.update).not.toHaveBeenCalled();
         });
     });
@@ -62,7 +62,7 @@ describe('updateGusItemPriority issues hook', () => {
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(Promise.resolve(null));
-        await updateGusItemPriority(task);
+        await updateWorkItemPriority(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

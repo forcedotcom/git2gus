@@ -1,13 +1,13 @@
 const { fn } = require('../linkToWorkItem');
 const { createComment, addLabels } = require('../../services/Github');
-const getGusItemUrl = require('../../services/Issues/getGusItemUrl');
+const getWorkItemUrl = require('../../services/Issues/getWorkItemUrl');
 const { ghLabels } = require('../../../config/ghLabels');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
     addLabels: jest.fn()
 }));
-jest.mock('../../services/Issues/getGusItemUrl', () =>
+jest.mock('../../services/Issues/getWorkItemUrl', () =>
     jest.fn(() => 'https://abcd12345.com')
 );
 global.sails = {
@@ -43,7 +43,7 @@ describe('linkToGusItem action', () => {
             {
                 name: 'LINK_TO_WORK_ITEM',
                 relatedUrl: 'github/test-gus-app/#32',
-                gusItemName: 'W-12345'
+                workItemName: 'W-12345'
             },
             expect.any(Function)
         );
@@ -69,7 +69,7 @@ describe('linkToGusItem action', () => {
             {
                 name: 'LINK_TO_WORK_ITEM',
                 relatedUrl: 'github/test-gus-app/#33',
-                gusItemName: 'W-12345'
+                workItemName: 'W-12345'
             },
             expect.any(Function)
         );
@@ -157,7 +157,7 @@ describe('linkToGusItem action', () => {
             }
         };
         await fn(req);
-        expect(getGusItemUrl).toHaveBeenCalledWith({ id: 'abcd1234' });
+        expect(getWorkItemUrl).toHaveBeenCalledWith({ id: 'abcd1234' });
         expect(createComment).toHaveBeenCalledWith({
             req,
             body:

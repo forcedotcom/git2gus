@@ -1,15 +1,15 @@
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github = require('../services/Github');
-const { getGusItemUrl, waitUntilSynced } = require('../services/Issues');
+const { getWorkItemUrl, waitUntilSynced } = require('../services/Issues');
 
 function getBuildErrorMessage(config, milestone) {
     if (milestone) {
-        return `The milestone assigned to the issue doesn't match any valid build in GUS.`;
+        return `The milestone assigned to the issue doesn't match any valid build in Salesforce.`;
     }
     return `The defaultBuild value ${
         config.defaultBuild
-    } in \`.git2gus/config.json\` doesn't match any valid build in GUS.`;
+    } in \`.git2gus/config.json\` doesn't match any valid build in Salesforce.`;
 }
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
 
-        if (Github.isGusLabel(label.name)) {
+        if (Github.isSalesforceLabel(label.name)) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
@@ -48,7 +48,7 @@ module.exports = {
                             if (syncedItem) {
                                 return await Github.createComment({
                                     req,
-                                    body: `This issue has been linked to a new GUS work item: ${getGusItemUrl(
+                                    body: `This issue has been linked to a new work item: ${getWorkItemUrl(
                                         syncedItem
                                     )}`
                                 });

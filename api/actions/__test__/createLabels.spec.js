@@ -55,7 +55,7 @@ const reqOrg = {
     }
 };
 
-describe('createGusLabels', () => {
+describe('createLabels', () => {
     describe('type user', () => {
         it('should call createLabel 5 times for each repository', () => {
             fn(req);

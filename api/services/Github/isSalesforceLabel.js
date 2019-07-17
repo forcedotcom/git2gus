@@ -1,6 +1,6 @@
-const isGusBugLabel = require('./isSalesforceBugLabel');
-const isGusStoryLabel = require('./isSalesforceUserStoryLabel');
+const isSalesforceBugLabel = require('./isSalesforceBugLabel');
+const isSalesforceUserStoryLabel = require('./isSalesforceUserStoryLabel');
 
-module.exports = function isGusLabel(name) {
-    return isGusBugLabel(name) || isGusStoryLabel(name);
+module.exports = function isSalesforceLabel(name) {
+    return isSalesforceBugLabel(name) || isSalesforceUserStoryLabel(name);
 };

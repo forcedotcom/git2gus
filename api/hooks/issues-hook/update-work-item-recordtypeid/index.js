@@ -2,13 +2,13 @@
 const Issues = require('../../../services/Issues');
 
 /**
- * Update a GUS work item's RecordTypeId. If the work item already has the given
+ * Update a work item's RecordTypeId. If the work item already has the given
  * RecordTypeId then the work item will not be updated.
  *
  * @param {{recordTypeId: string, relatedUrl: string}} task
  * @returns
  */
-async function updateGusItemRecordTypeId({ recordTypeId, relatedUrl }) {
+async function updateWorkItemRecordTypeId({ recordTypeId, relatedUrl }) {
     const issue = await Issues.getByRelatedUrl(relatedUrl);
     const newRecordTypeId = issue && issue.recordTypeId !== recordTypeId;
     if (newRecordTypeId && recordTypeId !== undefined) {
@@ -17,4 +17,4 @@ async function updateGusItemRecordTypeId({ recordTypeId, relatedUrl }) {
     return null;
 }
 
-module.exports = updateGusItemRecordTypeId;
+module.exports = updateWorkItemRecordTypeId;

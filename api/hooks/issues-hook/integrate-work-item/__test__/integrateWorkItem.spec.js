@@ -1,4 +1,4 @@
-const integrateGusItem = require('..');
+const integrateWorkItem = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -10,7 +10,7 @@ const payload = {
     status: 'INTEGRATE'
 };
 
-describe('integrateGusItem issues hook', () => {
+describe('integrateWorkItem issues hook', () => {
     it('should call Issues.update with the right values when the issue exists', async () => {
         expect.assertions(1);
         Issues.getByRelatedUrl.mockReturnValue(
@@ -19,7 +19,7 @@ describe('integrateGusItem issues hook', () => {
                 status: 'NEW'
             })
         );
-        await integrateGusItem(payload);
+        await integrateWorkItem(payload);
         expect(Issues.update).toHaveBeenCalledWith('1234qwerty', {
             status: 'INTEGRATE'
         });
@@ -34,7 +34,7 @@ describe('integrateGusItem issues hook', () => {
                 status: 'CLOSED'
             })
         );
-        await integrateGusItem(payload);
+        await integrateWorkItem(payload);
         expect(Issues.update).not.toHaveBeenCalled();
     });
     it('should not call Issues.update when the issue does not exists', async () => {
@@ -42,7 +42,7 @@ describe('integrateGusItem issues hook', () => {
         Issues.getByRelatedUrl.mockReset();
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(null);
-        await integrateGusItem(payload);
+        await integrateWorkItem(payload);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

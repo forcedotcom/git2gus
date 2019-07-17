@@ -16,7 +16,7 @@ module.exports = {
             sails.hooks['issues-hook'].queue.push(
                 {
                     name: 'UNLINK_WORK_ITEM',
-                    gusItemName: prevAnnotation
+                    workItemName: prevAnnotation
                 },
                 async (error, item) => {
                     if (item) {

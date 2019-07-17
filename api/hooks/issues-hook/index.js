@@ -1,38 +1,38 @@
 const asyncQueue = require('async/queue');
-const createOrUpdateGusItem = require('./create-or-update-work-item');
-const updateGusItemPriority = require('./update-work-item-priority');
-const updateGusItemRecordTypeId = require('./update-work-item-recordtypeid');
-const updateGusItemTitle = require('./update-work-item-title');
-const updateGusItemDescription = require('./update-work-item-description');
-const integrateGusItem = require('./integrate-work-item');
-const linkToGusItem = require('./link-to-work-item');
-const unlinkGusItem = require('./unlink-work-item');
+const createOrUpdateWorkItem = require('./create-or-update-work-item');
+const updateWorkItemPriority = require('./update-work-item-priority');
+const updateWorkItemRecordTypeId = require('./update-work-item-recordtypeid');
+const updateWorkItemTitle = require('./update-work-item-title');
+const updateWorkItemDescription = require('./update-work-item-description');
+const integrateWorkItem = require('./integrate-work-item');
+const linkToWorkItem = require('./link-to-work-item');
+const unlinkWorkItem = require('./unlink-work-item');
 
 async function handleQueue(task) {
     switch (task.name) {
         case 'CREATE_WORK_ITEM':
-            return await createOrUpdateGusItem(task);
+            return await createOrUpdateWorkItem(task);
 
         case 'UPDATE_WORK_ITEM_PRIORITY':
-            return await updateGusItemPriority(task);
+            return await updateWorkItemPriority(task);
 
         case 'UPDATE_WORK_ITEM_RECORDTYPEID':
-            return await updateGusItemRecordTypeId(task);
+            return await updateWorkItemRecordTypeId(task);
 
         case 'UPDATE_WORK_ITEM_TITLE':
-            return await updateGusItemTitle(task);
+            return await updateWorkItemTitle(task);
 
         case 'UPDATE_WORK_ITEM_DESCRIPTION':
-            return await updateGusItemDescription(task);
+            return await updateWorkItemDescription(task);
 
         case 'INTEGRATE_WORK_ITEM':
-            return await integrateGusItem(task);
+            return await integrateWorkItem(task);
 
         case 'LINK_TO_WORK_ITEM':
-            return await linkToGusItem(task);
+            return await linkToWorkItem(task);
 
         case 'UNLINK_WORK_ITEM':
-            return await unlinkGusItem(task);
+            return await unlinkWorkItem(task);
         default:
             return null;
     }

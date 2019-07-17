@@ -1,8 +1,8 @@
 const GithubEvents = require('../modules/GithubEvents');
-const { isGusItemClosed } = require('../services/Git2Gus');
+const { isWorkItemClosed } = require('../services/Git2Gus');
 
 function getStatus(statusWhenClosed) {
-    if (statusWhenClosed && isGusItemClosed(statusWhenClosed)) {
+    if (statusWhenClosed && isWorkItemClosed(statusWhenClosed)) {
         return statusWhenClosed;
     }
     return 'INTEGRATE';

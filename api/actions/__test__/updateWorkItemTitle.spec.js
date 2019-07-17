@@ -10,7 +10,7 @@ global.sails = {
     }
 };
 
-describe('updateGusItemTitle action', () => {
+describe('updateWorkItemTitle action', () => {
     it('should call queue push with the right values when title is edited', () => {
         const req = {
             body: {

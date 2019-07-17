@@ -9,7 +9,7 @@ module.exports = {
             repository
         } = req.body;
 
-        if (Github.isGusLabel(name)) {
+        if (Github.isSalesforceLabel(name)) {
             sails.hooks['labels-hook'].queue.push({
                 async execute() {
                     const label = {

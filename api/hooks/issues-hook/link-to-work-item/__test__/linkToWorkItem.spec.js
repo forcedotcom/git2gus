@@ -1,4 +1,4 @@
-const linkToGusItem = require('..');
+const linkToWorkItem = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -7,12 +7,12 @@ jest.mock('../../../../services/Issues', () => ({
 }));
 const task = {
     relatedUrl: 'github/test-app/#46',
-    gusItemName: '12345'
+    workItemName: '12345'
 };
 
-describe('linkToGusItem issues hook', () => {
+describe('linkToWorkItem issues hook', () => {
     it('should call Issues.getByName with the right value', () => {
-        linkToGusItem(task);
+        linkToWorkItem(task);
         expect(Issues.getByName).toHaveBeenCalledWith('12345');
     });
     it('should call Issues.update with the right values when the issue already exists', async () => {
@@ -24,7 +24,7 @@ describe('linkToGusItem issues hook', () => {
                 id: '1234qwerty'
             })
         );
-        await linkToGusItem(task);
+        await linkToWorkItem(task);
         expect(Issues.update).toHaveBeenCalledWith('1234qwerty', {
             relatedUrl: 'github/test-app/#46'
         });
@@ -34,7 +34,7 @@ describe('linkToGusItem issues hook', () => {
         Issues.getByName.mockReset();
         Issues.update.mockReset();
         Issues.getByName.mockReturnValue(null);
-        await linkToGusItem(task);
+        await linkToWorkItem(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

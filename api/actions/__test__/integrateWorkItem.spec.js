@@ -1,8 +1,8 @@
 const { fn } = require('../integrateWorkItem');
-const { isGusItemClosed } = require('../../services/Git2Gus');
+const { isWorkItemClosed } = require('../../services/Git2Gus');
 
 jest.mock('../../services/Git2Gus', () => ({
-    isGusItemClosed: jest.fn()
+    isWorkItemClosed: jest.fn()
 }));
 global.sails = {
     hooks: {
@@ -14,7 +14,7 @@ global.sails = {
     }
 };
 
-describe('integrateGusItem action', () => {
+describe('integrateWorkItem action', () => {
     it('should call queue push with the right values when there is not statusWhenClosed in config', () => {
         const req = {
             body: {
@@ -33,7 +33,7 @@ describe('integrateGusItem action', () => {
     });
     it('should call queue push with the right values when there is a valid statusWhenClosed in config', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
-        isGusItemClosed.mockReturnValue(true);
+        isWorkItemClosed.mockReturnValue(true);
         const req = {
             body: {
                 issue: { url: 'github/pepe/test-app/#53' }

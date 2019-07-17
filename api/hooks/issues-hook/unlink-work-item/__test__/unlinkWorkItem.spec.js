@@ -1,4 +1,4 @@
-const unlinkGusItem = require('..');
+const unlinkWorkItem = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -6,12 +6,12 @@ jest.mock('../../../../services/Issues', () => ({
     update: jest.fn()
 }));
 const task = {
-    gusItemName: '1234567890'
+    workItemName: '1234567890'
 };
 
-describe('unlinkGusItem issues hook', () => {
+describe('unlinkWorkItem issues hook', () => {
     it('should call Issues.getByName with the right value', () => {
-        unlinkGusItem(task);
+        unlinkWorkItem(task);
         expect(Issues.getByName).toHaveBeenCalledWith('1234567890');
     });
     it('should call Issues.update with the right values when the issue already exists', async () => {
@@ -23,7 +23,7 @@ describe('unlinkGusItem issues hook', () => {
                 id: '1234qwerty'
             })
         );
-        await unlinkGusItem(task);
+        await unlinkWorkItem(task);
         expect(Issues.update).toHaveBeenCalledWith('1234qwerty', {
             relatedUrl: null
         });
@@ -33,7 +33,7 @@ describe('unlinkGusItem issues hook', () => {
         Issues.update.mockReset();
         Issues.getByName.mockReset();
         Issues.getByName.mockReturnValue(null);
-        await unlinkGusItem(task);
+        await unlinkWorkItem(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

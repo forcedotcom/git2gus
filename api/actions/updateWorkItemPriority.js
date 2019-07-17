@@ -9,7 +9,7 @@ module.exports = {
             label
         } = req.body;
 
-        if (label && Github.isGusBugLabel(label.name)) {
+        if (label && Github.isSalesforceBugLabel(label.name)) {
             const priority = Github.getPriority(labels);
             sails.hooks['issues-hook'].queue.push({
                 name: 'UPDATE_WORK_ITEM_PRIORITY',

@@ -1,6 +1,6 @@
 const GithubEvents = require('../modules/GithubEvents');
 const { createComment, addLabels } = require('../services/Github');
-const getGusItemUrl = require('../services/Issues/getGusItemUrl');
+const getWorkItemUrl = require('../services/Issues/getWorkItemUrl');
 const { getAnnotation, isSameAnnotation } = require('../services/Issues');
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
                 {
                     name: 'LINK_TO_WORK_ITEM',
                     relatedUrl: url,
-                    gusItemName: annotation
+                    workItemName: annotation
                 },
                 async (error, item) => {
                     if (item) {
@@ -47,7 +47,7 @@ module.exports = {
 
                         return await createComment({
                             req,
-                            body: `This issue has been linked to a new work item: ${getGusItemUrl(
+                            body: `This issue has been linked to a new work item: ${getWorkItemUrl(
                                 item
                             )}`
                         });

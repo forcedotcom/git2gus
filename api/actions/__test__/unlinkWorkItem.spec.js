@@ -14,7 +14,7 @@ global.sails = {
     }
 };
 
-describe('unlinkGusItem action', () => {
+describe('unlinkWorkItem action', () => {
     it('should call queue push with the right values when the previous description matches the annotation', () => {
         const req = {
             body: {
@@ -32,7 +32,7 @@ describe('unlinkGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
                 name: 'UNLINK_WORK_ITEM',
-                gusItemName: 'W-123'
+                workItemName: 'W-123'
             },
             expect.any(Function)
         );
@@ -99,7 +99,7 @@ describe('unlinkGusItem action', () => {
         const req = {
             body: {
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-app/#32',
                     body: '@W-12345@'
                 },
                 changes: {
@@ -127,7 +127,7 @@ describe('unlinkGusItem action', () => {
         const req = {
             body: {
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-app/#32',
                     body: '@W-12345@'
                 },
                 changes: {

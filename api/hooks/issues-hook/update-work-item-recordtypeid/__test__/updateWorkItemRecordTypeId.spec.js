@@ -1,4 +1,4 @@
-const updateGusItemRecordTypeId = require('..');
+const updateWorkItemRecordTypeId = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -10,9 +10,9 @@ const task = {
     relatedUrl: 'github/test-app/#230'
 };
 
-describe('updateGusItemRecordTypeId issues hook', () => {
+describe('updateWorkItemRecordTypeId issues hook', () => {
     it('should call Issues.getByRelatedUrl with the right value', () => {
-        updateGusItemRecordTypeId(task);
+        updateWorkItemRecordTypeId(task);
         expect(Issues.getByRelatedUrl).toHaveBeenCalledWith(
             'github/test-app/#230'
         );
@@ -27,7 +27,7 @@ describe('updateGusItemRecordTypeId issues hook', () => {
                 recordTypeId: 'bug123'
             })
         );
-        await updateGusItemRecordTypeId(task);
+        await updateWorkItemRecordTypeId(task);
         expect(Issues.update).toHaveBeenCalledWith('1234abcd', {
             recordTypeId: 'story123'
         });
@@ -42,7 +42,7 @@ describe('updateGusItemRecordTypeId issues hook', () => {
                 recordTypeId: 'story123'
             })
         );
-        await updateGusItemRecordTypeId(task);
+        await updateWorkItemRecordTypeId(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
     it('should not call Issues.update when the issue is linked but the new record type is undefined', async () => {
@@ -55,7 +55,7 @@ describe('updateGusItemRecordTypeId issues hook', () => {
                 recordTypeId: 'story123'
             })
         );
-        await updateGusItemRecordTypeId({ ...task, recordTypeId: undefined });
+        await updateWorkItemRecordTypeId({ ...task, recordTypeId: undefined });
         expect(Issues.update).not.toHaveBeenCalled();
     });
     it('should not call Issues.update when the issue is not linked', async () => {
@@ -63,7 +63,7 @@ describe('updateGusItemRecordTypeId issues hook', () => {
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(Promise.resolve(null));
-        await updateGusItemRecordTypeId(task);
+        await updateWorkItemRecordTypeId(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

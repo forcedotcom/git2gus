@@ -1,10 +1,10 @@
-const isGusBugLabel = require('./isSalesforceBugLabel');
+const isSalesforceBugLabel = require('./isSalesforceBugLabel');
 
 module.exports = function getPriority(labels) {
     let priority;
     labels.forEach(({ name }) => {
         if (
-            isGusBugLabel(name) &&
+            isSalesforceBugLabel(name) &&
             (priority === undefined || name[5] < priority[1])
         ) {
             priority = `P${name[5]}`;

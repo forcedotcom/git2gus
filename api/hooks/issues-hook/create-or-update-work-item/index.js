@@ -1,6 +1,6 @@
 const Issues = require('../../../services/Issues');
 
-module.exports = async function createOrUpdateGusItem(task) {
+module.exports = async function createOrUpdateWorkItem(task) {
     const {
         subject,
         description,

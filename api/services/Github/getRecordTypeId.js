@@ -1,6 +1,6 @@
 // @ts-check
-const isGusStoryLabel = require('./isSalesforceUserStoryLabel');
-const isGusBugLabel = require('./isSalesforceBugLabel');
+const isSalesforceUserStoryLabel = require('./isSalesforceUserStoryLabel');
+const isSalesforceBugLabel = require('./isSalesforceBugLabel');
 
 /**
  * @typedef {import('../../models/Issues')} Issues
@@ -16,12 +16,12 @@ const isGusBugLabel = require('./isSalesforceBugLabel');
  * @returns {string}
  */
 function getRecordTypeId(labels) {
-    if (labels.some(l => isGusStoryLabel(l.name))) {
+    if (labels.some(l => isSalesforceUserStoryLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.gus
             .userStoryRecordTypeId;
     }
 
-    if (labels.some(l => isGusBugLabel(l.name))) {
+    if (labels.some(l => isSalesforceBugLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.gus
             .bugRecordTypeId;
     }

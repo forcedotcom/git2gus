@@ -24,7 +24,7 @@ describe('getPriority github service', () => {
     it('should return undefined when an empty array is passed', () => {
         expect(getPriority([])).toBeUndefined();
     });
-    it('should return undefined when an array with not gus labels is passed', () => {
+    it('should return undefined when an array with not salesforce labels is passed', () => {
         const labels = [
             { name: 'chore' },
             { name: 'bug' },

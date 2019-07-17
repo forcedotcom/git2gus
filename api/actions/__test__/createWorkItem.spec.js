@@ -1,19 +1,19 @@
 const { fn } = require('../createWorkItem');
 const Builds = require('../../services/Builds');
 const Github = require('../../services/Github');
-const { getGusItemUrl, waitUntilSynced } = require('./../../services/Issues');
+const { getWorkItemUrl, waitUntilSynced } = require('./../../services/Issues');
 
 jest.mock('../../services/Builds', () => ({
     resolveBuild: jest.fn()
 }));
 jest.mock('../../services/Github', () => ({
-    isGusLabel: jest.fn(),
+    isSalesforceLabel: jest.fn(),
     getPriority: () => 'P1',
     getRecordTypeId: () => 'bug',
     createComment: jest.fn()
 }));
 jest.mock('../../services/Issues', () => ({
-    getGusItemUrl: jest.fn(),
+    getWorkItemUrl: jest.fn(),
     waitUntilSynced: jest.fn()
 }));
 
@@ -56,10 +56,10 @@ const req = {
     }
 };
 
-describe('createGusItem action', () => {
+describe('createWorkItem action', () => {
     it('should call queue push with the right values', async () => {
         expect.assertions(1);
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
         await fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
@@ -81,21 +81,21 @@ describe('createGusItem action', () => {
     it('should create a github comment when there is not a valid build and milestone', async () => {
         expect.assertions(2);
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Github.createComment.mockReset();
         Builds.resolveBuild.mockReturnValue(Promise.resolve(null));
         await fn(req);
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body:
-                "The defaultBuild value 218 in `.git2gus/config.json` doesn't match any valid build in GUS."
+                "The defaultBuild value 218 in `.git2gus/config.json` doesn't match any valid build in Salesforce."
         });
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
     it('should create a github comment when there is not a valid build but there is a milestone', async () => {
         expect.assertions(2);
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Github.createComment.mockReset();
         Builds.resolveBuild.mockReturnValue(Promise.resolve(null));
         req.body.issue.milestone = {
@@ -105,29 +105,29 @@ describe('createGusItem action', () => {
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body:
-                "The milestone assigned to the issue doesn't match any valid build in GUS."
+                "The milestone assigned to the issue doesn't match any valid build in Salesforce."
         });
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
-    it('should not call anything when the label is not a gus label', async () => {
+    it('should not call anything when the label is not a Salesforce label', async () => {
         expect.assertions(2);
         Github.createComment.mockReset();
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isGusLabel.mockReturnValue(false);
+        Github.isSalesforceLabel.mockReturnValue(false);
         await fn(req);
         expect(Github.createComment).not.toHaveBeenCalled();
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
-    it('should create a comment when the "done" callback return the new gusItem and it is synced', async () => {
+    it('should create a comment when the "done" callback return the new work item and it is synced', async () => {
         expect.assertions(3);
         Github.createComment.mockReset();
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(
             Promise.resolve({ sfid: 'B12345' })
         );
-        getGusItemUrl.mockReset();
+        getWorkItemUrl.mockReset();
         waitUntilSynced.mockReturnValue(Promise.resolve({ sfci: 'SF123456' }));
-        getGusItemUrl.mockReturnValue('https://12345.com');
+        getWorkItemUrl.mockReturnValue('https://12345.com');
         sails.hooks['issues-hook'].queue.push = async (data, done) => {
             done(null, { id: '12345' });
         };
@@ -136,27 +136,27 @@ describe('createGusItem action', () => {
             { id: '12345' },
             { interval: 60000, times: 5 }
         );
-        expect(getGusItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' });
+        expect(getWorkItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' });
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
-            body: `This issue has been linked to a new GUS work item: https://12345.com`
+            body: `This issue has been linked to a new work item: https://12345.com`
         });
     });
-    it('should create a comment when the "done" callback return the new gusItem but it not get synced', async () => {
+    it('should create a comment when the "done" callback return the new work item but it not get synced', async () => {
         expect.assertions(3);
         Github.createComment.mockReset();
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(
             Promise.resolve({ sfid: 'B12345' })
         );
-        getGusItemUrl.mockReset();
+        getWorkItemUrl.mockReset();
         waitUntilSynced.mockReturnValue(Promise.resolve(undefined));
         await fn(req);
         expect(waitUntilSynced).toHaveBeenCalledWith(
             { id: '12345' },
             { interval: 60000, times: 5 }
         );
-        expect(getGusItemUrl).not.toHaveBeenCalled();
+        expect(getWorkItemUrl).not.toHaveBeenCalled();
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body:

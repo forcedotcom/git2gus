@@ -5,7 +5,7 @@ const getByName = require('./getByName');
 const getByRelatedUrl = require('./getByRelatedUrl');
 const update = require('./update');
 const weCreateIssue = require('./weCreateIssue');
-const getGusItemUrl = require('./getGusItemUrl');
+const getWorkItemUrl = require('./getWorkItemUrl');
 const waitUntilSynced = require('./waitUntilSynced');
 const getAnnotation = require('./getAnnotation');
 const isSameAnnotation = require('./isSameAnnotation');
@@ -18,7 +18,7 @@ module.exports = {
     getByRelatedUrl,
     update,
     weCreateIssue,
-    getGusItemUrl,
+    getWorkItemUrl,
     waitUntilSynced,
     getAnnotation,
     isSameAnnotation

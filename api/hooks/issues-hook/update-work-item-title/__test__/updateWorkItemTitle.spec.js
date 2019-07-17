@@ -1,4 +1,4 @@
-const updateGusItemTitle = require('..');
+const updateWorkItemTitle = require('..');
 const Issues = require('../../../../services/Issues');
 
 jest.mock('../../../../services/Issues', () => ({
@@ -11,9 +11,9 @@ const task = {
     relatedUrl: 'github/git2gus-app/#354'
 };
 
-describe('updateGusItemTitle issues hook', () => {
+describe('updateWorkItemTitle issues hook', () => {
     it('should call Issues.getByRelatedUrl with the right value', () => {
-        updateGusItemTitle(task);
+        updateWorkItemTitle(task);
         expect(Issues.getByRelatedUrl).toHaveBeenCalledWith(
             'github/git2gus-app/#354'
         );
@@ -28,7 +28,7 @@ describe('updateGusItemTitle issues hook', () => {
             })
         );
         Issues.weCreateIssue.mockReturnValue(true);
-        await updateGusItemTitle(task);
+        await updateWorkItemTitle(task);
         expect(Issues.update).toHaveBeenCalledWith('abcd1234', {
             subject: 'new title'
         });
@@ -43,7 +43,7 @@ describe('updateGusItemTitle issues hook', () => {
             })
         );
         Issues.weCreateIssue.mockReturnValue(false);
-        await updateGusItemTitle(task);
+        await updateWorkItemTitle(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
     it('should not call Issues.update when the issue does not exists', async () => {
@@ -51,7 +51,7 @@ describe('updateGusItemTitle issues hook', () => {
         Issues.update.mockReset();
         Issues.getByRelatedUrl.mockReset();
         Issues.getByRelatedUrl.mockReturnValue(null);
-        await updateGusItemTitle(task);
+        await updateWorkItemTitle(task);
         expect(Issues.update).not.toHaveBeenCalled();
     });
 });

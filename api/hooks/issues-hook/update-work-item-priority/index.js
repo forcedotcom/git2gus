@@ -1,6 +1,6 @@
 const Issues = require('../../../services/Issues');
 
-module.exports = async function updateGusItemPriority({
+module.exports = async function updateWorkItemPriority({
     priority,
     relatedUrl
 }) {
