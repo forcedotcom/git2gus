@@ -20,7 +20,10 @@ global.sails = {
         }
     },
     config: {
-        gus,
+        gus: {
+            gusUserId: 'abcd1234',
+            userStoryRecordTypeId: '12345689abcdef'
+        },
         ghLabels
     }
 };
