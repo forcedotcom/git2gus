@@ -1,5 +1,3 @@
 module.exports = function getWorkItemUrl(item) {
-    return `https://gus.lightning.force.com/lightning/r/ADM_Work__c/${
-        item.sfid
-    }/view`;
+    return `${process.env.WORK_ITEM_BASE_URL + item.sfid}/view`;
 };
