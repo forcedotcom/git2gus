@@ -6,5 +6,12 @@ module.exports.github = {
         'integration_installation',
         'integration_installation_repositories',
         'installation_repositories'
+    ],
+    approvedOrgs: [
+        'salesforce',
+        'sfdc',
+        'forcedotcom',
+        'salesforce-ux',
+        'SalesforceFoundation'
     ]
 };

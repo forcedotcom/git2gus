@@ -1,20 +1,27 @@
-const isFromSalesforceOrg = require('../policies/isFromSalesforceOrg');
-
-const installationEvents = [
-    'installation',
-    'integration_installation',
-    'integration_installation_repositories',
-    'installation_repositories'
-];
+const isFromApprovedOrg = require('../isFromApprovedOrg');
 
 const res = {
     badRequest: jest.fn()
 };
 const next = jest.fn();
 
-describe('isFromSalesforceOrg policy', () => {
+global.sails = {
+    config: {
+        github: {
+            approvedOrgs: ['salesforce', 'forcedotcom', 'sfdc'],
+            installationEvents: [
+                'installation',
+                'integration_installation',
+                'integration_installation_repositories',
+                'installation_repositories'
+            ]
+        }
+    }
+};
+
+describe('isFromApprovedOrg policy', () => {
     it('should call next when event is one of installations and owner is salesforce', () => {
-        installationEvents.forEach(event => {
+        sails.config.github.installationEvents.forEach(event => {
             next.mockReset();
             const req = {
                 headers: {
@@ -28,12 +35,12 @@ describe('isFromSalesforceOrg policy', () => {
                     }
                 }
             };
-            isFromSalesforceOrg(req, res, next);
+            isFromApprovedOrg(req, res, next);
             expect(next).toHaveBeenCalledTimes(1);
         });
     });
     it('should respond with bad request when event is one of installations and owner is not salesforce', () => {
-        installationEvents.forEach(event => {
+        sails.config.github.installationEvents.forEach(event => {
             next.mockReset();
             const req = {
                 headers: {
@@ -47,11 +54,11 @@ describe('isFromSalesforceOrg policy', () => {
                     }
                 }
             };
-            isFromSalesforceOrg(req, res, next);
+            isFromApprovedOrg(req, res, next);
             expect(next).not.toHaveBeenCalled();
             expect(res.badRequest).toHaveBeenCalledWith({
-                status: 'BAD_GITHUB_REQUEST',
-                message: 'The request received is not from salesforce org.'
+                code: 'BAD_GITHUB_REQUEST',
+                message: 'The request received is not from an approved org.'
             });
         });
     });
@@ -69,7 +76,7 @@ describe('isFromSalesforceOrg policy', () => {
                 }
             }
         };
-        isFromSalesforceOrg(req, res, next);
+        isFromApprovedOrg(req, res, next);
         expect(next).toHaveBeenCalledTimes(1);
     });
     it('should respond with bad request when event is other than the installations and owner is not salesforce', () => {
@@ -87,11 +94,11 @@ describe('isFromSalesforceOrg policy', () => {
                 }
             }
         };
-        isFromSalesforceOrg(req, res, next);
+        isFromApprovedOrg(req, res, next);
         expect(next).not.toHaveBeenCalled();
         expect(res.badRequest).toHaveBeenCalledWith({
-            status: 'BAD_GITHUB_REQUEST',
-            message: 'The request received is not from salesforce org.'
+            code: 'BAD_GITHUB_REQUEST',
+            message: 'The request received is not from an approved org.'
         });
     });
     it('should allows salesforce org installations', () => {
@@ -104,7 +111,7 @@ describe('isFromSalesforceOrg policy', () => {
             }
         };
         const next = jest.fn();
-        isFromSalesforceOrg(req, {}, next);
+        isFromApprovedOrg(req, {}, next);
         expect(next).toHaveBeenCalledTimes(1);
     });
     it('should allows regular event from salesforce orgs', () => {
@@ -117,7 +124,7 @@ describe('isFromSalesforceOrg policy', () => {
             }
         };
         const next = jest.fn();
-        isFromSalesforceOrg(req, {}, next);
+        isFromApprovedOrg(req, {}, next);
         expect(next).toHaveBeenCalledTimes(1);
     });
     it('should block event from non-salesforce orgs', () => {
@@ -131,7 +138,7 @@ describe('isFromSalesforceOrg policy', () => {
         };
         const next = jest.fn();
         const res = { badRequest: jest.fn() };
-        isFromSalesforceOrg(req, res, next);
+        isFromApprovedOrg(req, res, next);
         expect(res.badRequest).toHaveBeenCalledTimes(1);
     });
     it('should block org that contains salesforce in the name', () => {
@@ -145,7 +152,7 @@ describe('isFromSalesforceOrg policy', () => {
         };
         const next = jest.fn();
         const res = { badRequest: jest.fn() };
-        isFromSalesforceOrg(req, res, next);
+        isFromApprovedOrg(req, res, next);
         expect(res.badRequest).toHaveBeenCalledTimes(1);
     });
 });
