@@ -21,7 +21,18 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
 
-        if (Github.isGusLabel(label.name)) {
+        let productTag = config.productTag;
+        if (config.productTagLabels) {
+            Object.keys(config.productTagLabels).forEach(productTagLabel => {
+                if (labels.some(label => label.name === productTagLabel)) {
+                    productTag = config.productTagLabels[productTagLabel];
+                }
+            });
+        }
+
+        console.log(productTag);
+
+        if (Github.isGusLabel(label.name) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
@@ -32,7 +43,7 @@ module.exports = {
                         subject: title,
                         description: body,
                         storyDetails: body,
-                        productTag: config.productTag,
+                        productTag,
                         status: 'NEW',
                         foundInBuild,
                         priority,
