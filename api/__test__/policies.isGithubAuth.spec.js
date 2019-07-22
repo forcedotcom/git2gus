@@ -1,13 +1,13 @@
 const App = require('@octokit/app');
 const Octokit = require('@octokit/rest');
-const isGithubAuth = require('../../policies/isGithubAuth');
+const isGithubAuth = require('../policies/isGithubAuth');
 
 jest.mock('@octokit/rest', () => jest.fn());
 jest.mock('@octokit/app', () => jest.fn());
 jest.mock('fs', () => ({
     readFileSync: jest.fn(() => 'pem-file')
 }));
-jest.mock('../../../config/github', () => ({
+jest.mock('../../config/github', () => ({
     github: {
         appId: 'github-app-id'
     }

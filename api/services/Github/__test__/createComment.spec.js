@@ -27,7 +27,7 @@ describe('createComment github service', () => {
         expect(req.octokitClient.issues.createComment).toHaveBeenCalledWith({
             owner: 'john',
             repo: 'git2gus-test',
-            number: 30,
+            issue_number: 30,
             body: 'Hello World!'
         });
     });
@@ -56,7 +56,7 @@ describe('createComment github service', () => {
         expect(req.octokitClient.issues.createComment).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'test-app',
-            number: 35,
+            issue_number: 35,
             body: 'Hello World Pull Request!'
         });
     });

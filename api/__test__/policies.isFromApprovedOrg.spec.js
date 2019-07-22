@@ -1,4 +1,4 @@
-const isFromApprovedOrg = require('../isFromApprovedOrg');
+const isFromApprovedOrg = require('../policies/isFromApprovedOrg');
 
 const res = {
     badRequest: jest.fn()

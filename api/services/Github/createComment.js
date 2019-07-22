@@ -13,7 +13,7 @@ module.exports = async function createComment({ req, body }) {
     return await req.octokitClient.issues.createComment({
         owner: repository.owner.login,
         repo: repository.name,
-        number: getNumber(req.body),
+        issue_number: getNumber(req.body),
         body
     });
 };
