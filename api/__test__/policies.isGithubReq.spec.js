@@ -1,8 +1,8 @@
 const verify = require('@octokit/webhooks/verify');
-const isGithubReq = require('../isGithubReq');
+const isGithubReq = require('../policies/isGithubReq');
 
 jest.mock('@octokit/webhooks/verify', () => jest.fn());
-jest.mock('../../../config/github', () => ({
+jest.mock('../../config/github', () => ({
     github: {
         secret: 'github-webhook-secret'
     }
