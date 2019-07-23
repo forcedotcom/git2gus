@@ -68,6 +68,9 @@ The high level steps include:
 - Create .env file with github variables
   - NOTE: Some variable names are slightly different than the github guide, see example below.
   - NOTE: it's easier to just copy your github app's PEM file to the repo root named `private-key.pem`. If you want to set an env variable instead of copying the .pem file then you must use the name `PRIVATE_KEY` (instead of `GITHUB_PRIVATE_KEY` as the github instructions say) and you have to manually insert `\n` line characters between each line.
+- Add variables specific to your Salesforce instance
+  - To use with GUS, Salesforce's internal instance, use the User Story Recort Type ID `0129000000006gDAAQ`, the Bug Record Type ID `012T00000004MUHIA2`, and the Work Item Base URL `https://gus.lightning.force.com/lightning/r/ADM_Work__c/`
+  - To develop outside of GUS, get your Record Type IDs from the Object Manager and copy the base URL from your Agile Accelerator, it should resemble the one included in the example.
 
 You're .env should look something like:
 
@@ -75,6 +78,9 @@ You're .env should look something like:
 GITHUB_APP_ID=28467
 GITHUB_WEBHOOK_SECRET=qqqq1111
 GITHUB_TEST_ORG=wes566
+USER_STORY_RECORD_TYPE_ID=ABCDEFGHIJKLM
+BUG_RECORD_TYPE_ID=NOPQRSTUVWXYZ
+WORK_ITEM_BASE_URL=https://myproject.lightning.force.com/lightning/r/ADM_Work__c/
 ```
 
 The GITHUB_TEST_ORG is the org where you have a repo with your test GH app installed to.
@@ -84,3 +90,7 @@ Make sure your test app has Read & Write access to Issues, Pull Requests, and Co
 ### Seeding your dev db
 
 Sails has a built-in development db, called sails-disk, which is just a set of json files under `<repo root>/.tmp/localDiskDb`. The git2gus app will validate that the "build" you specified in the config is in the database so you'll need to make sure you've got an entry for that "build" in the `adm_build__c.db` file. For example, add a line like `{"name":"218","sfid":"218","_id":1}` to that file if your config is set to build "218".
+
+### Deploying for use
+
+To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
