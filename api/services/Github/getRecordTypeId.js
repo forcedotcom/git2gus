@@ -17,12 +17,12 @@ const isSalesforceBugLabel = require('./isSalesforceBugLabel');
  */
 function getRecordTypeId(labels) {
     if (labels.some(l => isSalesforceUserStoryLabel(l.name))) {
-        return /** @type{TypedGlobal} */ (global).sails.config.gus
+        return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .userStoryRecordTypeId;
     }
 
     if (labels.some(l => isSalesforceBugLabel(l.name))) {
-        return /** @type{TypedGlobal} */ (global).sails.config.gus
+        return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .bugRecordTypeId;
     }
 

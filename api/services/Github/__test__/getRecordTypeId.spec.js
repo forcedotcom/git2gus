@@ -1,5 +1,5 @@
 const getRecordTypeId = require('../getRecordTypeId');
-const { gus } = require('../../../../config/gus');
+const { salesforce } = require('../../../../config/salesforce');
 const { ghLabels } = require('../../../../config/ghLabels');
 const Github = require('../index');
 
@@ -10,7 +10,7 @@ jest.mock('..', () => ({
 
 global.sails = {
     config: {
-        gus,
+        salesforce,
         ghLabels
     }
 };
@@ -25,7 +25,7 @@ describe('getRecordTypeId github service', () => {
             { name: 'USER STORY' },
             { name: 'BUG P1' }
         ];
-        expect(getRecordTypeId(labels)).toBe(gus.userStoryRecordTypeId);
+        expect(getRecordTypeId(labels)).toBe(salesforce.userStoryRecordTypeId);
     });
     it('should return bug recordTypeId when bug label but no story label present', () => {
         Github.isSalesfoceUserStoryLabel.mockReturnValue(false);
@@ -35,7 +35,7 @@ describe('getRecordTypeId github service', () => {
             { name: 'bug' },
             { name: 'BUG P1' }
         ];
-        expect(getRecordTypeId(labels)).toBe(gus.bugRecordTypeId);
+        expect(getRecordTypeId(labels)).toBe(salesforce.bugRecordTypeId);
     });
     it('should return undefined when an empty array is passed', () => {
         expect(getRecordTypeId([])).toBeUndefined();
