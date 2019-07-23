@@ -173,7 +173,7 @@ describe('linkToGusItem action', () => {
             async (data, done) => {
                 done(null, {
                     id: 'abcd1234',
-                    recordTypeId: sails.config.gus.userStoryRecordTypeId
+                    recordTypeId: sails.config.salesforce.userStoryRecordTypeId
                 });
             }
         );
