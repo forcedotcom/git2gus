@@ -147,12 +147,12 @@ describe('createGusItem action', () => {
     });
     it('should call queue push with the right product tag label', async () => {
         expect.assertions(1);
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
         await fn(reqWithProductTagLabel);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
-                name: 'CREATE_GUS_ITEM',
+                name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description: 'some description',
                 storyDetails: 'some description',
@@ -169,7 +169,7 @@ describe('createGusItem action', () => {
     it('should not push to queue if no product tag and label is not a product tag label', async () => {
         expect.assertions(1);
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isGusLabel.mockReturnValue(true);
+        Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
         await fn(reqWithOnlyProductTagLabels);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();

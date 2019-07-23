@@ -32,7 +32,7 @@ module.exports = {
 
         console.log(productTag);
 
-        if (Github.isGusLabel(label.name) && productTag) {
+        if (Github.isSalesforceLabel(label.name) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
