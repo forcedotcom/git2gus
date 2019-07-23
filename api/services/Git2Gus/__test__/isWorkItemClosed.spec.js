@@ -2,7 +2,7 @@ const isWorkItemClosed = require('../isWorkItemClosed');
 
 global.sails = {
     config: {
-        gus: {
+        salesforce: {
             status: ['INTEGRATE', 'FIXED', 'CLOSED']
         }
     }

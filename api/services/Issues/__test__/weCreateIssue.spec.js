@@ -2,8 +2,8 @@ const weCreateIssue = require('../weCreateIssue');
 
 global.sails = {
     config: {
-        gus: {
-            gusUserId: 'abcd1234'
+        salesforce: {
+            salesforceUserId: 'abcd1234'
         }
     }
 };

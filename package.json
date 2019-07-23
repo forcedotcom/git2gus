@@ -46,7 +46,7 @@
     "main": "app.js",
     "repository": {
         "type": "git",
-        "url": "git://github.com/reinierguerra/git-2-gus-app.git"
+        "url": "git://github.comgithub.com/salesforce/git2gus.git"
     },
     "author": "reinierguerra",
     "license": "",
