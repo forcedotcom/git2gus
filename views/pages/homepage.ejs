@@ -110,17 +110,17 @@ For more information, see:
             <li class="homepage-config-keys-item">
                 <span class="homepage-badge">productTag</span>
                 <span class="homepage-config-key-description">
-                    The unique ID of the productTag used by your team in GUS.
-                    When a new GUS work item is going to be created this is the
+                    The unique ID of the productTag used by your team in Salesforce.
+                    When a new work item is going to be created this is the
                     id the application is going to use. To see your Product Tags
-                    go to the App Launcher in GUS and search "product tags".
+                    go to the App Launcher in Salesforce and search "product tags".
                 </span>
             </li>
             <li class="homepage-config-keys-item">
                 <span class="homepage-badge">defaultBuild</span>
                 <span class="homepage-config-key-description">
                     The build number the application is going to use by default
-                    when it creates a new GUS work item. Notice this value might
+                    when it creates a new work item. Notice this value might
                     need to be changed every release.
                 </span>
             </li>
@@ -128,7 +128,7 @@ For more information, see:
                 <span class="homepage-badge">statusWhenClosed</span>
                 <span class="homepage-config-key-description">
                     It allows to specified the status `INTEGRATE`, `FIXED` or
-                    `CLOSED` of the GUS work item when the Github issue gets
+                    `CLOSED` of the work item when the Github issue gets
                     closed. By default: `INTEGRATE`.
                 </span>
             </li>
@@ -139,19 +139,19 @@ For more information, see:
             How Git2Gus works?
         </h2>
         <h3 class="homepage-flow-title">
-            Creating GUS work items automatically.
+            Creating work items automatically.
         </h3>
         <div class="homepage-flow-step-container">
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">
-                    1. Add a GUS label to the issue.
+                    1. Add a Salesforce label to the issue.
                 </p>
                 <p class="homepage-flow-step-description">
                     When the application gets installed in your repo, a set of
                     labels are added automatically.
                     <b>USER STORY</b>, <b>BUG P0</b>, <b>BUG P1</b>, etc. Adding
                     a label to a Github issue is going to automatically create a
-                    GUS work item and keep the new ticket in sync with the
+                    work item and keep the new ticket in sync with the
                     Github issue. The <b>USER STORY</b> label will create a User
                     Story work item and the priority labels will create a Bug
                     work item.
@@ -170,9 +170,9 @@ For more information, see:
                 alt="open issue"
             />
             <div class="homepage-flow-step">
-                <p class="homepage-flow-step-title">2. The new GUS work item</p>
+                <p class="homepage-flow-step-title">2. The new work item</p>
                 <p class="homepage-flow-step-description">
-                    The new GUS work item is going to be created using the
+                    The new work item is going to be created using the
                     priority, title and description fields specified in the
                     Github issue. Also the <b>FoundInBuild</b> and the
                     <b>ProductTag</b> fields are going to be equal to the values
@@ -182,7 +182,7 @@ For more information, see:
         </div>
 
         <h3 class="homepage-flow-title">
-            Link issue with an existing GUS work item.
+            Link issue with an existing work item.
         </h3>
         <div class="homepage-flow-step-container">
             <img
@@ -197,7 +197,7 @@ For more information, see:
                 </p>
                 <p class="homepage-flow-step-description">
                     Add the <b>@W-1234567@</b> annotation in the issue
-                    description where <b>W-1234567</b> is the name of the GUS
+                    description where <b>W-1234567</b> is the name of the
                     work item you want to link.
                 </p>
             </div>
@@ -205,12 +205,12 @@ For more information, see:
         <div class="homepage-flow-step-container">
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">
-                    2. The Issue and GUS work item are linked.
+                    2. The Issue and work item are linked.
                 </p>
                 <p class="homepage-flow-step-description">
-                    When an issue gets linked to an existing GUS work item it
+                    When an issue gets linked to an existing work item it
                     means that when the issue gets <b>closed</b> the work item
-                    in GUS it's going to be closed as well.
+                    in Salesforce it's going to be closed as well.
                 </p>
             </div>
             <img
@@ -221,7 +221,7 @@ For more information, see:
         </div>
 
         <h3 class="homepage-flow-title">
-            Closing GUS work items automatically.
+            Closing work items automatically.
         </h3>
         <div class="homepage-flow-step-container">
             <img
@@ -232,7 +232,7 @@ For more information, see:
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">1. Close an issue.</p>
                 <p class="homepage-flow-step-description">
-                    Closing Github issues that were linked to GUS work items
+                    Closing Github issues that were linked to work items
                     will trigger that the work item closes automatically.
                 </p>
             </div>
@@ -240,10 +240,10 @@ For more information, see:
         <div class="homepage-flow-step-container">
             <div class="homepage-flow-step">
                 <p class="homepage-flow-step-title">
-                    2. Change GUS status
+                    2. Change work item status
                 </p>
                 <p class="homepage-flow-step-description">
-                    GUS work items that close automatically are going to have
+                    Work items that close automatically are going to have
                     status specified in the config, or 'INTEGRATE' by default
                 </p>
             </div>
