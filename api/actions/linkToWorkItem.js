@@ -32,7 +32,7 @@ module.exports = {
                     if (item) {
                         if (
                             item.recordTypeId ===
-                            sails.config.gus.userStoryRecordTypeId
+                            sails.config.salesforce.userStoryRecordTypeId
                         ) {
                             await addLabels({
                                 req,

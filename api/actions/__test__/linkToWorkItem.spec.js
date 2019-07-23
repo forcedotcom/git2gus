@@ -19,7 +19,7 @@ global.sails = {
         }
     },
     config: {
-        gus: {
+        salesforce: {
             gusUserId: 'abcd1234',
             userStoryRecordTypeId: '12345689abcdef'
         },
