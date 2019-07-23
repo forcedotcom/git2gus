@@ -56,7 +56,74 @@ const req = {
     }
 };
 
-describe('createWorkItem action', () => {
+const reqWithProductTagLabel = {
+    body: {
+        issue: {
+            url: 'github/git2gus-test/#30',
+            title: 'new issue',
+            body: 'some description',
+            number: 30,
+            labels: [{ name: 'GUS P1' }, { name: 'testTagLabel' }]
+        },
+        label: 'GUS P1',
+        repository: {
+            name: 'git2gus-test',
+            owner: {
+                login: 'john'
+            }
+        }
+    },
+    git2gus: {
+        config: {
+            productTag: 'abcd1234',
+            productTagLabels: {
+                testTagLabel: 'efgh5678',
+                testTagLabel2: 'zyxw9876'
+            },
+            defaultBuild: '218'
+        }
+    },
+    octokitClient: {
+        issues: {
+            createComment: jest.fn()
+        }
+    }
+};
+
+const reqWithOnlyProductTagLabels = {
+    body: {
+        issue: {
+            url: 'github/git2gus-test/#30',
+            title: 'new issue',
+            body: 'some description',
+            number: 30,
+            labels: [{ name: 'GUS P1' }, { name: 'notAProductTagLabel' }]
+        },
+        label: 'GUS P1',
+        repository: {
+            name: 'git2gus-test',
+            owner: {
+                login: 'john'
+            }
+        }
+    },
+    git2gus: {
+        config: {
+            productTagLabels: {
+                testTagLabel: 'efgh5678',
+                testTagLabel2: 'zyxw9876'
+            },
+            defaultBuild: '218'
+        }
+    },
+    octokitClient: {
+        issues: {
+            createComment: jest.fn()
+        }
+    }
+};
+
+describe('createGusItem action', () => {
     it('should call queue push with the right values', async () => {
         expect.assertions(1);
         Github.isSalesforceLabel.mockReturnValue(true);
@@ -77,6 +144,35 @@ describe('createWorkItem action', () => {
             },
             expect.any(Function)
         );
+    });
+    it('should call queue push with the right product tag label', async () => {
+        expect.assertions(1);
+        Github.isGusLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        await fn(reqWithProductTagLabel);
+        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
+            {
+                name: 'CREATE_GUS_ITEM',
+                subject: 'new issue',
+                description: 'some description',
+                storyDetails: 'some description',
+                productTag: 'efgh5678',
+                status: 'NEW',
+                foundInBuild: 'qwerty1234',
+                priority: 'P1',
+                relatedUrl: 'github/git2gus-test/#30',
+                recordTypeId: 'bug'
+            },
+            expect.any(Function)
+        );
+    });
+    it('should not push to queue if no product tag and label is not a product tag label', async () => {
+        expect.assertions(1);
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        Github.isGusLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        await fn(reqWithOnlyProductTagLabels);
+        expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
     });
     it('should create a github comment when there is not a valid build and milestone', async () => {
         expect.assertions(2);
