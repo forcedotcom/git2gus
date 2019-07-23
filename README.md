@@ -96,4 +96,4 @@ Sails has a built-in development db, called sails-disk, which is just a set of j
 
 To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. Run smee with the URL of your GitHub app. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
 
-To use, install your GitHub app on desired repositories. You may wish to update `homepage.ejs` with information specific to you.
+To use, install your GitHub app on desired repositories.
