@@ -2,7 +2,7 @@
 
 a Github application to keep in sync issues with GUS work items.
 
-[![CircleCI](https://circleci.com/gh/salesforce/git2gus.svg?style=svg)](https://circleci.com/gh/salesforce/git2gus)
+[![CircleCI](https://circleci.com/gh/salesforce/git2gus.svg?style=svg&circle-token=702c52c9b89dfb5a3df392245cea76d05c0905db)](https://circleci.com/gh/salesforce/git2gus)
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
