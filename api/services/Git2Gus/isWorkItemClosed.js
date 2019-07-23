@@ -1,3 +1,3 @@
 module.exports = function isWorkItemClosed(status) {
-    return sails.config.gus.status.indexOf(status) !== -1;
+    return sails.config.salesforce.status.indexOf(status) !== -1;
 };
