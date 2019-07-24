@@ -37,6 +37,10 @@ module.exports = async function isGithubAuth(req, res, next) {
             return `token ${installationAccessToken}`;
         }
     });
+    const octokitTokenClient = new Octokit({
+        auth: process.env.PERSONAL_ACCESS_TOKEN
+    });
     req.octokitClient = octokitClient;
+    req.octokitTokenClient = octokitTokenClient;
     next();
 };
