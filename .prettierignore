@@ -1,5 +1,5 @@
 yarn.lock
 assets/dependencies/**/*.js
-views/pages/homepage.ejs
+views
 tasks/
 .tmp/
