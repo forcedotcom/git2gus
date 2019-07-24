@@ -1,9 +1,19 @@
+const {
+    shouldUsePersonalToken
+} = require('../../services/Github/shouldUsePersonalToken');
+
 module.exports = async function getConfig({ octokitClient, owner, repo }) {
-    const file = await octokitClient.repos.getContents({
-        owner,
-        repo,
-        path: '.git2gus/config.json'
-    });
+    const file = shouldUsePersonalToken(repository.issue.url)
+        ? await octokitTokenClient.repos.getContents({
+              owner,
+              repo,
+              path: '.git2gus/config.json'
+          })
+        : await octokitClient.repos.getContents({
+              owner,
+              repo,
+              path: '.git2gus/config.json'
+          });
     const buffer = Buffer.from(file.data.content, 'base64');
     const jsonData = buffer.toString();
     const config = JSON.parse(jsonData);
