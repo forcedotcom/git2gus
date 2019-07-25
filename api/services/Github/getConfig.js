@@ -1,6 +1,7 @@
 const shouldUsePersonalToken = require('../../services/Github/shouldUsePersonalToken');
 
 module.exports = async function getConfig({
+    octokitTokenClient,
     octokitClient,
     owner,
     repo,

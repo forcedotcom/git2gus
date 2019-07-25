@@ -1,5 +1,7 @@
 const deleteComment = require('../deleteComment');
 
+process.env.TOKEN_ORGS = 'SSOEnabledOrg';
+
 describe('deleteComment github service', () => {
     it('should call deleteComment with the right values', async () => {
         const req = {
@@ -23,6 +25,35 @@ describe('deleteComment github service', () => {
             id: 'comment-46'
         });
         expect(req.octokitClient.issues.deleteComment).toHaveBeenCalledWith({
+            owner: 'pepe',
+            repo: 'test-app',
+            comment_id: 'comment-46'
+        });
+    });
+    it('should call deleteComment with the token client for SSO Enabled Org', async () => {
+        const req = {
+            body: {
+                repository: {
+                    name: 'test-app',
+                    owner: {
+                        login: 'pepe'
+                    },
+                    url: 'https://api.github.com/repos/SSOEnabledOrg/repository'
+                }
+            },
+            octokitTokenClient: {
+                issues: {
+                    deleteComment: jest.fn()
+                }
+            }
+        };
+        await deleteComment({
+            req,
+            id: 'comment-46'
+        });
+        expect(
+            req.octokitTokenClient.issues.deleteComment
+        ).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'test-app',
             comment_id: 'comment-46'
