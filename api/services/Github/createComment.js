@@ -1,6 +1,4 @@
-const {
-    shouldUsePersonalToken
-} = require('../../services/Github/shouldUsePersonalToken');
+const shouldUsePersonalToken = require('../../services/Github/shouldUsePersonalToken');
 
 function getNumber(body) {
     if (body.issue) {
@@ -14,7 +12,7 @@ function getNumber(body) {
 
 module.exports = async function createComment({ req, body }) {
     const { repository } = req.body;
-    if (shouldUsePersonalToken(repository.issue.url)) {
+    if (shouldUsePersonalToken(repository.url)) {
         return await req.octokitTokenClient.issues.createComment({
             owner: repository.owner.login,
             repo: repository.name,

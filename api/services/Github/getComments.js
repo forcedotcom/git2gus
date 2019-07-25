@@ -1,6 +1,4 @@
-const {
-    shouldUsePersonalToken
-} = require('../../services/Github/shouldUsePersonalToken');
+const shouldUsePersonalToken = require('../../services/Github/shouldUsePersonalToken');
 
 module.exports = async function getComments({ req }) {
     const {
@@ -8,7 +6,7 @@ module.exports = async function getComments({ req }) {
         repository
     } = req.body;
 
-    if (shouldUsePersonalToken(repository.issue.url)) {
+    if (shouldUsePersonalToken(repository.url)) {
         return await req.octokitTokenClient.issues.listComments({
             owner: repository.owner.login,
             repo: repository.name,
