@@ -5,15 +5,12 @@ module.exports = async function addLabels({ req, labels }) {
         issue: { number },
         repository
     } = req.body;
-    if (shouldUsePersonalToken(repository.url)) {
-        return await req.octokitTokenClient.issues.addLabels({
-            owner: repository.owner.login,
-            repo: repository.name,
-            number,
-            labels
-        });
-    }
-    return await req.octokitClient.issues.addLabels({
+
+    const githubClient = shouldUsePersonalToken(repository.url)
+        ? req.octokitTokenClient
+        : req.octokitClient;
+
+    return await githubClient.issues.addLabels({
         owner: repository.owner.login,
         repo: repository.name,
         number,

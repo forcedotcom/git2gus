@@ -6,14 +6,11 @@ module.exports = async function getComments({ req }) {
         repository
     } = req.body;
 
-    if (shouldUsePersonalToken(repository.url)) {
-        return await req.octokitTokenClient.issues.listComments({
-            owner: repository.owner.login,
-            repo: repository.name,
-            number
-        });
-    }
-    return await req.octokitClient.issues.listComments({
+    const githubClient = shouldUsePersonalToken(repository.url)
+        ? req.octokitTokenClient
+        : req.octokitClient;
+
+    return await githubClient.issues.listComments({
         owner: repository.owner.login,
         repo: repository.name,
         number

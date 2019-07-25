@@ -3,14 +3,11 @@ const shouldUsePersonalToken = require('../../services/Github/shouldUsePersonalT
 module.exports = async function deleteComment({ req, id }) {
     const { repository } = req.body;
 
-    if (shouldUsePersonalToken(repository.url)) {
-        return await req.octokitTokenClient.issues.deleteComment({
-            owner: repository.owner.login,
-            repo: repository.name,
-            comment_id: id
-        });
-    }
-    return await req.octokitClient.issues.deleteComment({
+    const githubClient = shouldUsePersonalToken(repository.url)
+        ? req.octokitTokenClient
+        : req.octokitClient;
+
+    return await githubClient.issues.deleteComment({
         owner: repository.owner.login,
         repo: repository.name,
         comment_id: id

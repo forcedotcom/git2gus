@@ -8,12 +8,14 @@ module.exports = async function getConfig({
     repoUrl
 }) {
     const file = shouldUsePersonalToken(repoUrl)
-        ? await octokitTokenClient.repos.getContents({
+        ? //prettier-ignore
+          await octokitTokenClient.repos.getContents({
               owner,
               repo,
               path: '.git2gus/config.json'
           })
-        : await octokitClient.repos.getContents({
+        : //prettier-ignore
+          await octokitClient.repos.getContents({
               owner,
               repo,
               path: '.git2gus/config.json'
