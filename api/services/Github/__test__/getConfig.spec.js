@@ -7,7 +7,8 @@ const payload = {
         }
     },
     owner: 'john',
-    repo: 'test-repo'
+    repo: 'test-repo',
+    repoUrl: 'https://api.github.com/repos/notSSOOrg/repository'
 };
 
 describe('getConfig github service', () => {

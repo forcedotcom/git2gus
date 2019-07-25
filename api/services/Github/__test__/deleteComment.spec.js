@@ -8,7 +8,8 @@ describe('deleteComment github service', () => {
                     name: 'test-app',
                     owner: {
                         login: 'pepe'
-                    }
+                    },
+                    url: 'https://api.github.com/repos/notSSOOrg/repository'
                 }
             },
             octokitClient: {
