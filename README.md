@@ -66,8 +66,11 @@ The high level steps include:
 - Create a test repo and install mock github app to that repo
 - Download github app PEM file
 - Create .env file with github variables
+
   - NOTE: Some variable names are slightly different than the github guide, see example below.
   - NOTE: it's easier to just copy your github app's PEM file to the repo root named `private-key.pem`. If you want to set an env variable instead of copying the .pem file then you must use the name `PRIVATE_KEY` (instead of `GITHUB_PRIVATE_KEY` as the github instructions say) and you have to manually insert `\n` line characters between each line.
+
+- For SSO-enabled organizations, you must authenticate with a personal access token with full repo access. Using a personal access token is not required for non-SSO-enabled orgs. To use, in `.env`, set `PERSONAL_ACCESS_TOKEN` to your personal access token and `TOKEN_ORGS` to a comma-seperated list of organizations to use your personal access token with.
 
 You're .env should look something like:
 
@@ -75,6 +78,13 @@ You're .env should look something like:
 GITHUB_APP_ID=28467
 GITHUB_WEBHOOK_SECRET=qqqq1111
 GITHUB_TEST_ORG=wes566
+```
+
+For use with SSO-enabled organizations, you would also have additional lines:
+
+```
+PERSONAL_ACCESS_TOKEN=abcdefghijklmnopqrstuvwxyz
+TOKEN_ORGS=asdf
 ```
 
 The GITHUB_TEST_ORG is the org where you have a repo with your test GH app installed to.
