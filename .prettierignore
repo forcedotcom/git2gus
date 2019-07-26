@@ -1,4 +1,4 @@
 yarn.lock
 assets/dependencies/**/*.js
-tasks/
+api/policies/isGithubAuth.js
 .tmp/

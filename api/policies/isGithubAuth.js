@@ -34,24 +34,24 @@ module.exports = async function isGithubAuth(req, res, next) {
     const octokitClient = shouldUsePersonalToken(repository.full_name)
         ? new Octokit({ auth: process.env.PERSONAL_ACCESS_TOKEN })
         : new Octokit({
-              async auth() {
-                  let installationAccessToken;
-                  try {
-                      installationAccessToken = await app.getInstallationAccessToken(
-                          {
-                              installationId: installation.id
-                          }
-                      );
-                  } catch (error) {
-                      console.error(error);
-                      return res.status(401).send({
-                          status: 'UNAUTHORIZED_REQUEST',
-                          message: 'The request requires authentication.'
-                      });
-                  }
-                  return `token ${installationAccessToken}`;
-              }
-          });
+            async auth() {
+                let installationAccessToken;
+                try {
+                    installationAccessToken = await app.getInstallationAccessToken(
+                        {
+                            installationId: installation.id
+                        }
+                    );
+                } catch (error) {
+                    console.error(error);
+                    return res.status(401).send({
+                        status: 'UNAUTHORIZED_REQUEST',
+                        message: 'The request requires authentication.'
+                    });
+                }
+                return `token ${installationAccessToken}`;
+            }
+        });
     req.octokitClient = octokitClient;
     next();
 };
