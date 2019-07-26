@@ -7,7 +7,6 @@ function getNumber(body) {
     }
     return undefined;
 }
-
 module.exports = async function createComment({ req, body }) {
     const { repository } = req.body;
 

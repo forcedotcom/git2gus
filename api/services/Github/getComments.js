@@ -3,7 +3,6 @@ module.exports = async function getComments({ req }) {
         issue: { number },
         repository
     } = req.body;
-
     return await req.octokitClient.issues.listComments({
         owner: repository.owner.login,
         repo: repository.name,

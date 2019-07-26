@@ -1,7 +1,5 @@
 const deleteComment = require('../deleteComment');
 
-process.env.TOKEN_ORGS = 'SSOEnabledOrg';
-
 describe('deleteComment github service', () => {
     it('should call deleteComment with the right values', async () => {
         const req = {
@@ -10,8 +8,7 @@ describe('deleteComment github service', () => {
                     name: 'test-app',
                     owner: {
                         login: 'pepe'
-                    },
-                    url: 'https://api.github.com/repos/notSSOOrg/repository'
+                    }
                 }
             },
             octokitClient: {

@@ -3,7 +3,6 @@ module.exports = async function addLabels({ req, labels }) {
         issue: { number },
         repository
     } = req.body;
-
     return await req.octokitClient.issues.addLabels({
         owner: repository.owner.login,
         repo: repository.name,
