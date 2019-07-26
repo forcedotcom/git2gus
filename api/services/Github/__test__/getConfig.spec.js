@@ -6,30 +6,9 @@ const payload = {
             getContents: jest.fn()
         }
     },
-    octokitTokenClient: {
-        repos: {
-            getContents: jest.fn()
-        }
-    },
     owner: 'john',
     repo: 'test-repo',
     repoUrl: 'https://api.github.com/repos/notSSOOrg/test-repo'
-};
-
-const ssoOrgPayload = {
-    octokitClient: {
-        repos: {
-            getContents: jest.fn()
-        }
-    },
-    octokitTokenClient: {
-        repos: {
-            getContents: jest.fn()
-        }
-    },
-    owner: 'john',
-    repo: 'test-repo',
-    repoUrl: 'https://api.github.com/repos/SSOEnabledOrg/test-repo'
 };
 
 process.env.TOKEN_ORGS = 'SSOEnabledOrg';
@@ -49,27 +28,6 @@ describe('getConfig github service', () => {
         );
         getConfig(payload);
         expect(payload.octokitClient.repos.getContents).toHaveBeenCalledWith({
-            owner: 'john',
-            repo: 'test-repo',
-            path: '.git2gus/config.json'
-        });
-    });
-    it('should call getContents with token client for SSO Org', () => {
-        const content = Buffer.from(
-            '{\n  "productTag": "abcd1234",\n  "defaultBuild": "218"\n}\n'
-        ).toString('base64');
-        const fileData = {
-            data: {
-                content
-            }
-        };
-        ssoOrgPayload.octokitTokenClient.repos.getContents.mockReturnValue(
-            Promise.resolve(fileData)
-        );
-        getConfig(ssoOrgPayload);
-        expect(
-            ssoOrgPayload.octokitTokenClient.repos.getContents
-        ).toHaveBeenCalledWith({
             owner: 'john',
             repo: 'test-repo',
             path: '.git2gus/config.json'

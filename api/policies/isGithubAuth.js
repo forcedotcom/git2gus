@@ -14,33 +14,44 @@ try {
     `);
 }
 
+function shouldUsePersonalToken(fullName) {
+    const orgName = fullName.split('/')[0];
+
+    if (process.env.TOKEN_ORGS) {
+        const tokenOrgs = process.env.TOKEN_ORGS.split(',');
+        return tokenOrgs.some(tokenOrgName => tokenOrgName === orgName);
+    }
+    return false;
+}
+
 module.exports = async function isGithubAuth(req, res, next) {
-    const { installation } = req.body;
+    const { installation, repository } = req.body;
     const app = new App({
         id: github.appId,
         privateKey: cert
     });
-    const octokitClient = new Octokit({
-        async auth() {
-            let installationAccessToken;
-            try {
-                installationAccessToken = await app.getInstallationAccessToken({
-                    installationId: installation.id
-                });
-            } catch (error) {
-                console.error(error);
-                return res.status(401).send({
-                    status: 'UNAUTHORIZED_REQUEST',
-                    message: 'The request requires authentication.'
-                });
-            }
-            return `token ${installationAccessToken}`;
-        }
-    });
-    const octokitTokenClient = new Octokit({
-        auth: process.env.PERSONAL_ACCESS_TOKEN
-    });
+
+    const octokitClient = shouldUsePersonalToken(repository.full_name)
+        ? new Octokit({ auth: process.env.PERSONAL_ACCESS_TOKEN })
+        : new Octokit({
+              async auth() {
+                  let installationAccessToken;
+                  try {
+                      installationAccessToken = await app.getInstallationAccessToken(
+                          {
+                              installationId: installation.id
+                          }
+                      );
+                  } catch (error) {
+                      console.error(error);
+                      return res.status(401).send({
+                          status: 'UNAUTHORIZED_REQUEST',
+                          message: 'The request requires authentication.'
+                      });
+                  }
+                  return `token ${installationAccessToken}`;
+              }
+          });
     req.octokitClient = octokitClient;
-    req.octokitTokenClient = octokitTokenClient;
     next();
 };

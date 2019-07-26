@@ -13,13 +13,31 @@ jest.mock('../../config/github', () => ({
     }
 }));
 
+process.env.TOKEN_ORGS = 'SSOEnabledOrg';
+process.env.PERSONAL_ACCESS_TOKEN = 'personalAccessToken123';
+
 const req = {
     body: {
         installation: {
             id: '410939550'
+        },
+        repository: {
+            full_name: 'testOrg/testRepo'
         }
     }
 };
+
+const SSOReq = {
+    body: {
+        installation: {
+            id: '410939550'
+        },
+        repository: {
+            full_name: 'SSOEnabledOrg/testRepo'
+        }
+    }
+};
+
 const res = {
     status: jest.fn()
 };
@@ -38,6 +56,13 @@ describe('isGithubAuth policy', () => {
         isGithubAuth(req, res, next);
         expect(Octokit).toHaveBeenCalledWith({
             auth: expect.any(Function)
+        });
+    });
+    it('should call Octokit using peronsal access token for SSO Org', () => {
+        Octokit.mockReset();
+        isGithubAuth(SSOReq, res, next);
+        expect(Octokit).toHaveBeenCalledWith({
+            auth: process.env.PERSONAL_ACCESS_TOKEN
         });
     });
     it('should attach octokitClient to req', () => {
