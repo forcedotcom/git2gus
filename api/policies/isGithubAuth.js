@@ -16,7 +16,6 @@ try {
 
 function shouldUsePersonalToken(fullName) {
     const orgName = fullName.split('/')[0];
-
     if (process.env.TOKEN_ORGS) {
         const tokenOrgs = process.env.TOKEN_ORGS.split(',');
         return tokenOrgs.some(tokenOrgName => tokenOrgName === orgName);
@@ -31,6 +30,7 @@ module.exports = async function isGithubAuth(req, res, next) {
         privateKey: cert
     });
 
+    // pretier-ignore
     const octokitClient = shouldUsePersonalToken(repository.full_name)
         ? new Octokit({ auth: process.env.PERSONAL_ACCESS_TOKEN })
         : new Octokit({
