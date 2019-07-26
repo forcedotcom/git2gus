@@ -7,6 +7,7 @@ function getNumber(body) {
     }
     return undefined;
 }
+
 module.exports = async function createComment({ req, body }) {
     const { repository } = req.body;
     return await req.octokitClient.issues.createComment({

@@ -13,7 +13,6 @@ module.exports = async function hasConfig(req, res, next) {
         const config = await getConfig({
             owner: repository.owner.login,
             repo: repository.name,
-            repoUrl: repository.url,
             octokitClient: req.octokitClient
         });
         req.git2gus = Object.assign({}, req.git2gus, {
