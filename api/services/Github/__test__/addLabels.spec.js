@@ -1,7 +1,5 @@
 const addLabels = require('../addLabels');
 
-process.env.TOKEN_ORGS = 'SSOEnabledOrg';
-
 describe('addLabels github service', () => {
     it('should call addLabels with the right values', async () => {
         const req = {
@@ -13,8 +11,7 @@ describe('addLabels github service', () => {
                     name: 'git2gus-test-app',
                     owner: {
                         login: 'pepe'
-                    },
-                    url: 'https://api.github.com/repos/notSSOOrg/repository'
+                    }
                 }
             },
             octokitClient: {

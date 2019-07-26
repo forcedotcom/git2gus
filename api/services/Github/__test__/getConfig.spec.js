@@ -7,11 +7,8 @@ const payload = {
         }
     },
     owner: 'john',
-    repo: 'test-repo',
-    repoUrl: 'https://api.github.com/repos/notSSOOrg/test-repo'
+    repo: 'test-repo'
 };
-
-process.env.TOKEN_ORGS = 'SSOEnabledOrg';
 
 describe('getConfig github service', () => {
     it('should call getContents with the right values', () => {

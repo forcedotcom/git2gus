@@ -1,7 +1,5 @@
 const createComment = require('../createComment');
 
-process.env.TOKEN_ORGS = 'SSOEnabledOrg';
-
 describe('createComment github service', () => {
     it('should call createComment with the right values in an issue', async () => {
         const req = {
@@ -13,8 +11,7 @@ describe('createComment github service', () => {
                     name: 'git2gus-test',
                     owner: {
                         login: 'john'
-                    },
-                    url: 'https://api.github.com/repos/notSSOOrg/repository'
+                    }
                 }
             },
             octokitClient: {
@@ -43,8 +40,7 @@ describe('createComment github service', () => {
                     name: 'test-app',
                     owner: {
                         login: 'pepe'
-                    },
-                    url: 'github.com/notSSOEnabledOrg'
+                    }
                 }
             },
             octokitClient: {
