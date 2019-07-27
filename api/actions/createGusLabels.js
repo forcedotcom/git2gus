@@ -27,6 +27,8 @@ module.exports = {
             const {
                 bugLabels,
                 bugLabelColor,
+                investigationLabels,
+                investigationLabelColor,
                 storyLabel,
                 storyLabelColor
             } = sails.config.ghLabels;
@@ -38,6 +40,17 @@ module.exports = {
                     repo,
                     name,
                     color: bugLabelColor
+                };
+                await req.octokitClient.issues.createLabel(label);
+            });
+
+            // add the investigation labels
+            investigationLabels.forEach(async name => {
+                const label = {
+                    owner,
+                    repo,
+                    name,
+                    color: investigationLabelColor
                 };
                 await req.octokitClient.issues.createLabel(label);
             });

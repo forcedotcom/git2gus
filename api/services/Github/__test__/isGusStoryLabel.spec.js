@@ -3,7 +3,7 @@ const { ghLabels } = require('../../../../config/ghLabels');
 
 global.sails = {
     config: {
-        ghLabels: ghLabels
+        ghLabels
     }
 };
 
@@ -20,6 +20,11 @@ describe('isGusStoryLabel github service', () => {
     });
     it('should return false when a gus bug label is passed', () => {
         ghLabels.bugLabels.forEach(label => {
+            expect(isGusStoryLabel(label)).toBe(false);
+        });
+    });
+    it('should return false when a gus investigation label is passed', () => {
+        ghLabels.investigationLabels.forEach(label => {
             expect(isGusStoryLabel(label)).toBe(false);
         });
     });

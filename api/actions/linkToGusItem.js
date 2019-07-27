@@ -2,6 +2,7 @@ const GithubEvents = require('../modules/GithubEvents');
 const { createComment, addLabels } = require('../services/Github');
 const getGusItemUrl = require('../services/Issues/getGusItemUrl');
 const { getAnnotation, isSameAnnotation } = require('../services/Issues');
+const { getBugLabel, getInvestigationLabel } = require('../../config/ghLabels');
 
 module.exports = {
     eventName: [
@@ -32,6 +33,14 @@ module.exports = {
                     if (item) {
                         if (
                             item.recordTypeId ===
+                            sails.config.gus.investigationRecordTypeId
+                        ) {
+                            await addLabels({
+                                req,
+                                labels: [getInvestigationLabel(item.priority)]
+                            });
+                        } else if (
+                            item.recordTypeId ===
                             sails.config.gus.userStoryRecordTypeId
                         ) {
                             await addLabels({
@@ -41,7 +50,7 @@ module.exports = {
                         } else if (item.priority) {
                             await addLabels({
                                 req,
-                                labels: [`GUS ${item.priority}`]
+                                labels: [getBugLabel(item.priority)]
                             });
                         }
 
