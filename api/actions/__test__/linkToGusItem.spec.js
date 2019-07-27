@@ -171,7 +171,7 @@ describe('linkToGusItem action', () => {
             async (data, done) => {
                 done(null, {
                     id: 'abcd1234',
-                    recordTypeId: sails.config.gus.userStoryRecordTypeId
+                    recordTypeId: gus.userStoryRecordTypeId
                 });
             }
         );
@@ -199,8 +199,8 @@ describe('linkToGusItem action', () => {
             async (data, done) => {
                 done(null, {
                     id: 'abcd1234',
-                    recordTypeId:
-                        sails.config.ghLabels.investigationRecordTypeId
+                    priority: 'P3',
+                    recordTypeId: gus.investigationRecordTypeId
                 });
             }
         );
@@ -217,7 +217,7 @@ describe('linkToGusItem action', () => {
         expect(createComment).toHaveBeenCalledTimes(1);
         expect(addLabels).toHaveBeenCalledWith({
             req,
-            labels: [sails.config.ghLabels.storyLabel]
+            labels: [ghLabels.investigationLabels[3]]
         });
     });
     it('should add label when the "done" callback is called and the item has priority', async () => {
