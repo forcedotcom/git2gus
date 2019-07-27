@@ -1,8 +1,9 @@
 const getConfig = require('./getConfig');
 const createTable = require('./createTable');
 const isSalesforceLabel = require('./isSalesforceLabel');
-const isSalesforceBugLabel = require('./isSalesforceBugLabel');
-const isSalesforceUserStoryLabel = require('./isSalesforceUserStoryLabel');
+const isBugLabel = require('./isBugLabel');
+const isUserStoryLabel = require('./isUserStoryLabel');
+const isInvestigationLabel = require('./isInvestigationLabel');
 const getPriority = require('./getPriority');
 const createComment = require('./createComment');
 const addLabels = require('./addLabels');
@@ -14,8 +15,9 @@ module.exports = {
     getConfig,
     createTable,
     isSalesforceLabel,
-    isSalesforceBugLabel,
-    isSalesforceUserStoryLabel,
+    isBugLabel,
+    isUserStoryLabel,
+    isInvestigationLabel,
     getPriority,
     createComment,
     addLabels,

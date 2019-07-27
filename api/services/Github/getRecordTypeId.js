@@ -1,6 +1,7 @@
 // @ts-check
-const isSalesforceUserStoryLabel = require('./isSalesforceUserStoryLabel');
-const isSalesforceBugLabel = require('./isSalesforceBugLabel');
+const isUserStoryLabel = require('./isUserStoryLabel');
+const isBugLabel = require('./isBugLabel');
+const isInvestigationLabel = require('./isInvestigationLabel');
 
 /**
  * @typedef {import('../../models/Issues')} Issues
@@ -9,19 +10,24 @@ const isSalesforceBugLabel = require('./isSalesforceBugLabel');
  */
 
 /**
- * Gets the RecordTypeId based on the labels. USER STORY label takes precedence
- * over BUG labels. If no Story or Bug labels are present undefined is returned.
+ * Gets the RecordTypeId based on the labels. INVESTIGATION labels take
+ * precedence over USER STORY label, which takes precedence over BUG labels. If
+ * no Investigation, Story or Bug labels are present undefined is returned.
  *
  * @param {Label[]} labels
  * @returns {string}
  */
 function getRecordTypeId(labels) {
-    if (labels.some(l => isSalesforceUserStoryLabel(l.name))) {
+    if (labels.some(l => isUserStoryLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .userStoryRecordTypeId;
     }
+    if (labels.some(l => isInvestigationLabel(l.name))) {
+        return /** @type{TypedGlobal} */ (global).sails.config.gus
+            .investigationRecordTypeId;
+    }
 
-    if (labels.some(l => isSalesforceBugLabel(l.name))) {
+    if (labels.some(l => isBugLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .bugRecordTypeId;
     }

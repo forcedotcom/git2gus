@@ -1,6 +1,25 @@
+const priorityLevels = ['P0', 'P1', 'P2', 'P3'];
+
+const bugLabelBase = 'BUG';
+const investigationLabelBase = 'INVESTIGATION';
+
+function getBugLabel(priority) {
+    return bugLabelBase + ' ' + priority;
+}
+
+function getInvestigationLabel(priority) {
+    return investigationLabelBase + ' ' + priority;
+}
+
 module.exports.ghLabels = {
-    bugLabels: ['BUG P0', 'BUG P1', 'BUG P2', 'BUG P3'],
+    bugLabels: priorityLevels.map(p => getBugLabel(p)),
+    investigationLabels: priorityLevels.map(p => getInvestigationLabel(p)),
+    investigationLabelColor: 'd4a3f0',
     bugLabelColor: 'ededed',
     storyLabel: 'USER STORY',
     storyLabelColor: 'a2eeef'
 };
+module.exports.getBugLabel = getBugLabel;
+module.exports.getInvestigationLabel = getInvestigationLabel;
+module.exports.bugLabelBase = bugLabelBase;
+module.exports.investigationLabelBase = investigationLabelBase;

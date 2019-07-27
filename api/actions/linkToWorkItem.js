@@ -2,6 +2,7 @@ const GithubEvents = require('../modules/GithubEvents');
 const { createComment, addLabels } = require('../services/Github');
 const getWorkItemUrl = require('../services/Issues/getWorkItemUrl');
 const { getAnnotation, isSameAnnotation } = require('../services/Issues');
+const { getBugLabel, getInvestigationLabel } = require('../../config/ghLabels');
 
 module.exports = {
     eventName: [
@@ -41,7 +42,7 @@ module.exports = {
                         } else if (item.priority) {
                             await addLabels({
                                 req,
-                                labels: [`BUG ${item.priority}`]
+                                labels: [getBugLabel(item.priority)]
                             });
                         }
 

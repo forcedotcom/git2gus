@@ -193,6 +193,35 @@ describe('linkToGusItem action', () => {
             labels: [sails.config.ghLabels.storyLabel]
         });
     });
+    it('should story add label when the "done" callback is called and item is investigation', async () => {
+        expect.assertions(2);
+        createComment.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockReset();
+        sails.hooks['issues-hook'].queue.push.mockImplementation(
+            async (data, done) => {
+                done(null, {
+                    id: 'abcd1234',
+                    priority: 'P3',
+                    recordTypeId: gus.investigationRecordTypeId
+                });
+            }
+        );
+        const req = {
+            body: {
+                action: 'opened',
+                issue: {
+                    url: 'github/test-gus-app/#32',
+                    body: '@W-12345@'
+                }
+            }
+        };
+        await fn(req);
+        expect(createComment).toHaveBeenCalledTimes(1);
+        expect(addLabels).toHaveBeenCalledWith({
+            req,
+            labels: [ghLabels.investigationLabels[3]]
+        });
+    });
     it('should add label when the "done" callback is called and the item has priority', async () => {
         expect.assertions(2);
         createComment.mockReset();

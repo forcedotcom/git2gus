@@ -57,13 +57,13 @@ const reqOrg = {
 
 describe('createLabels', () => {
     describe('type user', () => {
-        it('should call createLabel 5 times for each repository', () => {
+        it('should call createLabel 9 times for each repository', () => {
             fn(req);
             expect(req.octokitClient.issues.createLabel).toHaveBeenCalledTimes(
-                15
+                27
             );
         });
-        it('should call createLabel with the right values', () => {
+        it('should call createLabel with the bug label', () => {
             req.octokitClient.issues.createLabel.mockReset();
             fn(req);
             expect(
@@ -75,7 +75,7 @@ describe('createLabels', () => {
                 color: 'ededed'
             });
         });
-        it('should call createLabel with the story label', () => {
+        it('should call createLabel with the investigation label', () => {
             req.octokitClient.issues.createLabel.mockReset();
             fn(req);
             expect(
@@ -89,13 +89,13 @@ describe('createLabels', () => {
         });
     });
     describe('type organization', () => {
-        it('should call createLabel 5 times for each repository', () => {
+        it('should call createLabel 9 times for each repository', () => {
             fn(reqOrg);
             expect(
                 reqOrg.octokitClient.issues.createLabel
-            ).toHaveBeenCalledTimes(15);
+            ).toHaveBeenCalledTimes(27);
         });
-        it('should call createLabel with the right values', () => {
+        it('should call createLabel with the bug label', () => {
             reqOrg.octokitClient.issues.createLabel.mockReset();
             fn(reqOrg);
             expect(
@@ -107,7 +107,7 @@ describe('createLabels', () => {
                 color: 'ededed'
             });
         });
-        it('should call createLabel with the story label', () => {
+        it('should call createLabel with the investigation label', () => {
             reqOrg.octokitClient.issues.createLabel.mockReset();
             fn(reqOrg);
             expect(
