@@ -2,7 +2,6 @@ const { fn } = require('../linkToWorkItem');
 const { createComment, addLabels } = require('../../services/Github');
 const getWorkItemUrl = require('../../services/Issues/getWorkItemUrl');
 const { ghLabels } = require('../../../config/ghLabels');
-const { salesforce } = require('../../../config/salesforce');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
