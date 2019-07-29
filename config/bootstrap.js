@@ -100,18 +100,18 @@ module.exports.bootstrap = async function(done) {
                             // Update obsolete labels
                             labels.data.forEach(label => {
                                 if (label.name.includes('GUS P')) {
-                                    const priorityLevel = label[5];
+                                    const priorityLevel = label.name[5];
                                     installationClient.issues.updateLabel({
                                         owner,
                                         repo: repoName,
-                                        currentName: label,
+                                        current_name: label.name,
                                         name: 'BUG P' + priorityLevel
                                     });
                                 } else if (label.name === 'GUS STORY') {
                                     installationClient.issues.updateLabel({
                                         owner,
                                         repo: repoName,
-                                        currentName: label,
+                                        current_name: label.name,
                                         name: 'USER STORY'
                                     });
                                 }
@@ -129,7 +129,7 @@ module.exports.bootstrap = async function(done) {
                                     installationClient.issues.createLabel({
                                         owner,
                                         repo: repoName,
-                                        investigationLabel,
+                                        name: investigationLabel,
                                         color: 'd4a3f0'
                                     });
                                 }
