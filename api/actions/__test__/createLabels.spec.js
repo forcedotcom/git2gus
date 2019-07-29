@@ -79,7 +79,7 @@ describe('createLabels', () => {
             req.octokitClient.issues.createLabel.mockReset();
             fn(req);
             expect(
-                req.octokitClient.issues.createLabel.mock.calls[4][0]
+                req.octokitClient.issues.createLabel.mock.calls[8][0]
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',
@@ -111,7 +111,7 @@ describe('createLabels', () => {
             reqOrg.octokitClient.issues.createLabel.mockReset();
             fn(reqOrg);
             expect(
-                reqOrg.octokitClient.issues.createLabel.mock.calls[4][0]
+                reqOrg.octokitClient.issues.createLabel.mock.calls[8][0]
             ).toEqual({
                 owner: 'john',
                 repo: 'repo-1',

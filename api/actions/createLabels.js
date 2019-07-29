@@ -29,8 +29,8 @@ module.exports = {
                 bugLabelColor,
                 investigationLabels,
                 investigationLabelColor,
-                storyLabel,
-                storyLabelColor
+                userStoryLabel,
+                userStoryLabelColor
             } = sails.config.ghLabels;
 
             // add the bug labels
@@ -59,8 +59,8 @@ module.exports = {
             await req.octokitClient.issues.createLabel({
                 owner,
                 repo,
-                name: storyLabel,
-                color: storyLabelColor
+                name: userStoryLabel,
+                color: userStoryLabelColor
             });
         });
     }

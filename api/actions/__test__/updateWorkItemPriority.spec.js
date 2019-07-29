@@ -2,7 +2,7 @@ const { fn } = require('../updateWorkItemPriority');
 const Github = require('../../services/Github');
 
 jest.mock('../../services/Github', () => ({
-    isSalesforceBugLabel: jest.fn(),
+    isBugLabel: jest.fn(),
     getPriority: jest.fn()
 }));
 
@@ -18,7 +18,7 @@ global.sails = {
 
 describe('updateWorkItemPriority action', () => {
     it('should call queue push with the right values', () => {
-        Github.isSalesforceBugLabel.mockReturnValue(true);
+        Github.isBugLabel.mockReturnValue(true);
         Github.getPriority.mockReturnValue('P0');
         const req = {
             body: {
@@ -51,7 +51,7 @@ describe('updateWorkItemPriority action', () => {
     });
     it('should not call queue push when is not a Salesforce bug label', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
-        Github.isSalesforceBugLabel.mockReturnValue(false);
+        Github.isBugLabel.mockReturnValue(false);
         const req = {
             body: {
                 issue: {

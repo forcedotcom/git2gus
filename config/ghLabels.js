@@ -16,8 +16,8 @@ module.exports.ghLabels = {
     investigationLabels: priorityLevels.map(p => getInvestigationLabel(p)),
     investigationLabelColor: 'd4a3f0',
     bugLabelColor: 'ededed',
-    storyLabel: 'USER STORY',
-    storyLabelColor: 'a2eeef'
+    userStoryLabel: 'USER STORY',
+    userStoryLabelColor: 'a2eeef'
 };
 module.exports.getBugLabel = getBugLabel;
 module.exports.getInvestigationLabel = getInvestigationLabel;

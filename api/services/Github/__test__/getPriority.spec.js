@@ -27,11 +27,11 @@ describe('getPriority github service', () => {
         expect(getPriority(labels)).toBe('P0');
     });
     it('should return the right priority when only one bug label is passed', () => {
-        const labels = [{ name: 'GUS P2' }];
+        const labels = [{ name: 'BUG P2' }];
         expect(getPriority(labels)).toBe('P2');
     });
     it('should return the right priority when only one investigation label is passed', () => {
-        const labels = [{ name: 'GUS INVESTIGATION P1' }];
+        const labels = [{ name: 'INVESTIGATION P1' }];
         expect(getPriority(labels)).toBe('P1');
     });
     it('should return undefined when an empty array is passed', () => {

@@ -18,15 +18,14 @@ const isInvestigationLabel = require('./isInvestigationLabel');
  * @returns {string}
  */
 function getRecordTypeId(labels) {
+    if (labels.some(l => isInvestigationLabel(l.name))) {
+        return /** @type{TypedGlobal} */ (global).sails.config.salesforce
+            .investigationRecordTypeId;
+    }
     if (labels.some(l => isUserStoryLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .userStoryRecordTypeId;
     }
-    if (labels.some(l => isInvestigationLabel(l.name))) {
-        return /** @type{TypedGlobal} */ (global).sails.config.gus
-            .investigationRecordTypeId;
-    }
-
     if (labels.some(l => isBugLabel(l.name))) {
         return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .bugRecordTypeId;

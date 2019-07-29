@@ -30,8 +30,6 @@ module.exports = {
             });
         }
 
-        console.log(productTag);
-
         if (Github.isSalesforceLabel(label.name) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);

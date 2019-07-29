@@ -2,6 +2,7 @@ const { fn } = require('../linkToWorkItem');
 const { createComment, addLabels } = require('../../services/Github');
 const getWorkItemUrl = require('../../services/Issues/getWorkItemUrl');
 const { ghLabels } = require('../../../config/ghLabels');
+const { salesforce } = require('../../../config/salesforce');
 
 jest.mock('../../services/Github', () => ({
     createComment: jest.fn(),
@@ -20,20 +21,22 @@ global.sails = {
     },
     config: {
         salesforce: {
-            gusUserId: 'abcd1234',
-            userStoryRecordTypeId: '12345689abcdef'
+            salesforceUserId: 'abcd1234',
+            userStoryRecordTypeId: 'testUserStoryId',
+            bugRecordTypeId: 'testBugRecordId',
+            investigationRecordTypeId: 'testInvestigationId'
         },
         ghLabels
     }
 };
 
-describe('linkToGusItem action', () => {
+describe('linkToWorkItem action', () => {
     it('should call queue push with the right values when the issue is opened and the description matches the annotation', () => {
         const req = {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@ issue description'
                 }
             }
@@ -42,7 +45,7 @@ describe('linkToGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
                 name: 'LINK_TO_WORK_ITEM',
-                relatedUrl: 'github/test-gus-app/#32',
+                relatedUrl: 'github/test-salesforce-app/#32',
                 workItemName: 'W-12345'
             },
             expect.any(Function)
@@ -54,7 +57,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'edited',
                 issue: {
-                    url: 'github/test-gus-app/#33',
+                    url: 'github/test-salesforce-app/#33',
                     body: '@W-12345@ description'
                 },
                 changes: {
@@ -68,7 +71,7 @@ describe('linkToGusItem action', () => {
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
                 name: 'LINK_TO_WORK_ITEM',
-                relatedUrl: 'github/test-gus-app/#33',
+                relatedUrl: 'github/test-salesforce-app/#33',
                 workItemName: 'W-12345'
             },
             expect.any(Function)
@@ -80,7 +83,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: 'issue description'
                 }
             }
@@ -94,7 +97,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'edited',
                 issue: {
-                    url: 'github/test-gus-app/#33',
+                    url: 'github/test-salesforce-app/#33',
                     body: '@W-12345@'
                 },
                 changes: {
@@ -113,7 +116,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32'
+                    url: 'github/test-salesforce-app/#32'
                 }
             }
         };
@@ -126,7 +129,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'edited',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: 'issue description'
                 },
                 changes: {
@@ -144,20 +147,24 @@ describe('linkToGusItem action', () => {
         sails.hooks['issues-hook'].queue.push.mockReset();
         sails.hooks['issues-hook'].queue.push.mockImplementation(
             async (data, done) => {
-                done(null, { id: 'abcd1234' });
+                done(null, {
+                    id: 'abcd1234'
+                });
             }
         );
         const req = {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
             }
         };
         await fn(req);
-        expect(getWorkItemUrl).toHaveBeenCalledWith({ id: 'abcd1234' });
+        expect(getWorkItemUrl).toHaveBeenCalledWith({
+            id: 'abcd1234'
+        });
         expect(createComment).toHaveBeenCalledWith({
             req,
             body:
@@ -181,7 +188,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
             }
@@ -190,7 +197,7 @@ describe('linkToGusItem action', () => {
         expect(createComment).toHaveBeenCalledTimes(1);
         expect(addLabels).toHaveBeenCalledWith({
             req,
-            labels: [sails.config.ghLabels.storyLabel]
+            labels: [sails.config.ghLabels.userStoryLabel]
         });
     });
     it('should story add label when the "done" callback is called and item is investigation', async () => {
@@ -202,7 +209,8 @@ describe('linkToGusItem action', () => {
                 done(null, {
                     id: 'abcd1234',
                     priority: 'P3',
-                    recordTypeId: gus.investigationRecordTypeId
+                    recordTypeId:
+                        sails.config.salesforce.investigationRecordTypeId
                 });
             }
         );
@@ -210,7 +218,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
             }
@@ -230,6 +238,7 @@ describe('linkToGusItem action', () => {
             async (data, done) => {
                 done(null, {
                     id: 'abcd1234',
+                    recordTypeId: sails.config.salesforce.bugRecordTypeId,
                     priority: 'P3'
                 });
             }
@@ -238,7 +247,7 @@ describe('linkToGusItem action', () => {
             body: {
                 action: 'opened',
                 issue: {
-                    url: 'github/test-gus-app/#32',
+                    url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
             }

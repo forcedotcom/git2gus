@@ -32,17 +32,31 @@ module.exports = {
                 async (error, item) => {
                     if (item) {
                         if (
-                            item.recordTypeId ===
-                            sails.config.salesforce.userStoryRecordTypeId
+                            item.priority &&
+                            item.recordTypeId === 'testBugRecordId'
                         ) {
                             await addLabels({
                                 req,
-                                labels: [sails.config.ghLabels.storyLabel]
+                                labels: [getBugLabel(item.priority)]
                             });
-                        } else if (item.priority) {
+                        } else if (
+                            item.priority &&
+                            item.recordTypeId ===
+                                sails.config.salesforce
+                                    .investigationRecordTypeId
+                        ) {
                             await addLabels({
                                 req,
-                                labels: [getBugLabel(item.priority)]
+                                labels: [getInvestigationLabel(item.priority)]
+                            });
+                        } else if (
+                            item.recordTypeId &&
+                            item.recordTypeId ===
+                                sails.config.salesforce.userStoryRecordTypeId
+                        ) {
+                            await addLabels({
+                                req,
+                                labels: [sails.config.ghLabels.userStoryLabel]
                             });
                         }
 

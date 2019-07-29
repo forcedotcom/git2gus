@@ -3,5 +3,6 @@ module.exports.salesforce = {
     status: ['INTEGRATE', 'FIXED', 'CLOSED'],
     userStoryRecordTypeId: process.env.USER_STORY_RECORD_TYPE_ID,
     /* Note: bugRecordTypeId is adm_work__c default record type */
-    bugRecordTypeId: process.env.BUG_RECORD_TYPE_ID
+    bugRecordTypeId: process.env.BUG_RECORD_TYPE_ID,
+    investigationRecordTypeId: '0129000000006lWAAQ'
 };
