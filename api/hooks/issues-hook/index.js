@@ -1,38 +1,38 @@
 const asyncQueue = require('async/queue');
-const createOrUpdateGusItem = require('./create-or-update-gus-item');
-const updateGusItemPriority = require('./update-gus-item-priority');
-const updateGusItemRecordTypeId = require('./update-gus-item-recordtypeid');
-const updateGusItemTitle = require('./update-gus-item-title');
-const updateGusItemDescription = require('./update-gus-item-description');
-const integrateGusItem = require('./integrate-gus-item');
-const linkToGusItem = require('./link-to-gus-item');
-const unlinkGusItem = require('./unlink-gus-item');
+const createOrUpdateWorkItem = require('./create-or-update-work-item');
+const updateWorkItemPriority = require('./update-work-item-priority');
+const updateWorkItemRecordTypeId = require('./update-work-item-recordtypeid');
+const updateWorkItemTitle = require('./update-work-item-title');
+const updateWorkItemDescription = require('./update-work-item-description');
+const integrateWorkItem = require('./integrate-work-item');
+const linkToWorkItem = require('./link-to-work-item');
+const unlinkWorkItem = require('./unlink-work-item');
 
 async function handleQueue(task) {
     switch (task.name) {
-        case 'CREATE_GUS_ITEM':
-            return await createOrUpdateGusItem(task);
+        case 'CREATE_WORK_ITEM':
+            return await createOrUpdateWorkItem(task);
 
-        case 'UPDATE_GUS_ITEM_PRIORITY':
-            return await updateGusItemPriority(task);
+        case 'UPDATE_WORK_ITEM_PRIORITY':
+            return await updateWorkItemPriority(task);
 
-        case 'UPDATE_GUS_ITEM_RECORDTYPEID':
-            return await updateGusItemRecordTypeId(task);
+        case 'UPDATE_WORK_ITEM_RECORDTYPEID':
+            return await updateWorkItemRecordTypeId(task);
 
-        case 'UPDATE_GUS_ITEM_TITLE':
-            return await updateGusItemTitle(task);
+        case 'UPDATE_WORK_ITEM_TITLE':
+            return await updateWorkItemTitle(task);
 
-        case 'UPDATE_GUS_ITEM_DESCRIPTION':
-            return await updateGusItemDescription(task);
+        case 'UPDATE_WORK_ITEM_DESCRIPTION':
+            return await updateWorkItemDescription(task);
 
-        case 'INTEGRATE_GUS_ITEM':
-            return await integrateGusItem(task);
+        case 'INTEGRATE_WORK_ITEM':
+            return await integrateWorkItem(task);
 
-        case 'LINK_TO_GUS_ITEM':
-            return await linkToGusItem(task);
+        case 'LINK_TO_WORK_ITEM':
+            return await linkToWorkItem(task);
 
-        case 'UNLINK_GUS_ITEM':
-            return await unlinkGusItem(task);
+        case 'UNLINK_WORK_ITEM':
+            return await unlinkWorkItem(task);
         default:
             return null;
     }

@@ -2,7 +2,7 @@
     "name": "git2gus",
     "private": true,
     "version": "0.1.0",
-    "description": "Keeps Github issues in sync with GUS work items.",
+    "description": "Keeps Github issues in sync with Salesforce Agile Accelerator work items.",
     "keywords": [],
     "dependencies": {
         "@octokit/app": "^2.2.1",
@@ -46,7 +46,7 @@
     "main": "app.js",
     "repository": {
         "type": "git",
-        "url": "git://github.com/reinierguerra/git-2-gus-app.git"
+        "url": "git://github.com/salesforce/git2gus.git"
     },
     "author": "reinierguerra",
     "license": "",

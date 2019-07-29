@@ -1,6 +1,6 @@
 const { queue } = require('./../index')();
 
-jest.mock('../create-or-update-gus-item', () => {
+jest.mock('../create-or-update-work-item', () => {
     return async () => {
         return Promise.resolve({ id: 12345 });
     };
@@ -16,7 +16,7 @@ describe('issues-hook queue', () => {
             };
             queue.push(
                 {
-                    name: 'CREATE_GUS_ITEM'
+                    name: 'CREATE_WORK_ITEM'
                 },
                 done
             );

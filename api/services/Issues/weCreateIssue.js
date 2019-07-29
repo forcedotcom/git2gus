@@ -1,3 +1,3 @@
 module.exports = function weCreateIssue({ createdById }) {
-    return createdById === sails.config.gus.gusUserId;
+    return createdById === sails.config.salesforce.salesforceUserId;
 };

@@ -1,7 +1,7 @@
 const priorityLevels = ['P0', 'P1', 'P2', 'P3'];
 
-const bugLabelBase = 'GUS';
-const investigationLabelBase = 'GUS INVESTIGATION';
+const bugLabelBase = 'BUG';
+const investigationLabelBase = 'INVESTIGATION';
 
 function getBugLabel(priority) {
     return bugLabelBase + ' ' + priority;
@@ -16,8 +16,8 @@ module.exports.ghLabels = {
     investigationLabels: priorityLevels.map(p => getInvestigationLabel(p)),
     investigationLabelColor: 'd4a3f0',
     bugLabelColor: 'ededed',
-    storyLabel: 'GUS STORY',
-    storyLabelColor: 'a2eeef'
+    userStoryLabel: 'USER STORY',
+    userStoryLabelColor: 'a2eeef'
 };
 module.exports.getBugLabel = getBugLabel;
 module.exports.getInvestigationLabel = getInvestigationLabel;

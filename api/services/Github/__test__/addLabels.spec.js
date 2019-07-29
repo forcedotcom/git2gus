@@ -22,13 +22,13 @@ describe('addLabels github service', () => {
         };
         await addLabels({
             req,
-            labels: ['GUS P1', 'GUS P2']
+            labels: ['BUG P1', 'BUG P2']
         });
         expect(req.octokitClient.issues.addLabels).toHaveBeenCalledWith({
             owner: 'pepe',
             repo: 'git2gus-test-app',
             number: 30,
-            labels: ['GUS P1', 'GUS P2']
+            labels: ['BUG P1', 'BUG P2']
         });
     });
 });
