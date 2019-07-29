@@ -2,6 +2,7 @@ const getConfig = require('./getConfig');
 const createTable = require('./createTable');
 const isGusLabel = require('./isGusLabel');
 const isGusBugLabel = require('./isGusBugLabel');
+const isGusInvestigationLabel = require('./isGusInvestigationLabel');
 const isGusStoryLabel = require('./isGusStoryLabel');
 const getPriority = require('./getPriority');
 const createComment = require('./createComment');
@@ -15,6 +16,7 @@ module.exports = {
     createTable,
     isGusLabel,
     isGusBugLabel,
+    isGusInvestigationLabel,
     isGusStoryLabel,
     getPriority,
     createComment,
