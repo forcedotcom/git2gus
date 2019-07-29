@@ -9,7 +9,17 @@ global.sails = {
 
 describe('isSalesforceLabel github service', () => {
     it('should return true when a Salesforce label is passed', () => {
-        const labels = ['BUG P0', 'BUG P1', 'BUG P2', 'BUG P3', 'USER STORY'];
+        const labels = [
+            'BUG P0',
+            'BUG P1',
+            'BUG P2',
+            'BUG P3',
+            'USER STORY',
+            'INVESTIGATION P0',
+            'INVESTIGATION P1',
+            'INVESTIGATION P2',
+            'INVESTIGATION P3'
+        ];
         labels.forEach(label => {
             expect(isSalesforceLabel(label)).toBe(true);
         });
