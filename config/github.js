@@ -7,7 +7,11 @@ module.exports.github = {
         'integration_installation_repositories',
         'installation_repositories'
     ],
-    approvedOrgs: process.env.GITHUB_APPROVED_ORGS
-        ? process.env.GITHUB_APPROVED_ORGS.split(',')
-        : []
+    approvedOrgs: [
+        'salesforce',
+        'sfdc',
+        'forcedotcom',
+        'salesforce-ux',
+        'SalesforceFoundation'
+    ]
 };

@@ -5,12 +5,10 @@ const res = {
 };
 const next = jest.fn();
 
-process.env.GITHUB_APPROVED_ORGS = 'salesforce,forcedotcom,sfdc';
-
 global.sails = {
     config: {
         github: {
-            approvedOrgs: process.env.GITHUB_APPROVED_ORGS.split(','),
+            approvedOrgs: ['salesforce', 'forcedotcom', 'sfdc'],
             installationEvents: [
                 'installation',
                 'integration_installation',
