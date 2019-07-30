@@ -96,6 +96,13 @@ Make sure your test app has Read & Write access to Issues, Pull Requests, and Co
 
 Sails has a built-in development db, called sails-disk, which is just a set of json files under `<repo root>/.tmp/localDiskDb`. The git2gus app will validate that the "build" you specified in the config is in the database so you'll need to make sure you've got an entry for that "build" in the `adm_build__c.db` file. For example, add a line like `{"name":"218","sfid":"218","_id":1}` to that file if your config is set to build "218".
 
+
+### Non-GUS Setup
+
+To set up on your own lighning experience, host this app on Heroku and run your smee command on the app. To set up Heroku Connect, you may view the steps [here](https://devcenter.heroku.com/articles/getting-started-with-heroku-and-connect-without-local-dev).
+
+It is recommended that you create a testing team. As a reminder, to create product tags, visit the app launcher and search "product tags". From here, you can create a product tag for your team, create assignment rules for bugs, user stories, and investigations, and then copy the product tag (you can generate a work URL for any assignment and copy the tag between "producttag=" and "&c__")
+
 ### Using
 
 To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. Run smee with the URL of your GitHub app. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
