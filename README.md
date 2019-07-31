@@ -56,24 +56,38 @@ An overall flow of the local development strategy:
 
 git2gus a Github App, to contribute you'll need to follow Github's [guide to set up your developement environment](https://developer.github.com/apps/quickstart-guides/setting-up-your-development-environment/).
 
-The high level steps include:
+Steps to set up development:
 
-- Create SMEE hook forwarder
-  ```bash
-  smee -u <your smee address here> --path /webhook --port 1337
-  ```
-- Create a mock github app
-- Create a test repo and install mock github app to that repo
-- Download github app PEM file
-- Create .env file with github variables
+1. Create SMEE hook forwarder
 
-  - NOTE: Some variable names are slightly different than the github guide, see example below.
-  - NOTE: it's easier to just copy your github app's PEM file to the repo root named `private-key.pem`. If you want to set an env variable instead of copying the .pem file then you must use the name `PRIVATE_KEY` (instead of `GITHUB_PRIVATE_KEY` as the github instructions say) and you have to manually insert `\n` line characters between each line.
-- Add variables specific to your Salesforce instance
-  - To use with GUS, Salesforce's internal instance, use the User Story Recort Type ID `0129000000006gDAAQ`, the Bug Record Type ID `012T00000004MUHIA2`, the Investigation Record Type ID `0129000000006lWAAQ`, and the Work Item Base URL `https://gus.lightning.force.com/lightning/r/ADM_Work__c/`
-  - To develop outside of GUS, get your Record Type IDs from the Object Manager and copy the base URL from your Agile Accelerator, it should resemble the one included in the example.
-- Add a link to your GitHub app (ex: the GitHub app for Salesforce's internal GUS instance is https://github.com/apps/git2gus)
-  - This will show up on the app's homepage
+```bash
+smee -u <your smee address here> --path /webhook --port 1337
+```
+
+2. Create a mock github app
+
+   - The app needs Read & Write access to Issues, Pull Requests, and Commit Statuses. It also needs read access to "A single file" with the path `.git2gus/config.json`. You will also need to subscribe to events: Issue comment, Issues, and Label.
+
+3. Create a test repo and install mock github app to that repo
+
+4. Download github app PEM file, rename to `private-key.pem`, and place it in the project's root folder
+
+   - If you want to set an env variable instead of copying the .pem file then you must use the name `PRIVATE_KEY` (instead of `GITHUB_PRIVATE_KEY` as the github instructions say) and you have to manually insert `\n` line characters between each line.
+
+5. Create .env file with github variables
+
+   - NOTE: Some variable names are slightly different than the github guide, see example below.
+   - You will need to specify a test organization/user to develop with as well as approved organizaitons your app will work with, see example below.
+
+6. Add variables specific to your Salesforce instance
+
+   - To use with GUS, Salesforce's internal instance, use the User Story Recort Type ID `0129000000006gDAAQ`, the Bug Record Type ID `012T00000004MUHIA2`, the Investigation Record Type ID `0129000000006lWAAQ`, and the Work Item Base URL `https://gus.lightning.force.com/lightning/r/ADM_Work__c/`
+
+   - To develop outside of GUS, get your Record Type IDs from the Object Manager and copy the base URL from your Agile Accelerator, it should resemble the one included in the example.
+
+7. Add a link to your GitHub app (ex: the GitHub app for Salesforce's internal GUS instance is https://github.com/apps/git2gus)
+
+    - This will show up on the app's homepage
 
 - For SSO-enabled organizations, you must authenticate with a personal access token with full repo access. Using a personal access token is not required for non-SSO-enabled orgs. To use, in `.env`, set `PERSONAL_ACCESS_TOKEN` to your personal access token and `TOKEN_ORGS` to a comma-seperated list of organizations to use your personal access token with.
 
@@ -82,6 +96,7 @@ You're .env should look something like:
 ```
 GITHUB_APP_ID=28467
 GITHUB_WEBHOOK_SECRET=qqqq1111
+GITHUB_APPROVED_ORGS=salesforce,sfdc,forcedotcom,salesforce-ux,SalesforceLabs,SalesforceFoundation
 GITHUB_TEST_ORG=wes566
 USER_STORY_RECORD_TYPE_ID=ABCDEFGHIJKLM
 BUG_RECORD_TYPE_ID=NOPQRSTUVWXYZ
