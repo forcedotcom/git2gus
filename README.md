@@ -87,7 +87,9 @@ smee -u <your smee address here> --path /webhook --port 1337
 
 7. Add a link to your GitHub app (ex: the GitHub app for Salesforce's internal GUS instance is https://github.com/apps/git2gus)
 
-- This will show up on the app's homepage
+    - This will show up on the app's homepage
+
+- For SSO-enabled organizations, you must authenticate with a personal access token with full repo access. Using a personal access token is not required for non-SSO-enabled orgs. To use, in `.env`, set `PERSONAL_ACCESS_TOKEN` to your personal access token and `TOKEN_ORGS` to a comma-seperated list of organizations to use your personal access token with.
 
 You're .env should look something like:
 
@@ -103,6 +105,17 @@ WORK_ITEM_BASE_URL=https://myproject.lightning.force.com/lightning/r/ADM_Work__c
 GITHUB_APP_URL= https://github.com/apps/yourapplication
 
 ```
+
+For use with SSO-enabled organizations, you would also have additional lines:
+
+```
+PERSONAL_ACCESS_TOKEN=abcdefghijklmnopqrstuvwxyz
+TOKEN_ORGS=asdf
+```
+
+The GITHUB_TEST_ORG is the org where you have a repo with your test GH app installed to.
+
+Make sure your test app has Read & Write access to Issues, Pull Requests, and Commit Statuses. Also make sure it has read access to "A single file" and the path should be `.git2gus/config.json`. You will also need to subscribe to events: Issue comment, Issues, and Label.
 
 ### Seeding your dev db
 
