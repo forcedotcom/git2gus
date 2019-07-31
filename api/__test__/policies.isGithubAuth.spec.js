@@ -13,13 +13,16 @@ jest.mock('../../config/github', () => ({
     }
 }));
 
-process.env.TOKEN_ORGS = 'SSOEnabledOrg';
+const testId = '410939550';
+const testOrgName = 'SSOEnabledOrg';
+
+process.env.TOKEN_ORGS = testOrgName;
 process.env.PERSONAL_ACCESS_TOKEN = 'personalAccessToken123';
 
 const req = {
     body: {
         installation: {
-            id: '410939550'
+            id: testId
         },
         repository: {
             full_name: 'testOrg/testRepo'
@@ -30,10 +33,10 @@ const req = {
 const SSOReq = {
     body: {
         installation: {
-            id: '410939550'
+            id: testId
         },
         repository: {
-            full_name: 'SSOEnabledOrg/testRepo'
+            full_name: testOrgName + '/testRepo'
         }
     }
 };
