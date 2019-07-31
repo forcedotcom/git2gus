@@ -1,5 +1,5 @@
-const isGusBugLabel = require('./isGusBugLabel');
-const isGusInvestigationLabel = require('./isGusInvestigationLabel');
+const isBugLabel = require('./isBugLabel');
+const isInvestigationLabel = require('./isInvestigationLabel');
 const { bugLabelBase } = require('../../../config/ghLabels');
 const { investigationLabelBase } = require('../../../config/ghLabels');
 
@@ -10,12 +10,12 @@ module.exports = function getPriority(labels) {
     let priority;
     labels.forEach(({ name }) => {
         if (
-            isGusBugLabel(name) &&
+            isBugLabel(name) &&
             (priority === undefined || name[bugPriorityLocation] < priority[1])
         ) {
             priority = `P${name[bugPriorityLocation]}`;
         } else if (
-            isGusInvestigationLabel(name) &&
+            isInvestigationLabel(name) &&
             (priority === undefined ||
                 name[investigationPriorityLocation] < priority[1])
         ) {

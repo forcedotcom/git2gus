@@ -1,9 +1,9 @@
 const getConfig = require('./getConfig');
 const createTable = require('./createTable');
-const isGusLabel = require('./isGusLabel');
-const isGusBugLabel = require('./isGusBugLabel');
-const isGusInvestigationLabel = require('./isGusInvestigationLabel');
-const isGusStoryLabel = require('./isGusStoryLabel');
+const isSalesforceLabel = require('./isSalesforceLabel');
+const isBugLabel = require('./isBugLabel');
+const isUserStoryLabel = require('./isUserStoryLabel');
+const isInvestigationLabel = require('./isInvestigationLabel');
 const getPriority = require('./getPriority');
 const createComment = require('./createComment');
 const addLabels = require('./addLabels');
@@ -14,10 +14,10 @@ const getRecordTypeId = require('./getRecordTypeId');
 module.exports = {
     getConfig,
     createTable,
-    isGusLabel,
-    isGusBugLabel,
-    isGusInvestigationLabel,
-    isGusStoryLabel,
+    isSalesforceLabel,
+    isBugLabel,
+    isUserStoryLabel,
+    isInvestigationLabel,
     getPriority,
     createComment,
     addLabels,

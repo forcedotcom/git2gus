@@ -1,7 +1,7 @@
 // @ts-check
-const isGusInvestigationLabel = require('./isGusInvestigationLabel');
-const isGusStoryLabel = require('./isGusStoryLabel');
-const isGusBugLabel = require('./isGusBugLabel');
+const isUserStoryLabel = require('./isUserStoryLabel');
+const isBugLabel = require('./isBugLabel');
+const isInvestigationLabel = require('./isInvestigationLabel');
 
 /**
  * @typedef {import('../../models/Issues')} Issues
@@ -18,18 +18,16 @@ const isGusBugLabel = require('./isGusBugLabel');
  * @returns {string}
  */
 function getRecordTypeId(labels) {
-    if (labels.some(l => isGusInvestigationLabel(l.name))) {
-        return /** @type{TypedGlobal} */ (global).sails.config.gus
+    if (labels.some(l => isInvestigationLabel(l.name))) {
+        return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .investigationRecordTypeId;
     }
-
-    if (labels.some(l => isGusStoryLabel(l.name))) {
-        return /** @type{TypedGlobal} */ (global).sails.config.gus
+    if (labels.some(l => isUserStoryLabel(l.name))) {
+        return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .userStoryRecordTypeId;
     }
-
-    if (labels.some(l => isGusBugLabel(l.name))) {
-        return /** @type{TypedGlobal} */ (global).sails.config.gus
+    if (labels.some(l => isBugLabel(l.name))) {
+        return /** @type{TypedGlobal} */ (global).sails.config.salesforce
             .bugRecordTypeId;
     }
 

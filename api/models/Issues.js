@@ -78,10 +78,10 @@ module.exports = {
         recordTypeId: {
             type: 'string',
             columnName: 'RecordTypeId',
-            defaultsTo: sails.config.gus.bugRecordTypeId,
+            defaultsTo: sails.config.salesforce.bugRecordTypeId,
             isIn: [
-                sails.config.gus.bugRecordTypeId,
-                sails.config.gus.userStoryRecordTypeId
+                sails.config.salesforce.bugRecordTypeId,
+                sails.config.salesforce.userStoryRecordTypeId
             ]
         }
     },

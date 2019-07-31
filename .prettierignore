@@ -1,5 +1,6 @@
 yarn.lock
 assets/dependencies/**/*.js
+views
 tasks/
 api/policies/isGithubAuth.js
 .tmp/
