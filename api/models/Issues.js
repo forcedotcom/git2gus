@@ -81,7 +81,8 @@ module.exports = {
             defaultsTo: sails.config.salesforce.bugRecordTypeId,
             isIn: [
                 sails.config.salesforce.bugRecordTypeId,
-                sails.config.salesforce.userStoryRecordTypeId
+                sails.config.salesforce.userStoryRecordTypeId,
+                sails.config.salesforce.investigationRecordTypeId
             ]
         }
     },
