@@ -33,6 +33,17 @@ module.exports.bootstrap = async function(done) {
     // Don't forget to trigger `done()` when this bootstrap function's logic is finished.
     // (otherwise your server will never lift, since it's waiting on the bootstrap)
 
+    // Start smee
+    const SmeeClient = require('smee-client');
+
+    const smee = new SmeeClient({
+        source: 'https://smee.io/rqJMaQ7bn8YzDLBr',
+        target: 'http://localhost:1337/webhook',
+        logger: console
+    });
+
+    smee.start();
+
     // Temporary Migration Script
     let cert;
     try {

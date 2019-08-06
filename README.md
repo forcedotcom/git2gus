@@ -1,6 +1,6 @@
 # Git2Gus Application
 
-a Github application to keep in sync issues with GUS work items.
+A Github application to keep issues in sync with Salesforce's Agile Accelerator
 
 [![CircleCI](https://circleci.com/gh/salesforce/git2gus.svg?style=svg&circle-token=702c52c9b89dfb5a3df392245cea76d05c0905db)](https://circleci.com/gh/salesforce/git2gus)
 
@@ -59,10 +59,7 @@ git2gus a Github App, to contribute you'll need to follow Github's [guide to set
 Steps to set up development:
 
 1. Create SMEE hook forwarder
-
-```bash
-smee -u <your smee address here> --path /webhook --port 1337
-```
+    - Create a .env file and set `SMEE_URL` to your smee url
 
 2. Create a mock github app
 
@@ -74,7 +71,7 @@ smee -u <your smee address here> --path /webhook --port 1337
 
    - If you want to set an env variable instead of copying the .pem file then you must use the name `PRIVATE_KEY` (instead of `GITHUB_PRIVATE_KEY` as the github instructions say) and you have to manually insert `\n` line characters between each line.
 
-5. Create .env file with github variables
+5. Add github variables to your `.env` file
 
    - NOTE: Some variable names are slightly different than the github guide, see example below.
    - You will need to specify a test organization/user to develop with as well as approved organizaitons your app will work with, see example below.
@@ -130,6 +127,8 @@ It is recommended that you create a testing team. As a reminder, to create produ
 
 ### Using
 
-To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. Run smee with the URL of your GitHub app. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
+To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
+
+Note, to set your environment variables on Heroku, go to your apps settings tab and modify your config vars to reflect your `.env` file. 
 
 To use, install your GitHub app on desired repositories. Your app's homepage will have set up and usage instructions for the actual syncing process between your GitHub repositories and your Salesforce instance.
