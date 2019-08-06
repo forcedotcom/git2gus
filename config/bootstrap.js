@@ -37,7 +37,7 @@ module.exports.bootstrap = async function(done) {
     const SmeeClient = require('smee-client');
 
     const smee = new SmeeClient({
-        source: 'https://smee.io/rqJMaQ7bn8YzDLBr',
+        source: process.env.SMEE_URL,
         target: 'http://localhost:1337/webhook',
         logger: console
     });
