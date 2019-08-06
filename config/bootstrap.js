@@ -38,7 +38,10 @@ module.exports.bootstrap = async function(done) {
 
     const smee = new SmeeClient({
         source: process.env.SMEE_URL,
-        target: 'http://localhost:1337/webhook',
+        target:
+            'http://localhost' + process.env.PORT
+                ? process.env.PORT
+                : '1337' + '/webhook',
         logger: console
     });
 
