@@ -9,10 +9,6 @@
  * https://sailsjs.com/config/bootstrap
  */
 
-const App = require('@octokit/app');
-const Octokit = require('@octokit/rest');
-const fs = require('fs');
-
 module.exports.bootstrap = async function(done) {
     // By convention, this is a good place to set up fake data during development.
     //
