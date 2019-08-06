@@ -4,4 +4,5 @@ views
 tasks/
 README.md
 api/policies/isGithubAuth.js
+api/actions/createWorkItem.js
 .tmp/
