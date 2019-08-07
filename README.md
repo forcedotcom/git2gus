@@ -132,6 +132,6 @@ It is recommended that you create a testing team. As a reminder, to create produ
 
 To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
 
-Note, to set your environment variables on Heroku, go to your apps settings tab and modify your config vars to reflect your `.env` file.
+Note, to set your environment variables on Heroku, go to your apps settings tab and modify your config vars to reflect your `.env` file. Instead of uploading your `private-key.pem`, file, you can just copy its contents to a `PRIVATE_KEY` config var on your Heroku app's settings page.
 
 To use, install your GitHub app on desired repositories. Your app's homepage will have set up and usage instructions for the actual syncing process between your GitHub repositories and your Salesforce instance.
