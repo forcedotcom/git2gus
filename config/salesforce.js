@@ -4,5 +4,5 @@ module.exports.salesforce = {
     userStoryRecordTypeId: process.env.USER_STORY_RECORD_TYPE_ID,
     /* Note: bugRecordTypeId is adm_work__c default record type */
     bugRecordTypeId: process.env.BUG_RECORD_TYPE_ID,
-    investigationRecordTypeId: '0129000000006lWAAQ'
+    investigationRecordTypeId: process.env.INVESTIGATION_RECORD_TYPE_ID
 };
