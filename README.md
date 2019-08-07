@@ -59,7 +59,10 @@ git2gus a Github App, to contribute you'll need to follow Github's [guide to set
 Steps to set up development:
 
 1. Create SMEE hook forwarder
-    - Create a .env file and set `SMEE_URL` to your smee url
+
+```bash
+smee -u <your smee address here> --path /webhook --port 1337
+```
 
 2. Create a mock github app
 
@@ -71,7 +74,7 @@ Steps to set up development:
 
    - If you want to set an env variable instead of copying the .pem file then you must use the name `PRIVATE_KEY` (instead of `GITHUB_PRIVATE_KEY` as the github instructions say) and you have to manually insert `\n` line characters between each line.
 
-5. Add github variables to your `.env` file
+5. Create .env file with github variables
 
    - NOTE: Some variable names are slightly different than the github guide, see example below.
    - You will need to specify a test organization/user to develop with as well as approved organizaitons your app will work with, see example below.
@@ -121,7 +124,7 @@ Sails has a built-in development db, called sails-disk, which is just a set of j
 
 ### Non-GUS Setup
 
-To set up on your own lighning experience, host this app on Heroku and run your smee command on the app. To set up Heroku Connect, you may view the steps [here](https://devcenter.heroku.com/articles/getting-started-with-heroku-and-connect-without-local-dev).
+To set up on your own lighning experience, host this app on Heroku and change the webhook URL of your GitHub app to point to [YOUR HEROKU APP URL]/webhook instead of smee. To set up Heroku Connect, you may view the steps [here](https://devcenter.heroku.com/articles/getting-started-with-heroku-and-connect-without-local-dev).
 
 It is recommended that you create a testing team. As a reminder, to create product tags, visit the app launcher and search "product tags". From here, you can create a product tag for your team, create assignment rules for bugs, user stories, and investigations, and then copy the product tag (you can generate a work URL for any assignment and copy the tag between "producttag=" and "&c__")
 
@@ -129,6 +132,6 @@ It is recommended that you create a testing team. As a reminder, to create produ
 
 To deploy to your Salesforce instance, deploy to a Heroku App with Postgres and Heroku Connect add-ons. The Postgres database will act as the app's database, and can then set up Heroku Connect between the Postgres database and your Salesforce instance.
 
-Note, to set your environment variables on Heroku, go to your apps settings tab and modify your config vars to reflect your `.env` file. 
+Note, to set your environment variables on Heroku, go to your apps settings tab and modify your config vars to reflect your `.env` file.
 
 To use, install your GitHub app on desired repositories. Your app's homepage will have set up and usage instructions for the actual syncing process between your GitHub repositories and your Salesforce instance.
