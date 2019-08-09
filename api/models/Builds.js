@@ -1,5 +1,9 @@
+const prefix = process.env.SALESFORCE_PREFIX
+    ? process.env.SALESFORCE_PREFIX
+    : '';
+
 module.exports = {
-    tableName: 'adm_build__c',
+    tableName: prefix + 'adm_build__c',
     attributes: {
         name: 'string',
         createdAt: {
@@ -10,7 +14,7 @@ module.exports = {
         endsAt: {
             type: 'ref',
             columnType: 'datetime',
-            columnName: 'release_freeze_datetime__c'
+            columnName: 'systemmodstamp'
         },
         sfid: 'string'
     },
