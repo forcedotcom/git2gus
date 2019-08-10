@@ -10,6 +10,5 @@ module.exports = async function create(data) {
         'priority',
         'relatedUrl'
     ]);
-    console.log('Starting item creation....');
     return await Issues.create(item).fetch();
 };
