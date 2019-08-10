@@ -2,7 +2,6 @@ const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github = require('../services/Github');
 const { getWorkItemUrl, waitUntilSynced } = require('../services/Issues');
-const Logger = require('../services/Logger');
 
 function getBuildErrorMessage(config, milestone) {
     if (milestone) {
@@ -22,11 +21,11 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
 
-        Logger.log("Issue Labeled")
+        console.log("Issue Labeled")
 
         let productTag = config.productTag;
         if (config.productTagLabels) {
-            Logger.log("Checking product tag labels")
+            console.log("Checking product tag labels")
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
                 if (labels.some(label => label.name === productTagLabel)) {
                     productTag = config.productTagLabels[productTagLabel];
@@ -35,15 +34,15 @@ module.exports = {
         }
 
         if (Github.isSalesforceLabel(label.name) && productTag) {
-            Logger.log("Is Salesforce label")
+            console.log("Is Salesforce label")
             const priority = Github.getPriority(labels);
-            Logger.log("Got priority " + priority)
+            console.log("Got priority " + priority)
             const recordTypeId = Github.getRecordTypeId(labels);
-            Logger.log("Got record type id " + recordTypeId)
+            console.log("Got record type id " + recordTypeId)
             const foundInBuild = await Builds.resolveBuild(config, milestone);
-            Logger.log("Got build... " + foundInBuild)
+            console.log("Got build... " + foundInBuild)
             if (foundInBuild) {
-                Logger.log("Calling creation hook")
+                console.log("Calling creation hook")
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',

@@ -1,5 +1,4 @@
 const Issues = require('../../../services/Issues');
-const Logger = require('../../../services/Logger');
 
 module.exports = async function createOrUpdateWorkItem(task) {
     const {
@@ -14,7 +13,7 @@ module.exports = async function createOrUpdateWorkItem(task) {
         recordTypeId
     } = task;
 
-    Logger.log('Looking if issue already exists....' + relatedUrl);
+    console.log('Looking if issue already exists....' + relatedUrl);
 
     const issue = await Issues.getByRelatedUrl(relatedUrl);
     const alreadyLowestPriority =
@@ -24,17 +23,17 @@ module.exports = async function createOrUpdateWorkItem(task) {
     // if issue already exists and already has lowest priority
     // and already has correct recordTypeId then we just return
     if (alreadyLowestPriority && recordIdTypeIsSame) {
-        Logger.log('Already lowest priority');
+        console.log('Already lowest priority');
         return;
     }
 
     // else if issue already exists we update it
     if (issue) {
-        Logger.log('Update existing work item' + issue.id);
+        console.log('Update existing work item' + issue.id);
         return await Issues.update(issue.id, { priority, recordTypeId });
     }
 
-    Logger.log('Creating new work item' + relatedUrl);
+    console.log('Creating new work item' + relatedUrl);
     // else we create a new issue
     return await Issues.create({
         subject,

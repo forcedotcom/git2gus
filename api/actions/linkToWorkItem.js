@@ -16,7 +16,7 @@ module.exports = {
             changes
         } = req.body;
 
-        Logger.log('Issue opened - linkToWorkItem');
+        console.log('Issue opened - linkToWorkItem');
 
         if (action === 'edited' && !changes.body) {
             return;
