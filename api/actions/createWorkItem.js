@@ -21,8 +21,11 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
 
+        console.log("Issue Labeled")
+
         let productTag = config.productTag;
         if (config.productTagLabels) {
+            console.log("Checking product tag labels")
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
                 if (labels.some(label => label.name === productTagLabel)) {
                     productTag = config.productTagLabels[productTagLabel];
@@ -31,10 +34,15 @@ module.exports = {
         }
 
         if (Github.isSalesforceLabel(label.name) && productTag) {
+            console.log("Is Salesforce label")
             const priority = Github.getPriority(labels);
+            console.log("Got priority " + priority)
             const recordTypeId = Github.getRecordTypeId(labels);
+            console.log("Got record type id " + recordTypeId)
             const foundInBuild = await Builds.resolveBuild(config, milestone);
+            console.log("Got build... " + foundInBuild)
             if (foundInBuild) {
+                console.log("Calling creation hook")
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',
