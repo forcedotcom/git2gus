@@ -77,7 +77,7 @@ module.exports = {
         },
         recordTypeId: {
             type: 'string',
-            columnName: 'RecordTypeId',
+            columnName: 'recordtypeid',
             defaultsTo: sails.config.salesforce.bugRecordTypeId,
             isIn: [
                 sails.config.salesforce.bugRecordTypeId,
