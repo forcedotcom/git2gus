@@ -1,4 +1,5 @@
 const EventEmitter = require('events');
+const Logger = require('../../services/Logger');
 
 const events = {
     INSTALLATION_CREATED: 'INSTALLATION_CREATED',
@@ -49,6 +50,7 @@ const eventsConfig = {
 class GithubEvents extends EventEmitter {
     static match(req, eventName) {
         const event = req.headers['x-github-event'];
+        Logger.log(event);
         const { action } = req.body;
         return (
             event === eventsConfig[eventName].event &&
