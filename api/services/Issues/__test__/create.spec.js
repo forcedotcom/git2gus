@@ -30,6 +30,7 @@ describe('create issues service', () => {
         expect(pick).toHaveBeenCalledWith(data, [
             'subject',
             'description',
+            'storyDetails',
             'productTag',
             'status',
             'foundInBuild',
