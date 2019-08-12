@@ -16,6 +16,10 @@ module.exports = {
             changes
         } = req.body;
 
+        const {
+            config: { hideWorkItemUrl }
+        } = req.git2gus;
+
         if (action === 'edited' && !changes.body) {
             return;
         }
@@ -63,7 +67,8 @@ module.exports = {
                         return await createComment({
                             req,
                             body: `This issue has been linked to a new work item: ${getWorkItemUrl(
-                                item
+                                item,
+                                hideWorkItemUrl
                             )}`
                         });
                     }

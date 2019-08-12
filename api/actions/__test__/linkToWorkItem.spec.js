@@ -29,6 +29,10 @@ global.sails = {
     }
 };
 
+const git2gus = {
+    config: {}
+};
+
 describe('linkToWorkItem action', () => {
     it('should call queue push with the right values when the issue is opened and the description matches the annotation', () => {
         const req = {
@@ -38,7 +42,8 @@ describe('linkToWorkItem action', () => {
                     url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@ issue description'
                 }
-            }
+            },
+            git2gus
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
@@ -64,7 +69,8 @@ describe('linkToWorkItem action', () => {
                         from: '@W-123@ description'
                     }
                 }
-            }
+            },
+            git2gus
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
@@ -85,7 +91,8 @@ describe('linkToWorkItem action', () => {
                     url: 'github/test-salesforce-app/#32',
                     body: 'issue description'
                 }
-            }
+            },
+            git2gus
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
@@ -117,7 +124,8 @@ describe('linkToWorkItem action', () => {
                 issue: {
                     url: 'github/test-salesforce-app/#32'
                 }
-            }
+            },
+            git2gus
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
@@ -136,7 +144,8 @@ describe('linkToWorkItem action', () => {
                         from: 'new title'
                     }
                 }
-            }
+            },
+            git2gus
         };
         fn(req);
         expect(sails.hooks['issues-hook'].queue.push).not.toHaveBeenCalled();
@@ -158,12 +167,16 @@ describe('linkToWorkItem action', () => {
                     url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
-            }
+            },
+            git2gus
         };
         await fn(req);
-        expect(getWorkItemUrl).toHaveBeenCalledWith({
-            id: 'abcd1234'
-        });
+        expect(getWorkItemUrl).toHaveBeenCalledWith(
+            {
+                id: 'abcd1234'
+            },
+            undefined
+        );
         expect(createComment).toHaveBeenCalledWith({
             req,
             body:
@@ -190,7 +203,8 @@ describe('linkToWorkItem action', () => {
                     url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
-            }
+            },
+            git2gus
         };
         await fn(req);
         expect(createComment).toHaveBeenCalledTimes(1);
@@ -220,7 +234,8 @@ describe('linkToWorkItem action', () => {
                     url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
-            }
+            },
+            git2gus
         };
         await fn(req);
         expect(createComment).toHaveBeenCalledTimes(1);
@@ -249,7 +264,8 @@ describe('linkToWorkItem action', () => {
                     url: 'github/test-salesforce-app/#32',
                     body: '@W-12345@'
                 }
-            }
+            },
+            git2gus
         };
         await fn(req);
         expect(createComment).toHaveBeenCalledTimes(1);

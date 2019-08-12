@@ -152,9 +152,18 @@ For more information, see:
             <li class="homepage-config-keys-item">
                 <span class="homepage-badge">statusWhenClosed</span>
                 <span class="homepage-config-key-description">
-                    It allows to specified the status `INTEGRATE`, `FIXED` or
+                    It allows to specify the status `INTEGRATE`, `FIXED` or
                     `CLOSED` of the work item when the Github issue gets
                     closed. By default: `INTEGRATE`.
+                </span>
+            </li>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">hideWorkItemUrl</span>
+                <span class="homepage-config-key-description">
+                    Some repositories are private or open source, when your repository is open source exposing internal
+                    urls is a security vulnerability.
+                    You will need to set this option to `true` in order to hide the url and use the WI-# instead.
+                    By default: `false`.
                 </span>
             </li>
         </ul>
