@@ -11,11 +11,7 @@ module.exports = {
             columnType: 'datetime',
             columnName: 'createddate'
         },
-        endsAt: {
-            type: 'ref',
-            columnType: 'string',
-            columnName: 'sfid'
-        }
+        sfid: 'string'
     },
     migrate: 'safe'
 };
