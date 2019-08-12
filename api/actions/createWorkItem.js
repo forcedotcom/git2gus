@@ -9,12 +9,12 @@ function getBuildErrorMessage(config, milestone) {
     }
     return `The defaultBuild value ${
         config.defaultBuild
-    } in \`.git2gus/config.json\` doesn't match any valid build in Salesforce.`;
+        } in \`.git2gus/config.json\` doesn't match any valid build in Salesforce.`;
 }
 
 module.exports = {
     eventName: GithubEvents.events.ISSUE_LABELED,
-    fn: async function(req) {
+    fn: async function (req) {
         const {
             issue: { labels, url, title, body, milestone },
             label
@@ -22,6 +22,7 @@ module.exports = {
         const { config } = req.git2gus;
 
         let productTag = config.productTag;
+        const { hideWorkItemUrl } = config;
         if (config.productTagLabels) {
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
                 if (labels.some(label => label.name === productTagLabel)) {
@@ -58,7 +59,8 @@ module.exports = {
                                 return await Github.createComment({
                                     req,
                                     body: `This issue has been linked to a new work item: ${getWorkItemUrl(
-                                        syncedItem
+                                        syncedItem,
+                                        hideWorkItemUrl
                                     )}`
                                 });
                             }
