@@ -171,9 +171,12 @@ describe('linkToWorkItem action', () => {
             git2gus
         };
         await fn(req);
-        expect(getWorkItemUrl).toHaveBeenCalledWith({
-            id: 'abcd1234'
-        }, undefined);
+        expect(getWorkItemUrl).toHaveBeenCalledWith(
+            {
+                id: 'abcd1234'
+            },
+            undefined
+        );
         expect(createComment).toHaveBeenCalledWith({
             req,
             body:

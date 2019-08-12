@@ -9,7 +9,7 @@ function getBuildErrorMessage(config, milestone) {
     }
     return `The defaultBuild value ${
         config.defaultBuild
-        } in \`.git2gus/config.json\` doesn't match any valid build in Salesforce.`;
+    } in \`.git2gus/config.json\` doesn't match any valid build in Salesforce.`;
 }
 
 module.exports = {

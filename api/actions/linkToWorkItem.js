@@ -9,14 +9,16 @@ module.exports = {
         GithubEvents.events.ISSUE_OPENED,
         GithubEvents.events.ISSUE_EDITED
     ],
-    fn: async function (req) {
+    fn: async function(req) {
         const {
             action,
             issue: { url, body: description },
             changes
         } = req.body;
 
-        const { config: { hideWorkItemUrl } } = req.git2gus;
+        const {
+            config: { hideWorkItemUrl }
+        } = req.git2gus;
 
         if (action === 'edited' && !changes.body) {
             return;
@@ -44,8 +46,8 @@ module.exports = {
                         } else if (
                             item.priority &&
                             item.recordTypeId ===
-                            sails.config.salesforce
-                                .investigationRecordTypeId
+                                sails.config.salesforce
+                                    .investigationRecordTypeId
                         ) {
                             await addLabels({
                                 req,
@@ -54,7 +56,7 @@ module.exports = {
                         } else if (
                             item.recordTypeId &&
                             item.recordTypeId ===
-                            sails.config.salesforce.userStoryRecordTypeId
+                                sails.config.salesforce.userStoryRecordTypeId
                         ) {
                             await addLabels({
                                 req,

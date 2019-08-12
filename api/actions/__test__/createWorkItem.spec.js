@@ -232,7 +232,10 @@ describe('createGusItem action', () => {
             { id: '12345' },
             { interval: 60000, times: 5 }
         );
-        expect(getWorkItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' }, undefined);
+        expect(getWorkItemUrl).toHaveBeenCalledWith(
+            { sfci: 'SF123456' },
+            undefined
+        );
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body: `This issue has been linked to a new work item: https://12345.com`
