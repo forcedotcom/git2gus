@@ -15,8 +15,7 @@ module.exports = {
             type: 'ref',
             columnType: 'string',
             columnName: 'sfid'
-        },
-        sfid: 'string'
+        }
     },
     migrate: 'safe'
 };
