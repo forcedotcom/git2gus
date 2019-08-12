@@ -13,8 +13,8 @@ module.exports = {
         },
         endsAt: {
             type: 'ref',
-            columnType: 'datetime',
-            columnName: 'systemmodstamp'
+            columnType: 'string',
+            columnName: 'sfid'
         },
         sfid: 'string'
     },
