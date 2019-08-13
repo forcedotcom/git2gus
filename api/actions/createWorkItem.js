@@ -16,13 +16,11 @@ module.exports = {
     eventName: GithubEvents.events.ISSUE_LABELED,
     fn: async function (req) {
         const {
-            issue: { labels, url, title, body, milestone },
-            label
+            issue: { labels, url, title, body, milestone }
         } = req.body;
         const { config } = req.git2gus;
-
-        let productTag = config.productTag;
         const { hideWorkItemUrl } = config;
+        let productTag = config.productTag;
         if (config.productTagLabels) {
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
                 if (labels.some(label => label.name === productTagLabel)) {
@@ -30,8 +28,14 @@ module.exports = {
                 }
             });
         }
-
-        if (Github.isSalesforceLabel(label.name) && productTag) {
+        if(config.issueTypeLabels) {
+            Object.keys(config.issueTypeLabels).forEach(issueTypeLabel => {
+                if (labels.some(label => label.name === issueTypeLabel)) {
+                    labels.push({name: config.issueTypeLabels[issueTypeLabel]});
+                }
+            });
+        }
+        if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
