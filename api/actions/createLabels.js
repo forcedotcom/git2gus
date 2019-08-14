@@ -34,7 +34,7 @@ module.exports = {
             } = sails.config.ghLabels;
 
             // add the bug labels
-            await bugLabels.forEach(async name => {
+            bugLabels.forEach(async name => {
                 const label = {
                     owner,
                     repo,
@@ -45,7 +45,7 @@ module.exports = {
             });
 
             // add the investigation labels
-            await investigationLabels.forEach(async name => {
+            investigationLabels.forEach(async name => {
                 const label = {
                     owner,
                     repo,
