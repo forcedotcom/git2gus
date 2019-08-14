@@ -24,14 +24,16 @@ function shouldUsePersonalToken(fullName) {
 }
 
 module.exports = async function isGithubAuth(req, res, next) {
-    const { installation, repository } = req.body;
+    const { installation, repository, repositories } = req.body;
     const app = new App({
         id: github.appId,
         privateKey: cert
     });
 
+    const repositoryName = (repositories && repositories[0] && repositories[0].full_name) ? repositories[0].full_name : repository.full_name;
+    
     // pretier-ignore
-    const octokitClient = shouldUsePersonalToken(repository.full_name)
+    const octokitClient = (repository && shouldUsePersonalToken(repositoryName))
         ? new Octokit({ auth: process.env.PERSONAL_ACCESS_TOKEN })
         : new Octokit({
             async auth() {
