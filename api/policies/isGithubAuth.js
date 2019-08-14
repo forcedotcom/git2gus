@@ -29,9 +29,7 @@ module.exports = async function isGithubAuth(req, res, next) {
         id: github.appId,
         privateKey: cert
     });
-
     const repositoryName = (repositories && repositories[0] && repositories[0].full_name) ? repositories[0].full_name : repository.full_name;
-    
     // pretier-ignore
     const octokitClient = (repository && shouldUsePersonalToken(repositoryName))
         ? new Octokit({ auth: process.env.PERSONAL_ACCESS_TOKEN })
