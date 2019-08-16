@@ -10,7 +10,7 @@ module.exports = async function getConfig({ octokitClient, owner, repo }) {
     const isRightConfig =
         typeof config === 'object' &&
         config !== null &&
-        config.productTag &&
+        (config.productTag || config.productTagLabels) &&
         config.defaultBuild;
     if (isRightConfig) {
         return config;
