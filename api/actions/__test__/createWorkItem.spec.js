@@ -232,12 +232,42 @@ describe('createGusItem action', () => {
             { id: '12345' },
             { interval: 60000, times: 5 }
         );
-        expect(getWorkItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' });
+        expect(getWorkItemUrl).toHaveBeenCalledWith(
+            { sfci: 'SF123456' },
+            undefined
+        );
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body: `This issue has been linked to a new work item: https://12345.com`
         });
     });
+
+    it('should create a comment without the url when the git2gus.config.hideWorkItemUrl = true', async () => {
+        expect.assertions(2);
+        Github.createComment.mockReset();
+        Github.isSalesforceLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(
+            Promise.resolve({ sfid: 'B12345' })
+        );
+        getWorkItemUrl.mockReset();
+        waitUntilSynced.mockReturnValue(Promise.resolve({ sfci: 'SF123456' }));
+        getWorkItemUrl.mockReturnValue('https://12345.com');
+        sails.hooks['issues-hook'].queue.push = async (data, done) => {
+            done(null, { id: '12345' });
+        };
+
+        const req1 = JSON.parse(JSON.stringify(req));
+        req1.git2gus.config.hideWorkItemUrl = true;
+
+        await fn(req1);
+
+        expect(waitUntilSynced).toHaveBeenCalledWith(
+            { id: '12345' },
+            { interval: 60000, times: 5 }
+        );
+        expect(getWorkItemUrl).toHaveBeenCalledWith({ sfci: 'SF123456' }, true);
+    });
+
     it('should create a comment when the "done" callback return the new work item but it not get synced', async () => {
         expect.assertions(3);
         Github.createComment.mockReset();

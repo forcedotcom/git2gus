@@ -4,6 +4,7 @@ module.exports = async function create(data) {
     const item = pick(data, [
         'subject',
         'description',
+        'storyDetails',
         'productTag',
         'status',
         'foundInBuild',
