@@ -20,10 +20,6 @@ const eventsConfig = {
         event: 'installation_repositories',
         action: 'added'
     },
-    [events.LABEL_DELETED]: {
-        event: 'label',
-        action: 'deleted'
-    },
     [events.ISSUE_LABELED]: {
         event: 'issues',
         action: 'labeled'

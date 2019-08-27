@@ -33,7 +33,8 @@ const req = {
             url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
-            number: 30
+            number: 30,
+            labels: [{ name: 'BUG P1' }]
         },
         label: 'BUG P1',
         repository: {
@@ -63,9 +64,9 @@ const reqWithProductTagLabel = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: [{ name: 'GUS P1' }, { name: 'testTagLabel' }]
+            labels: [{ name: 'BUG P1' }, { name: 'testTagLabel' }]
         },
-        label: 'GUS P1',
+        label: 'BUG P1',
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -97,9 +98,9 @@ const reqWithOnlyProductTagLabels = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: [{ name: 'GUS P1' }, { name: 'notAProductTagLabel' }]
+            labels: [{ name: 'BUG P1' }, { name: 'notAProductTagLabel' }]
         },
-        label: 'GUS P1',
+        label: 'BUG P1',
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -123,12 +124,66 @@ const reqWithOnlyProductTagLabels = {
     }
 };
 
+const reqWithIssueTypeLabels = {
+    body: {
+        issue: {
+            url: 'github/git2gus-test/#30',
+            title: 'new issue',
+            body: 'some description',
+            number: 30,
+            labels: [{ name: 'feature' }, { name: 'notAValidLabel' }]
+        },
+        label: 'feature',
+        repository: {
+            name: 'git2gus-test',
+            owner: {
+                login: 'john'
+            }
+        }
+    },
+    git2gus: {
+        config: {
+            issueTypeLabels: {
+                feature: 'BUG P1'
+            },
+            productTag: 'abcd1234',
+            defaultBuild: '218'
+        }
+    },
+    octokitClient: {
+        issues: {
+            createComment: jest.fn()
+        }
+    }
+};
+
 describe('createGusItem action', () => {
     it('should call queue push with the right values', async () => {
         expect.assertions(1);
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
         await fn(req);
+        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
+            {
+                name: 'CREATE_WORK_ITEM',
+                subject: 'new issue',
+                description: 'some description',
+                storyDetails: 'some description',
+                productTag: 'abcd1234',
+                status: 'NEW',
+                foundInBuild: 'qwerty1234',
+                priority: 'P1',
+                relatedUrl: 'github/git2gus-test/#30',
+                recordTypeId: 'bug'
+            },
+            expect.any(Function)
+        );
+    });
+    it('should call queue push with the right issue type from label', async () => {
+        expect.assertions(1);
+        Github.isSalesforceLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        await fn(reqWithIssueTypeLabels);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
                 name: 'CREATE_WORK_ITEM',
