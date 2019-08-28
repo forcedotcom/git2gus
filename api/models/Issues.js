@@ -67,6 +67,7 @@ module.exports = {
             type: 'string',
             columnName: prefix + 'priority__c',
             isIn: ['P0', 'P1', 'P2', 'P3'],
+            defaultsTo: 'P2',
             required: false
         },
         syncState: {
