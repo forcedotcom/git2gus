@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2019, salesforce.com, inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+ */
+
 const asyncQueue = require('async/queue');
 const createOrUpdateWorkItem = require('./create-or-update-work-item');
 const updateWorkItemPriority = require('./update-work-item-priority');
