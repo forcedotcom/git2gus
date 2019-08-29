@@ -1,0 +1,10 @@
+{
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": "*.ejs",
+            "options": { "parser": "html" }
+        },
+        { "files": "*.md", "options": { "tabWidth": 1 } }
+    ]
+}

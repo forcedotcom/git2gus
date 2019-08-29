@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Salesforce-Sans-Bold';
+    src:
+        url('../fonts/SalesforceSans-Bold.woff2') format('woff2'),
+        url('../fonts/SalesforceSans-Bold.woff') format('woff'),
+        url('../fonts/SalesforceSans-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Salesforce-Sans-Regular';
+    src:
+        url('../fonts/SalesforceSans-Regular.woff2') format('woff2'),
+        url('../fonts/SalesforceSans-Regular.woff') format('woff'),
+        url('../fonts/SalesforceSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

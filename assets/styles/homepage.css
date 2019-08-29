@@ -1,0 +1,258 @@
+/* 
+Copyright (c) 2019, salesforce.com, inc.
+All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+*/
+
+.homepage-container {
+    background-color: white;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.homepage-top-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.homepage-background {
+    background-image: url('/images/background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 30px 55px 30px 50px;
+    height: 67vh;
+}
+
+.homepage-title-logo-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 180px 90px 0 70px;
+}
+
+.homepage-title-container {
+    color: rgb(3, 46, 97);
+    font-family: 'Salesforce-Sans-Bold';
+}
+
+.homepage-logo {
+    margin-left: 16px;
+}
+
+.homepage-background-cloud {
+    background-image: url('/images/cloud.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 33vh;
+    width: 108vw;
+}
+
+.homepage-getting-started-button {
+    background-color: rgb(1, 182, 245);
+    border-radius: 100px;
+    color: white;
+    cursor: pointer;
+    line-height: 56px;
+    margin-top: 60px;
+    text-align: center;
+    text-decoration: none;
+    width: 187px;
+}
+
+.homepage-getting-started-button:hover {
+    background-color: rgba(100, 182, 245, 0.9);
+}
+
+.homepage-getting-started-button:active {
+    transform: scale(0.95);
+    transition: all 0.2s ease;
+}
+
+.homepage-section-container {
+    padding: 72px 100px 0 100px;
+}
+
+.homepage-section-title {
+    color: rgb(21, 158, 217);
+    font-weight: 100;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.homepage-section-subtitle {
+    color: rgb(164, 167, 181);
+    font-weight: 100;
+    margin-bottom: 72px;
+    text-align: center;
+}
+
+.homepage-getting-started-step {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 72px;
+}
+
+.homepage-getting-started-step-image {
+    margin-right: 40px;
+}
+
+.homepage-getting-started-step-label {
+    color: rgb(6, 28, 63);
+    margin-bottom: 24px;
+}
+
+.homepage-getting-started-step-description {
+    color: rgb(164, 167, 181);
+}
+
+.homepage-config-file-text {
+    color: rgb(6, 28, 63);
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.homepage-badge {
+    background-color: rgb(244, 246, 249);
+    color: rgb(87, 101, 116);
+    padding: 5px 5px;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+.homepage-example-text {
+    color: rgb(87, 101, 116);
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.homepage-code {
+    background-color: rgb(244, 246, 249);
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+.homepage-config-keys-list {
+    padding: 38px 0 54px 0;
+}
+
+.homepage-config-keys-item {
+    margin-bottom: 26px;
+}
+
+.homepage-config-key-description {
+    color: rgb(164, 167, 181);
+    font-size: 20px;
+}
+
+.homepage-flow-title {
+    color: rgb(6, 28, 63);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.homepage-flow-step-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 65px;
+}
+
+.homepage-flow-step-title {
+    color: rgb(6, 28, 63);
+    margin-bottom: 12px;
+}
+
+.homepage-flow-step-description {
+    color: rgb(164, 167, 181);
+}
+
+@media (max-width: 1024px) {
+    .homepage-background {
+        background-size: contain;
+    }
+
+    .homepage-title-logo-container {
+        align-items: center;
+        justify-content: unset;
+        flex-direction: column;
+        padding: 100px 0 0 0;
+    }
+
+    .homepage-title-container {
+        text-align: center;
+    }
+
+    .homepage-logo {
+        margin-top: 60px;
+        margin-left: 0;
+    }
+
+    .homepage-background-cloud {
+        background-size: contain;
+        width: 100vw;
+    }
+
+    .homepage-section-container {
+        padding: 40px 60px 0 60px;
+    }
+
+    .homepage-flow-step-container {
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .homepage-flow-step-image {
+        margin-bottom: 24px;
+        order: 1;
+    }
+
+    .homepage-flow-step {
+        order: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .homepage-background {
+        margin: 40px 16px 50px 12px;
+    }
+
+    .homepage-title-logo-container {
+        padding-top: 40px;
+    }
+
+    .homepage-getting-started-button {
+        margin-top: 30px;
+    }
+
+    .homepage-section-container {
+        padding: 40px 16px 0 16px;
+    }
+
+    .homepage-getting-started-step {
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .homepage-getting-started-step-image {
+        margin-right: 0;
+        margin-bottom: 24px;
+    }
+
+    .homepage-getting-started-step-label {
+        text-align: center;
+    }
+
+    .homepage-getting-started-step-description {
+        text-align: center;
+    }
+
+    .homepage-config-keys-list {
+        padding-left: 16px;
+    }
+}

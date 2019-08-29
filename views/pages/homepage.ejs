@@ -1,0 +1,305 @@
+<!--
+Copyright (c) 2019, salesforce.com, inc.
+All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+-->
+
+<div class="homepage-container">
+    <div class="homepage-top-section">
+        <div class="homepage-background">
+            <div class="homepage-title-logo-container">
+                <div class="homepage-title-container">
+                    <h1>Git2Gus Application</h1>
+                    <h3>
+                        It keeps your issues in sync with Agile Accelerator on
+                        Salesforce.
+                    </h3>
+                </div>
+                <img
+                    class="homepage-logo"
+                    src="/images/logo.svg"
+                    alt="git to gus logo"
+                />
+            </div>
+        </div>
+        <div class="homepage-background-cloud">
+            <a href="#getting-started" class="homepage-getting-started-button"
+                >Getting Started</a
+            >
+        </div>
+    </div>
+    <div class="homepage-section-container">
+        <h2 id="getting-started" class="homepage-section-title">
+            Ready to use Git2Gus?
+        </h2>
+        <p class="homepage-section-subtitle">
+            Getting started to use Git2Gus is simple. Go through the following 3
+            steps:
+        </p>
+        <ol>
+            <li class="homepage-getting-started-step">
+                <img
+                    class="homepage-getting-started-step-image"
+                    src="/images/install.svg"
+                    alt="install"
+                />
+                <span>
+                    <h3 class="homepage-getting-started-step-label">
+                        1. Install Git2Gus application
+                    </h3>
+                    <p class="homepage-getting-started-step-description">
+                        Navigate to
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href=<%= process.env.GITHUB_APP_URL %>
+                        >
+                            <%= process.env.GITHUB_APP_URL %>
+                        </a>
+                        and install the app in you repo.
+                    </p>
+                </span>
+            </li>
+            <li class="homepage-getting-started-step">
+                <img
+                    class="homepage-getting-started-step-image"
+                    src="/images/configure.svg"
+                    alt="configure"
+                />
+                <span>
+                    <h3 class="homepage-getting-started-step-label">
+                        2. Commit the configuration file into your repo.
+                    </h3>
+                    <p class="homepage-getting-started-step-description">
+                        In order to customize your repo for your team you have
+                        to commit a configuration file
+                        <b>.git2gus/config.json</b> with specific data about
+                        your team. e.g.
+                    </p>
+                    <pre class="homepage-code"><code>
+{
+    "productTag": "a1aB0000000Jgm7IAC",
+    "defaultBuild": "218"
+}
+                        </code></pre>
+                </span>
+            </li>
+            <li class="homepage-getting-started-step">
+                <img
+                    class="homepage-getting-started-step-image"
+                    src="/images/app.svg"
+                    alt="app"
+                />
+                <span>
+                    <h3 class="homepage-getting-started-step-label">
+                        3. Enjoy the syncronization.
+                    </h3>
+                    <p class="homepage-getting-started-step-description">
+                        Since the app was installed and the config file is in
+                        then the app is going to start reacting to events on the
+                        issues.
+                    </p>
+                </span>
+            </li>
+        </ol>
+    </div>
+    <div class="homepage-section-container">
+        <h2 class="homepage-section-title">Configuring Git2Gus</h2>
+        <ul class="homepage-config-keys-list">
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">productTag</span>
+                <span class="homepage-config-key-description">
+                    The unique ID of the productTag used by your team in Salesforce.
+                    When a new work item is going to be created this is the
+                    id the application is going to use. To see your Product Tags
+                    go to the App Launcher in Salesforce and search "product tags".
+                </span>
+            </li>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">productTagLabels</span>
+                <span class="homepage-config-key-description">
+                    Custom productTags you can assign to work items via labels.
+                    If a work item has a label corresponding to a key in
+                    productTagLabels, it will use that productTag instead of the
+                    default productTag.
+                </span>
+            </li>
+            <span class="homepage-config-key-description">
+                If a default productTag isn't provided in your config (ex: if
+                the line <i>"productTag": "a1aB0000000Jgm7IAC"</i> wasn't there)
+                and no matching productTagLabel is found, the work item will not
+                be synced. In the example below, the GitHub label "area:lwc"
+                corresponds to the productTag "1234".
+            </span>
+            <pre class="homepage-code">
+                <code>
+                {
+                    "productTag": "a1aB0000000Jgm7IAC",
+                    "productTagLabels": { "area:lwc": "1234", "area:aura": "3456" },
+                    "issueTypeLabels": { "feature": "USER STORY", "urgent": "BUG P0" },
+                    "defaultBuild": "218"
+                }
+                </code>
+            </pre>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">issueTypeLabels</span>
+                <span class="homepage-config-key-description">
+                    Labels you can assign to certain issue types. You can
+                    specify labels to replace or join the default labels
+                    provided: BUG P0, BUG P1, BUG P2, BUG P3, USER STORY,
+                    INVESTIGATION P0, INVESTIGATION P1, INVESTIGATION P2,
+                    INVESTIGATION P3. Note that these are case and space
+                    sensitive. 
+                </span>
+            </li>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">defaultBuild</span>
+                <span class="homepage-config-key-description">
+                    The build number the application is going to use by default
+                    when it creates a new work item. Notice this value might
+                    need to be changed every release.
+                </span>
+            </li>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">statusWhenClosed</span>
+                <span class="homepage-config-key-description">
+                    It allows to specify the status `INTEGRATE`, `FIXED` or
+                    `CLOSED` of the work item when the Github issue gets
+                    closed. By default: `INTEGRATE`.
+                </span>
+            </li>
+            <li class="homepage-config-keys-item">
+                <span class="homepage-badge">hideWorkItemUrl</span>
+                <span class="homepage-config-key-description">
+                    Some repositories are private or open source, when your repository is open source exposing internal
+                    urls is a security vulnerability.
+                    You will need to set this option to `true` in order to hide the url and use the WI-# instead.
+                    By default: `false`.
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="homepage-section-container">
+        <h2 id="how-it-works" class="homepage-section-title">
+            How Git2Gus works?
+        </h2>
+        <h3 class="homepage-flow-title">
+            Creating work items automatically.
+        </h3>
+        <div class="homepage-flow-step-container">
+            <div class="homepage-flow-step">
+                <p class="homepage-flow-step-title">
+                    1. Add a Salesforce label to the issue.
+                </p>
+                <p class="homepage-flow-step-description">
+                    When the application gets installed in your repo, a set of
+                    labels are added automatically.
+                    <b>USER STORY</b>, <b>BUG P0</b>, <b>BUG P1</b>,
+                    <b>INVESTIGATION P0</b>, etc. Adding a label to a Github
+                    issue is going to automatically create a GUS work item and
+                    keep the new ticket in sync with the Github issue. The
+                    <b>USER STORY</b> label will create a User Story work item,
+                    <b>BUG</b> priority labels will create a Bug work item, and
+                    <b>INVESTIGATION</b> priority labels will create an
+                    Investigation work item
+                </p>
+            </div>
+            <img
+                class="homepage-flow-step-image"
+                src="/images/select-gus-label.svg"
+                alt="open issue"
+            />
+        </div>
+        <div class="homepage-flow-step-container">
+            <img
+                class="homepage-flow-step-image"
+                src="/images/create-gus-item.svg"
+                alt="open issue"
+            />
+            <div class="homepage-flow-step">
+                <p class="homepage-flow-step-title">2. The new work item</p>
+                <p class="homepage-flow-step-description">
+                    The new work item is going to be created using the
+                    priority, title and description fields specified in the
+                    Github issue. Also the <b>FoundInBuild</b> and the
+                    <b>ProductTag</b> fields are going to be equal to the values
+                    provided in the configuration file.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="homepage-flow-title">
+            Link issue with an existing work item.
+        </h3>
+        <div class="homepage-flow-step-container">
+            <img
+                class="homepage-flow-step-image"
+                src="/images/add-comment-issue.svg"
+                alt="open issue"
+            />
+            <div class="homepage-flow-step">
+                <p class="homepage-flow-step-title">
+                    1. Add the annotation @W-1234567@ into the issue
+                    description.
+                </p>
+                <p class="homepage-flow-step-description">
+                    Add the <b>@W-1234567@</b> annotation in the issue
+                    description where <b>W-1234567</b> is the name of the
+                    work item you want to link.
+                </p>
+            </div>
+        </div>
+        <div class="homepage-flow-step-container">
+            <div class="homepage-flow-step">
+                <p class="homepage-flow-step-title">
+                    2. The Issue and work item are linked.
+                </p>
+                <p class="homepage-flow-step-description">
+                    When an issue gets linked to an existing work item it
+                    means that when the issue gets <b>closed</b> the work item
+                    in Salesforce it's going to be closed as well.
+                </p>
+            </div>
+            <img
+                class="homepage-flow-step-image"
+                src="/images/link-issue-with-gus.svg"
+                alt="open issue"
+            />
+        </div>
+
+        <h3 class="homepage-flow-title">
+            Closing work items automatically.
+        </h3>
+        <div class="homepage-flow-step-container">
+            <img
+                class="homepage-flow-step-image"
+                src="/images/close-issue.svg"
+                alt="open issue"
+            />
+            <div class="homepage-flow-step">
+                <p class="homepage-flow-step-title">1. Close an issue.</p>
+                <p class="homepage-flow-step-description">
+                    Closing Github issues that were linked to work items
+                    will trigger that the work item closes automatically.
+                </p>
+            </div>
+        </div>
+        <div class="homepage-flow-step-container">
+            <div class="homepage-flow-step">
+                <p class="homepage-flow-step-title">
+                    2. Change work item status
+                </p>
+                <p class="homepage-flow-step-description">
+                    Work items that close automatically are going to have
+                    status specified in the config, or 'INTEGRATE' by default
+                </p>
+            </div>
+            <img
+                class="homepage-flow-step-image"
+                src="/images/integrate-gus-card.png"
+                alt="open issue"
+            />
+        </div>
+    </div>
+</div>
