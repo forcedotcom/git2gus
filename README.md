@@ -2,7 +2,7 @@
 
 A Github application to keep issues in sync with Salesforce's Agile Accelerator
 
-[![CircleCI](https://circleci.com/gh/salesforce/git2gus.svg?style=svg&circle-token=702c52c9b89dfb5a3df392245cea76d05c0905db)](https://circleci.com/gh/salesforce/git2gus)
+[![CircleCI](https://circleci.com/gh/forcedotcom/git2gus.svg?style=svg&circle-token=702c52c9b89dfb5a3df392245cea76d05c0905db)](https://circleci.com/gh/forcedotcom/git2gus)
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
