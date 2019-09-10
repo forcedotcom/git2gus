@@ -1,6 +1,8 @@
 # Git2Gus Application
 
-A Github application to keep issues in sync with Salesforce's Agile Accelerator
+A GitHub application to keep issues in sync with Salesforce's Agile Accelerator.
+
+This is an experimental project that is not yet supported, so while we appreciate feedback and welcome new issues, we can't guarantee response times and aren't ready to accept contributions. Thank you for understanding!
 
 [![CircleCI](https://circleci.com/gh/forcedotcom/git2gus.svg?style=svg&circle-token=702c52c9b89dfb5a3df392245cea76d05c0905db)](https://circleci.com/gh/forcedotcom/git2gus)
 
