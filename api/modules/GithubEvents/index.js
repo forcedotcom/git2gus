@@ -15,7 +15,8 @@ const events = {
     ISSUE_UNLABELED: 'ISSUE_UNLABELED',
     ISSUE_CLOSED: 'ISSUE_CLOSED',
     ISSUE_EDITED: 'ISSUE_EDITED',
-    ISSUE_OPENED: 'ISSUE_OPENED'
+    ISSUE_OPENED: 'ISSUE_OPENED',
+    PULL_REQUEST_CLOSED: 'PULL_REQUEST_CLOSED'
 };
 
 const eventsConfig = {
@@ -46,6 +47,10 @@ const eventsConfig = {
     [events.ISSUE_OPENED]: {
         event: 'issues',
         action: 'opened'
+    },
+    [events.PULL_REQUEST_CLOSED]: {
+        event: 'pull_request',
+        action: 'closed'
     }
 };
 
