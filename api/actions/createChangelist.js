@@ -17,9 +17,6 @@ module.exports = {
         if (title.includes('@W-')) {
             var workItemName = 'W-'.concat(title.split('@W-')[1].slice(0, -1));
             var issue = await Issues.getByName(workItemName);
-            console.log('Returned issue is:');
-            console.log(issue);
-            console.log('********');
             sails.hooks['changelists-hook'].queue.push({
                 name: 'CREATE_CHANGELIST',
                 work: issue.sfid,
