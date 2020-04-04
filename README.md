@@ -146,4 +146,4 @@ As a reminder, if you see a prefix before the field name, set the `SALESFORCE_PR
 
 It is recommended that you create a testing team. As a reminder, to create product tags, visit the app launcher and search "product tags". From here, you can create a product tag for your team, create assignment rules for bugs, user stories, and investigations, and then copy the product tag (you can generate a work URL for any assignment and copy the tag from the URL).
 
-For a better logging experience, you may use the timber.io add-on on Heroku. In your Heroku config vars, add your timber API key as `TIMBER_API_KEY`.
+For a better logging experience, you may use the [LogDNA](https://elements.heroku.com/addons/logdna) add-on on Heroku. In your Heroku config vars, add your LogDNA API key as `LOGDNA_INGESTION_KEY`.
