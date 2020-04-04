@@ -8,6 +8,7 @@
  * For more information on configuration, check out:
  * https://sailsjs.com/config/http
  */
+const logger = require('../api/policies/logger');
 
 module.exports.http = {
     /****************************************************************************
@@ -26,16 +27,17 @@ module.exports.http = {
          * (This Sails app's routes are handled by the "router" middleware below.)  *
          *                                                                          *
          ***************************************************************************/
-        // order: [
-        //   'cookieParser',
-        //   'session',
-        //   'bodyParser',
-        //   'compress',
-        //   'poweredBy',
-        //   'router',
-        //   'www',
-        //   'favicon',
-        // ],
+        order: [
+            'logDna',
+            'cookieParser',
+            'session',
+            'bodyParser',
+            'compress',
+            'poweredBy',
+            'router',
+            'www',
+            'favicon'
+        ],
         /***************************************************************************
          *                                                                          *
          * The body parser that will handle incoming multipart HTTP requests.       *
@@ -48,5 +50,6 @@ module.exports.http = {
         //   var middlewareFn = skipper({ strict: true });
         //   return middlewareFn;
         // })(),
+        logDna: logger
     }
 };
