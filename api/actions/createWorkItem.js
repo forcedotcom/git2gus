@@ -23,7 +23,10 @@ module.exports = {
     eventName: GithubEvents.events.ISSUE_LABELED,
     fn: async function (req) {
         const {
-            issue: { labels, url, title, body, milestone }
+            issue: { labels, url, body, milestone }
+        } = req.body;
+        var {
+            issue: { title }
         } = req.body;
         const { config } = req.git2gus;
         const { hideWorkItemUrl } = config;
@@ -42,17 +45,21 @@ module.exports = {
                 }
             });
         }
+        if (config.titlePrependText) {
+            title = config.titlePrependText.concat(' ', title);
+        }
         if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
+            const bodyWithGitHubLink = 'Github issue link: '.concat(url, '\n', body);
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',
                         subject: title,
-                        description: body,
-                        storyDetails: body,
+                        description: bodyWithGitHubLink,
+                        storyDetails: bodyWithGitHubLink,
                         productTag,
                         status: 'NEW',
                         foundInBuild,

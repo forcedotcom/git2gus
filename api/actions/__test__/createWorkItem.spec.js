@@ -164,6 +164,37 @@ const reqWithIssueTypeLabels = {
     }
 };
 
+const reqWithTitlePrependText = {
+    body: {
+        issue: {
+            url: 'github/git2gus-test/#30',
+            title: 'new issue',
+            body: 'some description',
+            number: 30,
+            labels: [{ name: 'BUG P1' }]
+        },
+        label: 'BUG P1',
+        repository: {
+            name: 'git2gus-test',
+            owner: {
+                login: 'john'
+            }
+        }
+    },
+    git2gus: {
+        config: {
+            productTag: 'abcd1234',
+            defaultBuild: '218',
+            titlePrependText: '[Some Prepend Text]'
+        }
+    },
+    octokitClient: {
+        issues: {
+            createComment: jest.fn()
+        }
+    }
+};
+
 describe('createGusItem action', () => {
     it('should call queue push with the right values', async () => {
         expect.assertions(1);
@@ -174,8 +205,33 @@ describe('createGusItem action', () => {
             {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
-                description: 'some description',
-                storyDetails: 'some description',
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
+                productTag: 'abcd1234',
+                status: 'NEW',
+                foundInBuild: 'qwerty1234',
+                priority: 'P1',
+                relatedUrl: 'github/git2gus-test/#30',
+                recordTypeId: 'bug'
+            },
+            expect.any(Function)
+        );
+    });
+    it('should call queue push with the right title prepend text', async () => {
+        expect.assertions(1);
+        Github.isSalesforceLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        await fn(reqWithTitlePrependText);
+        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
+            {
+                name: 'CREATE_WORK_ITEM',
+                subject: '[Some Prepend Text]'.concat(' new issue'),
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -195,8 +251,10 @@ describe('createGusItem action', () => {
             {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
-                description: 'some description',
-                storyDetails: 'some description',
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -216,8 +274,10 @@ describe('createGusItem action', () => {
             {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
-                description: 'some description',
-                storyDetails: 'some description',
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description',
                 productTag: 'efgh5678',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
