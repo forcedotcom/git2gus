@@ -40,7 +40,7 @@ const req = {
         issue: {
             url: 'github/git2gus-test/#30',
             title: 'new issue',
-            body: 'some description',
+            body: '### some title\nsome description',
             number: 30,
             labels: [{ name: 'BUG P1' }]
         },
@@ -229,7 +229,7 @@ const reqWithUpdateIssueDescription = {
 };
 
 describe('createGusItem action', () => {
-    it('should call queue push with the right values', async () => {
+    it('should call queue push with formatted text', async () => {
         expect.assertions(1);
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
@@ -239,9 +239,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome title\n\nsome description\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome title\n\nsome description\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -262,9 +262,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: '[Some Prepend Text]'.concat(' new issue'),
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -285,9 +285,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -308,9 +308,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description',
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 productTag: 'efgh5678',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',

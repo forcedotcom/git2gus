@@ -9,6 +9,10 @@ const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github = require('../services/Github');
 const { getWorkItemUrl, waitUntilSynced } = require('../services/Issues');
+const remark = require('remark');
+const strip = require('strip-markdown');
+const markdown = require('remark-parse');
+
 
 function getBuildErrorMessage(config, milestone) {
     if (milestone) {
@@ -53,14 +57,14 @@ module.exports = {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
-            const bodyWithGitHubLink = 'Github issue link: '.concat(url, '\n', body);
+            const bodyInGusFormat = await formatToGus(url, body);
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',
                         subject: title,
-                        description: bodyWithGitHubLink,
-                        storyDetails: bodyWithGitHubLink,
+                        description: bodyInGusFormat,
+                        storyDetails: bodyInGusFormat,
                         productTag,
                         status: 'NEW',
                         foundInBuild,
@@ -87,6 +91,17 @@ module.exports = {
         return null;
     }
 };
+function formatToGus(url, body) {
+    var formattedDescription;
+    remark().use(markdown).use(strip).process(body, (err, file) => {
+        if (err) {
+            throw err;
+        }
+        formattedDescription = 'Github issue link: '.concat(url, '\n', String(file));
+    });
+    return formattedDescription;
+}
+
 async function updateIssue(req, body, updateIssueDescription) {
     if (updateIssueDescription) {
         return await Github.updateDescription({
