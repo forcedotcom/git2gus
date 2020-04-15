@@ -91,12 +91,12 @@ async function updateIssue(req, body, updateIssueDescription) {
     if (updateIssueDescription) {
         return await Github.updateDescription({
             req,
-            body: body
+            body
         });
     }
     return await Github.createComment({
         req,
-        body: body
+        body
     });
 }
 
