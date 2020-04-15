@@ -30,6 +30,7 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
         const { hideWorkItemUrl } = config;
+        const { updateIssueDescription } = config;
         let productTag = config.productTag;
         if (config.productTagLabels) {
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
@@ -74,28 +75,28 @@ module.exports = {
                                 interval: 60000
                             });
                             if (syncedItem) {
-                                return await Github.createComment({
-                                    req,
-                                    body: `This issue has been linked to a new work item: ${getWorkItemUrl(
-                                        syncedItem,
-                                        hideWorkItemUrl
-                                    )}`
-                                });
+                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`, updateIssueDescription);
                             }
-                            return await Github.createComment({
-                                req,
-                                body:
-                                    'Sorry we could wait until Heroku connect make the syncronization.'
-                            });
+                            return await updateIssue(req, 'Sorry we could wait until Heroku connect make the synchronization.', updateIssueDescription);
                         }
                     }
                 );
             }
-            return await Github.createComment({
-                req,
-                body: getBuildErrorMessage(config, milestone)
-            });
+            return await updateIssue(req, getBuildErrorMessage(config, milestone, updateIssueDescription));
         }
         return null;
     }
 };
+async function updateIssue(req, body, updateIssueDescription) {
+    if (updateIssueDescription) {
+        return await Github.updateDescription({
+            req,
+            body: body
+        });
+    }
+    return await Github.createComment({
+        req,
+        body: body
+    });
+}
+
