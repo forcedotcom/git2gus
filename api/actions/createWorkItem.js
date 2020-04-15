@@ -50,8 +50,8 @@ module.exports = {
                 }
             });
         }
-        if (config.titlePrependText) {
-            title = config.titlePrependText.concat(' ', title);
+        if (config.gusTitlePrefix) {
+            title = config.gusTitlePrefix.concat(' ', title);
         }
         if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
             const priority = Github.getPriority(labels);

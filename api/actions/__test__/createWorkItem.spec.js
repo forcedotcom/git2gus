@@ -165,7 +165,7 @@ const reqWithIssueTypeLabels = {
     }
 };
 
-const reqWithTitlePrependText = {
+const reqWithGusTitlePrefix = {
     body: {
         issue: {
             url: 'github/git2gus-test/#30',
@@ -186,7 +186,7 @@ const reqWithTitlePrependText = {
         config: {
             productTag: 'abcd1234',
             defaultBuild: '218',
-            titlePrependText: '[Some Prepend Text]'
+            gusTitlePrefix: '[Some Prefix Text]'
         }
     },
     octokitClient: {
@@ -252,15 +252,15 @@ describe('createGusItem action', () => {
             expect.any(Function)
         );
     });
-    it('should call queue push with the right title prepend text', async () => {
+    it('should call queue push with the right title prefix text', async () => {
         expect.assertions(1);
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        await fn(reqWithTitlePrependText);
+        await fn(reqWithGusTitlePrefix);
         expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
             {
                 name: 'CREATE_WORK_ITEM',
-                subject: '[Some Prepend Text]'.concat(' new issue'),
+                subject: '[Some Prefix Text]'.concat(' new issue'),
                 description:
                     'Github issue link: github/git2gus-test/#30\nsome description\n',
                 storyDetails:
