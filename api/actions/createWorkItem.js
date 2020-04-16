@@ -34,7 +34,7 @@ module.exports = {
         } = req.body;
         const { config } = req.git2gus;
         const { hideWorkItemUrl } = config;
-        const { updateIssueDescription } = config;
+        const { suppressGithubComments } = config;
         let productTag = config.productTag;
         if (config.productTagLabels) {
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
@@ -79,14 +79,14 @@ module.exports = {
                                 interval: 60000
                             });
                             if (syncedItem) {
-                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`, updateIssueDescription);
+                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`, suppressGithubComments);
                             }
-                            return await updateIssue(req, 'Sorry we could wait until Heroku connect make the synchronization.', updateIssueDescription);
+                            return await updateIssue(req, 'Sorry we could wait until Heroku connect make the synchronization.', suppressGithubComments);
                         }
                     }
                 );
             }
-            return await updateIssue(req, getBuildErrorMessage(config, milestone, updateIssueDescription));
+            return await updateIssue(req, getBuildErrorMessage(config, milestone, suppressGithubComments));
         }
         return null;
     }
@@ -102,8 +102,8 @@ function formatToGus(url, body) {
     return formattedDescription;
 }
 
-async function updateIssue(req, body, updateIssueDescription) {
-    if (updateIssueDescription) {
+async function updateIssue(req, body, suppressGithubComments) {
+    if (suppressGithubComments) {
         return await Github.updateDescription({
             req,
             body

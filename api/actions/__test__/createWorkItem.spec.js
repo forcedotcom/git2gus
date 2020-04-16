@@ -196,7 +196,7 @@ const reqWithGusTitlePrefix = {
     }
 };
 
-const reqWithUpdateIssueDescription = {
+const reqWithCommentsSuppressed = {
     body: {
         issue: {
             url: 'github/git2gus-test/#30',
@@ -217,7 +217,7 @@ const reqWithUpdateIssueDescription = {
         config: {
             productTag: 'abcd1234',
             defaultBuild: '218',
-            updateIssueDescription: true
+            suppressGithubComments: true
         }
     },
     octokitClient: {
@@ -397,7 +397,7 @@ describe('createGusItem action', () => {
         });
     });
 
-    it('should update description when git2gus.config.updateIssueDescription = true', async () => {
+    it('should update description when git2gus.config.suppressGithubComments = true', async () => {
         expect.assertions(3);
         Github.createComment.mockReset();
         Github.isSalesforceLabel.mockReturnValue(true);
@@ -411,7 +411,7 @@ describe('createGusItem action', () => {
             done(null, { id: '12345' });
         };
 
-        await fn(reqWithUpdateIssueDescription);
+        await fn(reqWithCommentsSuppressed);
 
         expect(waitUntilSynced).toHaveBeenCalledWith(
             { id: '12345' },
@@ -422,7 +422,7 @@ describe('createGusItem action', () => {
             undefined
         );
         expect(Github.updateDescription).toHaveBeenCalledWith({
-            req: reqWithUpdateIssueDescription,
+            req: reqWithCommentsSuppressed,
             body: `This issue has been linked to a new work item: https://12345.com`
         });
     });
