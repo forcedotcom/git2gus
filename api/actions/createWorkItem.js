@@ -5,14 +5,16 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+const { getTitleWithOptionalPrefix } = require("./getTitleWithOptionalPrefix");
+
+const { updateIssue } = require("./updateIssue");
+
+const { formatToGus } = require("./formatToGus");
+
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github = require('../services/Github');
 const { getWorkItemUrl, waitUntilSynced } = require('../services/Issues');
-const remark = require('remark');
-const strip = require('strip-markdown');
-const markdown = require('remark-parse');
-
 
 function getBuildErrorMessage(config, milestone) {
     if (milestone) {
@@ -29,12 +31,11 @@ module.exports = {
         const {
             issue: { labels, url, body, milestone }
         } = req.body;
-        var {
+        let {
             issue: { title }
         } = req.body;
         const { config } = req.git2gus;
         const { hideWorkItemUrl } = config;
-        const { suppressGithubComments } = config;
         let productTag = config.productTag;
         if (config.productTagLabels) {
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
@@ -50,9 +51,8 @@ module.exports = {
                 }
             });
         }
-        if (config.gusTitlePrefix) {
-            title = config.gusTitlePrefix.concat(' ', title);
-        }
+
+        let normalizedTitle = getTitleWithOptionalPrefix(config, title);
         if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
@@ -62,7 +62,7 @@ module.exports = {
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',
-                        subject: title,
+                        subject: normalizedTitle,
                         description: bodyInGusFormat,
                         storyDetails: bodyInGusFormat,
                         productTag,
@@ -79,39 +79,16 @@ module.exports = {
                                 interval: 60000
                             });
                             if (syncedItem) {
-                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`, suppressGithubComments);
+                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`);
                             }
-                            return await updateIssue(req, 'Sorry we could wait until Heroku connect make the synchronization.', suppressGithubComments);
+                            return await updateIssue(req, 'Sorry we could not wait until Heroku connect make the synchronization.');
                         }
                     }
                 );
             }
-            return await updateIssue(req, getBuildErrorMessage(config, milestone, suppressGithubComments));
+            return await updateIssue(req, getBuildErrorMessage(config, milestone));
         }
         return null;
     }
 };
-function formatToGus(url, body) {
-    var formattedDescription;
-    remark().use(markdown).use(strip).process(body, (err, file) => {
-        if (err) {
-            throw err;
-        }
-        formattedDescription = 'Github issue link: '.concat(url, '\n', String(file));
-    });
-    return formattedDescription;
-}
-
-async function updateIssue(req, body, suppressGithubComments) {
-    if (suppressGithubComments) {
-        return await Github.updateDescription({
-            req,
-            body
-        });
-    }
-    return await Github.createComment({
-        req,
-        body
-    });
-}
 

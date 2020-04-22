@@ -196,38 +196,6 @@ const reqWithGusTitlePrefix = {
     }
 };
 
-const reqWithCommentsSuppressed = {
-    body: {
-        issue: {
-            url: 'github/git2gus-test/#30',
-            title: 'new issue',
-            body: 'some description',
-            number: 30,
-            labels: [{ name: 'BUG P1' }]
-        },
-        label: 'BUG P1',
-        repository: {
-            name: 'git2gus-test',
-            owner: {
-                login: 'john'
-            }
-        }
-    },
-    git2gus: {
-        config: {
-            productTag: 'abcd1234',
-            defaultBuild: '218',
-            suppressGithubComments: true
-        }
-    },
-    octokitClient: {
-        issues: {
-            createComment: jest.fn(),
-            updateDescription: jest.fn()
-        }
-    }
-};
-
 describe('createGusItem action', () => {
     it('should call queue push with formatted text', async () => {
         expect.assertions(1);
@@ -397,36 +365,6 @@ describe('createGusItem action', () => {
         });
     });
 
-    it('should update description when git2gus.config.suppressGithubComments = true', async () => {
-        expect.assertions(3);
-        Github.createComment.mockReset();
-        Github.isSalesforceLabel.mockReturnValue(true);
-        Builds.resolveBuild.mockReturnValue(
-            Promise.resolve({ sfid: 'B12345' })
-        );
-        getWorkItemUrl.mockReset();
-        waitUntilSynced.mockReturnValue(Promise.resolve({ sfci: 'SF123456' }));
-        getWorkItemUrl.mockReturnValue('https://12345.com');
-        sails.hooks['issues-hook'].queue.push = async (data, done) => {
-            done(null, { id: '12345' });
-        };
-
-        await fn(reqWithCommentsSuppressed);
-
-        expect(waitUntilSynced).toHaveBeenCalledWith(
-            { id: '12345' },
-            { interval: 60000, times: 5 }
-        );
-        expect(getWorkItemUrl).toHaveBeenCalledWith(
-            { sfci: 'SF123456' },
-            undefined
-        );
-        expect(Github.updateDescription).toHaveBeenCalledWith({
-            req: reqWithCommentsSuppressed,
-            body: `This issue has been linked to a new work item: https://12345.com`
-        });
-    });
-
     it('should create a comment without the url when the git2gus.config.hideWorkItemUrl = true', async () => {
         expect.assertions(2);
         Github.createComment.mockReset();
@@ -471,7 +409,7 @@ describe('createGusItem action', () => {
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body:
-                'Sorry we could wait until Heroku connect make the synchronization.'
+                'Sorry we could not wait until Heroku connect make the synchronization.'
         });
     });
 });
