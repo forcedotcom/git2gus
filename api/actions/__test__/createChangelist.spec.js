@@ -7,16 +7,11 @@
 
 const { fn } = require('../createChangelist');
 const Issues = require('../../services/Issues');
+const Gus = require('../../services/Gus');
 
-global.sails = {
-    hooks: {
-        'changelists-hook': {
-            queue: {
-                push: jest.fn()
-            }
-        }
-    }
-};
+jest.mock('../../services/Gus', () => ({
+    createChangelistInGus: jest.fn()
+}));
 
 jest.mock('../../services/Issues', () => ({
     getByName: jest.fn()
@@ -26,15 +21,20 @@ const req = {
     body: {
         pull_request: {
             title: 'pull request title @W-1234567@',
-            url: 'github/git2gus-app/pr-1',
+            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
             closed_at: '2020-02-13T18:30:28Z'
         }
     }
 };
 
 describe('createChangelist action', () => {
-    it('should call Issue.getName with the right value', () => {
-        fn(req);
+    it('should call Issue.getName and Gus.createChangeListInGus with the right value', async () => {
+        Issues.getByName.mockReturnValue(Promise.resolve({ sfid: 'a071234' }));
+        await fn(req);
         expect(Issues.getByName).toHaveBeenCalledWith('W-1234567');
+        expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
+            'someuser/git2gustest/pull/74',
+            'a071234'
+        );
     });
 });
