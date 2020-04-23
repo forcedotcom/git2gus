@@ -15,8 +15,6 @@ const options = {
     logdna: {
         key: LOGDNA_INGESTION_KEY,
         hostname: os.hostname(),
-        ip: os.networkInterfaces().lo0[0].address,
-        mac: os.networkInterfaces().lo0[0].mac,
         app: 'Git2Gus',
         env,
         handleExceptions: true
