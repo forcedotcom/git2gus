@@ -17,6 +17,7 @@ const addLabels = require('./addLabels');
 const getComments = require('./getComments');
 const deleteComment = require('./deleteComment');
 const getRecordTypeId = require('./getRecordTypeId');
+const updateDescription = require('./updateDescription');
 
 module.exports = {
     getConfig,
@@ -30,5 +31,6 @@ module.exports = {
     addLabels,
     getComments,
     deleteComment,
-    getRecordTypeId
+    getRecordTypeId,
+    updateDescription
 };

@@ -17,7 +17,8 @@ jest.mock('../../services/Github', () => ({
     isSalesforceLabel: jest.fn(),
     getPriority: () => 'P1',
     getRecordTypeId: () => 'bug',
-    createComment: jest.fn()
+    createComment: jest.fn(),
+    updateDescription: jest.fn()
 }));
 jest.mock('../../services/Issues', () => ({
     getWorkItemUrl: jest.fn(),
@@ -39,7 +40,7 @@ const req = {
         issue: {
             url: 'github/git2gus-test/#30',
             title: 'new issue',
-            body: 'some description',
+            body: '### some title\nsome description',
             number: 30,
             labels: [{ name: 'BUG P1' }]
         },
@@ -164,8 +165,39 @@ const reqWithIssueTypeLabels = {
     }
 };
 
+const reqWithGusTitlePrefix = {
+    body: {
+        issue: {
+            url: 'github/git2gus-test/#30',
+            title: 'new issue',
+            body: 'some description',
+            number: 30,
+            labels: [{ name: 'BUG P1' }]
+        },
+        label: 'BUG P1',
+        repository: {
+            name: 'git2gus-test',
+            owner: {
+                login: 'john'
+            }
+        }
+    },
+    git2gus: {
+        config: {
+            productTag: 'abcd1234',
+            defaultBuild: '218',
+            gusTitlePrefix: '[Some Prefix Text]'
+        }
+    },
+    octokitClient: {
+        issues: {
+            createComment: jest.fn()
+        }
+    }
+};
+
 describe('createGusItem action', () => {
-    it('should call queue push with the right values', async () => {
+    it('should call queue push with formatted text', async () => {
         expect.assertions(1);
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
@@ -174,8 +206,33 @@ describe('createGusItem action', () => {
             {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
-                description: 'some description',
-                storyDetails: 'some description',
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome title\n\nsome description\n',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome title\n\nsome description\n',
+                productTag: 'abcd1234',
+                status: 'NEW',
+                foundInBuild: 'qwerty1234',
+                priority: 'P1',
+                relatedUrl: 'github/git2gus-test/#30',
+                recordTypeId: 'bug'
+            },
+            expect.any(Function)
+        );
+    });
+    it('should call queue push with the right title prefix text', async () => {
+        expect.assertions(1);
+        Github.isSalesforceLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        await fn(reqWithGusTitlePrefix);
+        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith(
+            {
+                name: 'CREATE_WORK_ITEM',
+                subject: '[Some Prefix Text]'.concat(' new issue'),
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -195,8 +252,10 @@ describe('createGusItem action', () => {
             {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
-                description: 'some description',
-                storyDetails: 'some description',
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -216,8 +275,10 @@ describe('createGusItem action', () => {
             {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
-                description: 'some description',
-                storyDetails: 'some description',
+                description:
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                storyDetails:
+                    'Github issue link: github/git2gus-test/#30\nsome description\n',
                 productTag: 'efgh5678',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -348,7 +409,7 @@ describe('createGusItem action', () => {
         expect(Github.createComment).toHaveBeenCalledWith({
             req,
             body:
-                'Sorry we could wait until Heroku connect make the syncronization.'
+                'Sorry we could not wait until Heroku connect make the synchronization.'
         });
     });
 });

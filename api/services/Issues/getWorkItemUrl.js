@@ -10,5 +10,5 @@ module.exports = function getWorkItemUrl(item, hideUrl) {
         return item.name;
     }
 
-    return `${process.env.WORK_ITEM_BASE_URL + item.sfid}/view`;
+    return `[${item.name}](${process.env.WORK_ITEM_BASE_URL + item.sfid}/view)`;
 };

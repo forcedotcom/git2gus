@@ -12,10 +12,11 @@ describe('getWorkItemUrl issues service', () => {
         process.env.WORK_ITEM_BASE_URL =
             'https://gus.lightning.force.com/lightning/r/ADM_Work__c/';
         const workItemUrl = getWorkItemUrl({
+            name: 'W-234123',
             sfid: 'qwerty1234'
         });
         expect(workItemUrl).toBe(
-            'https://gus.lightning.force.com/lightning/r/ADM_Work__c/qwerty1234/view'
+            '[W-234123](https://gus.lightning.force.com/lightning/r/ADM_Work__c/qwerty1234/view)'
         );
     });
 

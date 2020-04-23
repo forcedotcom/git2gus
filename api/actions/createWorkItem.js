@@ -5,6 +5,12 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+const { getTitleWithOptionalPrefix } = require("./getTitleWithOptionalPrefix");
+
+const { updateIssue } = require("./updateIssue");
+
+const { formatToGus } = require("./formatToGus");
+
 const GithubEvents = require('../modules/GithubEvents');
 const Builds = require('../services/Builds');
 const Github = require('../services/Github');
@@ -23,7 +29,10 @@ module.exports = {
     eventName: GithubEvents.events.ISSUE_LABELED,
     fn: async function (req) {
         const {
-            issue: { labels, url, title, body, milestone }
+            issue: { labels, url, body, milestone }
+        } = req.body;
+        let {
+            issue: { title }
         } = req.body;
         const { config } = req.git2gus;
         const { hideWorkItemUrl } = config;
@@ -42,17 +51,20 @@ module.exports = {
                 }
             });
         }
+
+        let normalizedTitle = getTitleWithOptionalPrefix(config, title);
         if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
+            const bodyInGusFormat = await formatToGus(url, body);
             if (foundInBuild) {
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',
-                        subject: title,
-                        description: body,
-                        storyDetails: body,
+                        subject: normalizedTitle,
+                        description: bodyInGusFormat,
+                        storyDetails: bodyInGusFormat,
                         productTag,
                         status: 'NEW',
                         foundInBuild,
@@ -67,28 +79,16 @@ module.exports = {
                                 interval: 60000
                             });
                             if (syncedItem) {
-                                return await Github.createComment({
-                                    req,
-                                    body: `This issue has been linked to a new work item: ${getWorkItemUrl(
-                                        syncedItem,
-                                        hideWorkItemUrl
-                                    )}`
-                                });
+                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`);
                             }
-                            return await Github.createComment({
-                                req,
-                                body:
-                                    'Sorry we could wait until Heroku connect make the syncronization.'
-                            });
+                            return await updateIssue(req, 'Sorry we could not wait until Heroku connect make the synchronization.');
                         }
                     }
                 );
             }
-            return await Github.createComment({
-                req,
-                body: getBuildErrorMessage(config, milestone)
-            });
+            return await updateIssue(req, getBuildErrorMessage(config, milestone));
         }
         return null;
     }
 };
+
