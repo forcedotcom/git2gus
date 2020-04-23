@@ -52,6 +52,7 @@ describe('createChangelist action', () => {
         Gus.getWorkItemIdByName.mockReturnValue('a071234');
         await fn(req);
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
+
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
             'someuser/git2gustest/pull/74',
             'a071234'
