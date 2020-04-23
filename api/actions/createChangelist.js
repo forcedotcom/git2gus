@@ -6,7 +6,7 @@
  */
 
 const Gus = require('../services/Gus');
-const { convertUrlToGusFormat } = require('./convertUrlToGusFormat');
+const { convertUrlToGusFormat } = require('./utils/convertUrlToGusFormat');
 const GithubEvents = require('../modules/GithubEvents');
 const Issues = require('../services/Issues');
 
