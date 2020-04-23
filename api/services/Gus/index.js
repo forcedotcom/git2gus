@@ -6,7 +6,9 @@
  */
 
 const createChangelistInGus = require('./createChangelistInGus');
+const getWorkItemIdByName = require('./getWorkItemIdByName');
 
 module.exports = {
-    createChangelistInGus
+    createChangelistInGus,
+    getWorkItemIdByName
 };

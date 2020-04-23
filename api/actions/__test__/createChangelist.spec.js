@@ -6,11 +6,11 @@
  */
 
 const { fn } = require('../createChangelist');
-const Issues = require('../../services/Issues');
 const Gus = require('../../services/Gus');
 
 jest.mock('../../services/Gus', () => ({
-    createChangelistInGus: jest.fn()
+    createChangelistInGus: jest.fn(),
+    getWorkItemIdByName: jest.fn()
 }));
 
 jest.mock('../../services/Issues', () => ({
@@ -29,9 +29,9 @@ const req = {
 
 describe('createChangelist action', () => {
     it('should call Issue.getName and Gus.createChangeListInGus with the right value', async () => {
-        Issues.getByName.mockReturnValue(Promise.resolve({ sfid: 'a071234' }));
+        Gus.getWorkItemIdByName.mockReturnValue('a071234');
         await fn(req);
-        expect(Issues.getByName).toHaveBeenCalledWith('W-1234567');
+        expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
             'someuser/git2gustest/pull/74',
             'a071234'

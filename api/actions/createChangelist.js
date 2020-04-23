@@ -8,7 +8,6 @@
 const Gus = require('../services/Gus');
 const { convertUrlToGusFormat } = require('./utils/convertUrlToGusFormat');
 const GithubEvents = require('../modules/GithubEvents');
-const Issues = require('../services/Issues');
 
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_CLOSED,
@@ -20,8 +19,8 @@ module.exports = {
             const workItemName = 'W-'.concat(
                 title.split('@W-')[1].slice(0, -1)
             );
-            const issue = await Issues.getByName(workItemName);
-            const issueId = issue.sfid;
+
+            const issueId = await Gus.getWorkItemIdByName(workItemName);
             const relativeUrl = convertUrlToGusFormat(url);
             Gus.createChangelistInGus(relativeUrl, issueId);
         }
