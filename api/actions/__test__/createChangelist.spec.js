@@ -27,6 +27,26 @@ const req = {
     }
 };
 
+const reqWithoutWorkItem = {
+    body: {
+        pull_request: {
+            title: 'pull request title',
+            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
+            closed_at: '2020-02-13T18:30:28Z'
+        }
+    }
+};
+
+const reqWithWorkItemInWrongFormat = {
+    body: {
+        pull_request: {
+            title: 'pull request title W-1234567',
+            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
+            closed_at: '2020-02-13T18:30:28Z'
+        }
+    }
+};
+
 describe('createChangelist action', () => {
     it('should call Issue.getName and Gus.createChangeListInGus with the right value', async () => {
         Gus.getWorkItemIdByName.mockReturnValue('a071234');
@@ -36,5 +56,19 @@ describe('createChangelist action', () => {
             'someuser/git2gustest/pull/74',
             'a071234'
         );
+    });
+
+    it('should not create work item when work item not in title', async () => {
+        Gus.getWorkItemIdByName.mockReset();
+        Gus.getWorkItemIdByName.mockReturnValue('a071234');
+        await fn(reqWithoutWorkItem);
+        expect(Gus.getWorkItemIdByName).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not create work item when work item in wrong format', async () => {
+        Gus.getWorkItemIdByName.mockReset();
+        Gus.getWorkItemIdByName.mockReturnValue('a071234');
+        await fn(reqWithWorkItemInWrongFormat);
+        expect(Gus.getWorkItemIdByName).toHaveBeenCalledTimes(0);
     });
 });

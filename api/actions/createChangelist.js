@@ -15,9 +15,11 @@ module.exports = {
         const {
             pull_request: { title, url }
         } = req.body;
-        if (title.includes('@W-')) {
-            const workItemName = 'W-'.concat(
-                title.split('@W-')[1].slice(0, -1)
+        const workItemInTitle = title.match('@[Ww]-\\d{6,8}@');
+        if (workItemInTitle) {
+            const workItemName = workItemInTitle[0].substring(
+                1,
+                workItemInTitle[0].length - 1
             );
 
             const issueId = await Gus.getWorkItemIdByName(workItemName);
