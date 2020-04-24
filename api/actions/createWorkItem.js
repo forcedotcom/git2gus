@@ -60,9 +60,13 @@ module.exports = {
         if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
             console.log('Verified valid label and product tag for issue titled: ', title);
             const priority = Github.getPriority(labels);
+            console.log(`Found priority: ${priority} for issue titled: ${title}`);
             const recordTypeId = Github.getRecordTypeId(labels);
+            console.log(`Found recordTypeId: ${recordTypeId} for issue titled: ${title}`);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
+            console.log(`Found foundInBuild: ${foundInBuild} for issue titled: ${title}`);
             const bodyInGusFormat = await formatToGus(url, body);
+            console.log(`Found bodyInGusFormat: ${bodyInGusFormat} for issue titled: ${title}`);
             if (foundInBuild) {
                 console.log('Verified valid foundInBuild: ', foundInBuild, 'for issue titled: ', title);
                 return sails.hooks['issues-hook'].queue.push(
@@ -96,7 +100,9 @@ module.exports = {
                     }
                 );
             }
-            return await updateIssue(req, getBuildErrorMessage(config, milestone));
+            const errorMessage = getBuildErrorMessage(config, milestone);
+            console.log(`Updating issue with req: ${req} and errorMessage: ${errorMessage}`);
+            return await updateIssue(req, errorMessage);
         }
         console.log('Failed to create work item for issue titled: ', title);
         return null;
