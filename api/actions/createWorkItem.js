@@ -28,6 +28,7 @@ function getBuildErrorMessage(config, milestone) {
 module.exports = {
     eventName: GithubEvents.events.ISSUE_LABELED,
     fn: async function (req) {
+        console.log('createWorkItem Action called with req: ', req);
         const {
             issue: { labels, url, body, milestone }
         } = req.body;
@@ -38,6 +39,7 @@ module.exports = {
         const { hideWorkItemUrl } = config;
         let productTag = config.productTag;
         if (config.productTagLabels) {
+            console.log('createWorkItem will work with custom productTagLabels for issue titled: ', title);
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
                 if (labels.some(label => label.name === productTagLabel)) {
                     productTag = config.productTagLabels[productTagLabel];
@@ -45,6 +47,7 @@ module.exports = {
             });
         }
         if(config.issueTypeLabels) {
+            console.log('createWorkItem will work with custom issueTypeLabels for issue titled: ', title);
             Object.keys(config.issueTypeLabels).forEach(issueTypeLabel => {
                 if (labels.some(label => label.name === issueTypeLabel)) {
                     labels.push({name: config.issueTypeLabels[issueTypeLabel]});
@@ -53,12 +56,15 @@ module.exports = {
         }
 
         let normalizedTitle = getTitleWithOptionalPrefix(config, title);
+        console.log('createWorkItem will create GUS work item with title: ', normalizedTitle);
         if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
+            console.log('Verified valid label and product tag for issue titled: ', title);
             const priority = Github.getPriority(labels);
             const recordTypeId = Github.getRecordTypeId(labels);
             const foundInBuild = await Builds.resolveBuild(config, milestone);
             const bodyInGusFormat = await formatToGus(url, body);
             if (foundInBuild) {
+                console.log('Verified valid foundInBuild: ', foundInBuild, 'for issue titled: ', title);
                 return sails.hooks['issues-hook'].queue.push(
                     {
                         name: 'CREATE_WORK_ITEM',
@@ -79,15 +85,20 @@ module.exports = {
                                 interval: 60000
                             });
                             if (syncedItem) {
-                                return await updateIssue(req, `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`);
+                                const msg = `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`;
+                                console.log(msg, ' for issue titled: ', title);
+                                return await updateIssue(req, msg);
                             }
-                            return await updateIssue(req, 'Sorry we could not wait until Heroku connect make the synchronization.');
+                            const msg = 'Sorry we could not wait until Heroku connect make the synchronization.';
+                            console.log(msg);
+                            return await updateIssue(req, msg);
                         }
                     }
                 );
             }
             return await updateIssue(req, getBuildErrorMessage(config, milestone));
         }
+        console.log('Failed to create work item for issue titled: ', title);
         return null;
     }
 };
