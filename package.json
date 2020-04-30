@@ -1,67 +1,71 @@
 {
-    "name": "git2gus",
-    "private": true,
-    "version": "0.1.0",
-    "description": "Keeps Github issues in sync with Salesforce Agile Accelerator work items.",
-    "keywords": [],
-    "dependencies": {
-        "@octokit/app": "^2.2.1",
-        "@octokit/rest": "^16.15.0",
-        "@octokit/webhooks": "^5.3.2",
-        "@sailshq/connect-redis": "^3.2.1",
-        "@sailshq/lodash": "^3.10.3",
-        "@sailshq/socket.io-redis": "^5.2.0",
-        "async": "^2.6.1",
-        "dotenv": "^6.1.0",
-        "express-winston": "^4.0.3",
-        "grunt": "1.0.1",
-        "jest": "^24.1.0",
-        "jsonwebtoken": "^8.3.0",
-        "lodash": "^4.17.11",
-        "logdna-winston": "^2.3.1",
-        "require-all": "^3.0.0",
-        "sails": "^1.0.2",
-        "sails-hook-grunt": "^3.0.2",
-        "sails-hook-orm": "^2.0.0-16",
-        "sails-hook-sockets": "^1.4.0",
-        "sails-postgresql": "^1.0.1",
-        "smee-client": "^1.1.0",
-        "remark": "^12.0.0",
-        "remark-parse": "^8.0.0",
-        "strip-markdown": "^3.1.2",
-        "jsforce": "^1.9.3"
-    },
-    "devDependencies": {
-        "@sailshq/eslint": "^4.19.3",
-        "eslint": "^5.13.0",
-        "eslint-config-prettier": "^4.1.0",
-        "pre-push": "^0.1.1",
-        "prettier": "^1.16.4",
-        "typescript": "^3.5.1"
-    },
-    "scripts": {
-        "start": "NODE_ENV=production node app.js",
-        "dev": "NODE_ENV=development node app.js",
-        "test": "jest --verbose",
-        "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-        "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-        "prettier": "prettier -l \"**/*.{js,ts,json,md,ejs}\"",
-        "prettier:fix": "prettier --write \"**/*.{js,ts,json,md,ejs}\"",
-        "typecheck": "tsc"
-    },
-    "main": "app.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/salesforce/git2gus.git"
-    },
-    "author": "reinierguerra",
-    "license": "",
-    "engines": {
-        "node": ">=10.15.1"
-    },
-    "pre-push": [
-        "prettier",
-        "lint",
-        "test"
-    ]
+  "name": "git2gus",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Keeps Github issues in sync with Salesforce Agile Accelerator work items.",
+  "keywords": [],
+  "dependencies": {
+    "@octokit/app": "^2.2.1",
+    "@octokit/rest": "^16.15.0",
+    "@octokit/webhooks": "^5.3.2",
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/lodash": "^3.10.3",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "async": "^2.6.1",
+    "dotenv": "^6.1.0",
+    "express-winston": "^4.0.3",
+    "grunt": "1.0.1",
+    "jest": "^24.1.0",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
+    "logdna-winston": "^2.3.1",
+    "require-all": "^3.0.0",
+    "sails": "^1.0.2",
+    "sails-hook-grunt": "^3.0.2",
+    "sails-hook-orm": "^2.0.0-16",
+    "sails-hook-sockets": "^1.4.0",
+    "sails-postgresql": "^1.0.1",
+    "smee-client": "^1.1.0",
+    "remark": "^12.0.0",
+    "remark-parse": "^8.0.0",
+    "strip-markdown": "^3.1.2",
+    "jsforce": "^1.9.3",
+    "snyk": "^1.316.1"
+  },
+  "devDependencies": {
+    "@sailshq/eslint": "^4.19.3",
+    "eslint": "^5.13.0",
+    "eslint-config-prettier": "^4.1.0",
+    "pre-push": "^0.1.1",
+    "prettier": "^1.16.4",
+    "typescript": "^3.5.1"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production node app.js",
+    "dev": "NODE_ENV=development node app.js",
+    "test": "jest --verbose",
+    "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "prettier": "prettier -l \"**/*.{js,ts,json,md,ejs}\"",
+    "prettier:fix": "prettier --write \"**/*.{js,ts,json,md,ejs}\"",
+    "typecheck": "tsc",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/salesforce/git2gus.git"
+  },
+  "author": "reinierguerra",
+  "license": "",
+  "engines": {
+    "node": ">=10.15.1"
+  },
+  "pre-push": [
+    "prettier",
+    "lint",
+    "test"
+  ],
+  "snyk": true
 }
