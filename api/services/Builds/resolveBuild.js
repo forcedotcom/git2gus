@@ -8,10 +8,18 @@
 const getBuildByName = require('./getBuildByName');
 
 module.exports = async function resolveBuild(config, milestone) {
-    const build = milestone ? milestone.title : config.defaultBuild;
-    const buildFromDb = await getBuildByName(build);
-    if (buildFromDb) {
-        return buildFromDb.sfid;
+    try {
+        const build = milestone ? milestone.title : config.defaultBuild;
+        console.log(`Retrieving build: ${build}`);
+        const buildFromDb = await getBuildByName(build);
+        console.log(`Retrieving buildFromDb: ${buildFromDb}`);
+        if (buildFromDb) {
+            return buildFromDb.sfid;
+        }
+    } catch (e) {
+        console.log(
+            `Error thrown in resolveBuild: ${e.name} with message: ${e.message}`
+        );
     }
     return null;
 };
