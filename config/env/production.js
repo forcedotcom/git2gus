@@ -19,8 +19,6 @@
  * https://sailsjs.com/docs/concepts/deployment
  */
 
-require('dotenv').config();
-
 module.exports = {
     /**************************************************************************
      *                                                                         *
