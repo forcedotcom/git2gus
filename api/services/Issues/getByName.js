@@ -6,5 +6,12 @@
  */
 
 module.exports = async function getByName(name = '') {
-    return await Issues.findOne({ name });
+    try {
+        return await Issues.findOne({ name });
+    } catch (e) {
+        console.log(
+            `Error thrown in resolveBuild: ${e.name} with message: ${e.message}`
+        );
+        throw e;
+    }
 };
