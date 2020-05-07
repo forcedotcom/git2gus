@@ -69,9 +69,21 @@ module.exports = {
             var useGusApi = process.env.USE_GUS_API === 'true';
 
             if (useGusApi) {
-                console.log(`Using GUS Api to create workitem for issue titled: ${title}`)
+                console.log(`Using GUS Api to create workitem for issue titled: ${title}`);
                 const buildName = milestone ? milestone.title : config.defaultBuild;
                 const foundInBuild = await Gus.resolveBuild(buildName);
+
+                const issue = await Gus.getByRelatedUrl(url);
+                const alreadyLowestPriority =
+                    issue && issue.Priority__c !== '' && issue.Priority__c <= priority;
+                const recordIdTypeIsSame = issue && issue.RecordTypeId === recordTypeId;
+
+                // if issue already exists and already has lowest priority
+                // and already has correct recordTypeId then we just return
+                if (alreadyLowestPriority && recordIdTypeIsSame) {
+                    return;
+                }
+
                 if (foundInBuild) {
                     console.log(`Found foundInBuild: ${foundInBuild} for issue titled: ${title}`);
                     try{
@@ -83,7 +95,8 @@ module.exports = {
                             priority,
                             url,
                             recordTypeId);
-                        const msg = `This issue has been linked to a new work item: ${getWorkItemUrl(syncedItem, hideWorkItemUrl)}`;
+                        const displayUrl = (hideWorkItemUrl === true) ? syncedItem.Name : `[${syncedItem.Name}](${process.env.WORK_ITEM_BASE_URL + syncedItem.Id}/view)`;
+                        const msg = `This issue has been linked to a new work item: ${displayUrl}`;
                         console.log(msg, ' for issue titled: ', title);
                         return await updateIssue(req, msg);
                     } catch(e) {

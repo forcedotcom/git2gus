@@ -44,7 +44,7 @@ module.exports = async function createWorkItemInGus(
                 if (err || !ret.success) {
                     return console.error(err, ret);
                 }
-                return ret.id;
+                return ret;
             }
         )
     );
