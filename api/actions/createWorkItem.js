@@ -95,7 +95,8 @@ module.exports = {
                             priority,
                             url,
                             recordTypeId);
-                        const displayUrl = (hideWorkItemUrl === true) ? syncedItem.Name : `[${syncedItem.Name}](${process.env.WORK_ITEM_BASE_URL + syncedItem.Id}/view)`;
+                        const syncedItemFromGus = await Gus.getById(syncedItem.id);
+                        const displayUrl = (hideWorkItemUrl === true) ? syncedItemFromGus.Name : `[${syncedItemFromGus.Name}](${process.env.WORK_ITEM_BASE_URL + syncedItem.id}/view)`;
                         const msg = `This issue has been linked to a new work item: ${displayUrl}`;
                         console.log(msg, ' for issue titled: ', title);
                         return await updateIssue(req, msg);
