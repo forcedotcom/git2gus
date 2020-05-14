@@ -7,8 +7,14 @@
 
 const createChangelistInGus = require('./createChangelistInGus');
 const getWorkItemIdByName = require('./getWorkItemIdByName');
+const resolveBuild = require('./resolveBuild');
+const createWorkItemInGus = require('./createWorkItemInGus');
+const getByRelatedUrl = require('./getByRelatedUrl');
 
 module.exports = {
     createChangelistInGus,
-    getWorkItemIdByName
+    getWorkItemIdByName,
+    resolveBuild,
+    createWorkItemInGus,
+    getByRelatedUrl
 };
