@@ -207,9 +207,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome title\n\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<h3>some title</h3>\n<p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome title\n\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<h3>some title</h3>\n<p>some description</p>\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -230,9 +230,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: '[Some Prefix Text]'.concat(' new issue'),
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -253,9 +253,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -276,9 +276,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\nsome description\n',
+                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
                 productTag: 'efgh5678',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
