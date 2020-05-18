@@ -38,7 +38,7 @@ global.sails = {
 const req = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: '### some title\nsome description',
             number: 30,
@@ -68,7 +68,7 @@ const req = {
 const reqWithProductTagLabel = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -102,7 +102,7 @@ const reqWithProductTagLabel = {
 const reqWithOnlyProductTagLabels = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -135,7 +135,7 @@ const reqWithOnlyProductTagLabels = {
 const reqWithIssueTypeLabels = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -168,7 +168,7 @@ const reqWithIssueTypeLabels = {
 const reqWithGusTitlePrefix = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
