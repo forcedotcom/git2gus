@@ -38,7 +38,7 @@ global.sails = {
 const req = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: '### some title\nsome description',
             number: 30,
@@ -68,7 +68,7 @@ const req = {
 const reqWithProductTagLabel = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -102,7 +102,7 @@ const reqWithProductTagLabel = {
 const reqWithOnlyProductTagLabels = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -135,7 +135,7 @@ const reqWithOnlyProductTagLabels = {
 const reqWithIssueTypeLabels = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -168,7 +168,7 @@ const reqWithIssueTypeLabels = {
 const reqWithGusTitlePrefix = {
     body: {
         issue: {
-            url: 'github/git2gus-test/#30',
+            html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
             number: 30,
@@ -207,9 +207,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\n<h3>some title</h3>\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><h3>some title</h3>\n<p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\n<h3>some title</h3>\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><h3>some title</h3>\n<p>some description</p>\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -230,9 +230,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: '[Some Prefix Text]'.concat(' new issue'),
                 description:
-                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><p>some description</p>\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -253,9 +253,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><p>some description</p>\n',
                 productTag: 'abcd1234',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
@@ -276,9 +276,9 @@ describe('createGusItem action', () => {
                 name: 'CREATE_WORK_ITEM',
                 subject: 'new issue',
                 description:
-                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><p>some description</p>\n',
                 storyDetails:
-                    'Github issue link: github/git2gus-test/#30\n<p>some description</p>\n',
+                    'Github issue link: github/git2gus-test/#30\n<hr><hr><p>some description</p>\n',
                 productTag: 'efgh5678',
                 status: 'NEW',
                 foundInBuild: 'qwerty1234',
