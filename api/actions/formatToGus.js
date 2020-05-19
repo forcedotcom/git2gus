@@ -13,6 +13,7 @@ function formatToGus(url, body) {
             formattedDescription = 'Github issue link: '.concat(
                 url,
                 '\n',
+                '<hr><hr>',
                 String(file)
             );
         });
