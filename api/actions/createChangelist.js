@@ -11,15 +11,15 @@ const GithubEvents = require('../modules/GithubEvents');
 
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_CLOSED,
-    fn: async function(req) {
+    fn: async function (req) {
         const {
-            pull_request: { title, url }
+            pull_request: { title, url, body }
         } = req.body;
-        const workItemInTitle = title.match('@[Ww]-\\d{6,8}@');
-        if (workItemInTitle) {
-            const workItemName = workItemInTitle[0].substring(
+        const workItemInTitleOrBody = title.concat(body).match('@[Ww]-\\d{6,8}@');
+        if (workItemInTitleOrBody) {
+            const workItemName = workItemInTitleOrBody[0].substring(
                 1,
-                workItemInTitle[0].length - 1
+                workItemInTitleOrBody[0].length - 1
             );
 
             const issueId = await Gus.getWorkItemIdByName(workItemName);

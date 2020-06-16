@@ -22,7 +22,19 @@ const req = {
         pull_request: {
             title: 'pull request title @W-1234567@',
             url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
-            closed_at: '2020-02-13T18:30:28Z'
+            closed_at: '2020-02-13T18:30:28Z',
+            body: 'some description\n\ndescription with workitem @W-7654321@\n\nmore description'
+        }
+    }
+};
+
+const reqWithWorkItemInBody = {
+    body: {
+        pull_request: {
+            title: 'pull request title withou workitem id',
+            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
+            closed_at: '2020-02-13T18:30:28Z',
+            body: 'description with workitem @W-7654321@'
         }
     }
 };
@@ -48,10 +60,22 @@ const reqWithWorkItemInWrongFormat = {
 };
 
 describe('createChangelist action', () => {
-    it('should call Issue.getName and Gus.createChangeListInGus with the right value', async () => {
+    it('should call Issue.getName and Gus.createChangeListInGus with workitem from title', async () => {
         Gus.getWorkItemIdByName.mockReturnValue('a071234');
         await fn(req);
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
+
+        expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
+            'someuser/git2gustest/pull/74',
+            'a071234'
+        );
+    });
+
+    it('should call Issue.getName and Gus.createChangeListInGus with workitem from body', async () => {
+        Gus.getWorkItemIdByName.mockReset();
+        Gus.getWorkItemIdByName.mockReturnValue('a071234');
+        await fn(reqWithWorkItemInBody);
+        expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-7654321');
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
             'someuser/git2gustest/pull/74',
