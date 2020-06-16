@@ -23,7 +23,8 @@ const req = {
             title: 'pull request title @W-1234567@',
             url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
             closed_at: '2020-02-13T18:30:28Z',
-            body: 'some description\n\ndescription with workitem @W-7654321@\n\nmore description'
+            body:
+                'some description\n\ndescription with workitem @W-7654321@\n\nmore description'
         }
     }
 };

@@ -11,11 +11,13 @@ const GithubEvents = require('../modules/GithubEvents');
 
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_CLOSED,
-    fn: async function (req) {
+    fn: async function(req) {
         const {
             pull_request: { title, url, body }
         } = req.body;
-        const workItemInTitleOrBody = title.concat(body).match('@[Ww]-\\d{6,8}@');
+        const workItemInTitleOrBody = title
+            .concat(body)
+            .match('@[Ww]-\\d{6,8}@');
         if (workItemInTitleOrBody) {
             const workItemName = workItemInTitleOrBody[0].substring(
                 1,
