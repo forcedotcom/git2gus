@@ -19,14 +19,13 @@ describe('convertUrlToGusFormat', () => {
         ).toEqual('repo-url.com/repo1/commit/123456');
     });
 
-    it('should use first commit when merged commit not present - non squashed merge case', () => {
+    it('should use PR link when merged commit not present - non squashed merge case', () => {
         expect(
             convertUrlToGusFormat(
                 'repo-url.com/repo1',
                 null,
-                'pr-url.com/pull/199',
-                '654321'
+                'pr-url.com/pull/199'
             )
-        ).toEqual('pr-url.com/pull/199/commits/654321');
+        ).toEqual('pr-url.com/pull/199');
     });
 });

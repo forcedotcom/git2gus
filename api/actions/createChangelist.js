@@ -19,7 +19,6 @@ module.exports = {
                 body,
                 merge_commit_sha,
                 head: {
-                    sha,
                     repo: { html_url: repo_url }
                 }
             }
@@ -36,8 +35,7 @@ module.exports = {
             const changelistUrl = convertUrlToGusFormat(
                 repo_url,
                 merge_commit_sha,
-                pr_url,
-                sha
+                pr_url
             );
             const issueId = await Gus.getWorkItemIdByName(workItemName);
             Gus.createChangelistInGus(changelistUrl, issueId);
