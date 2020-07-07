@@ -5,11 +5,10 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-const URL = require('url');
-
-function convertUrlToGusFormat(url) {
-    return URL.parse(url)
-        .pathname.replace('pulls', 'pull')
-        .replace('/repos/', '');
+function convertUrlToGusFormat(repo_url, merge_commit_sha, pr_url, sha) {
+    if (merge_commit_sha) {
+        return repo_url.concat('/commit/').concat(merge_commit_sha);
+    }
+    return pr_url.concat('/commits/').concat(sha);
 }
 exports.convertUrlToGusFormat = convertUrlToGusFormat;
