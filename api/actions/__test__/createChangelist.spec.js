@@ -21,10 +21,15 @@ const req = {
     body: {
         pull_request: {
             title: 'pull request title @W-1234567@',
-            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
+            html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
             closed_at: '2020-02-13T18:30:28Z',
             body:
-                'some description\n\ndescription with workitem @W-7654321@\n\nmore description'
+                'some description\n\ndescription with workitem @W-7654321@\n\nmore description',
+            head: {
+                sha: '654321',
+                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
+            },
+            merge_commit_sha: '123456'
         }
     }
 };
@@ -32,10 +37,14 @@ const req = {
 const reqWithWorkItemInBody = {
     body: {
         pull_request: {
-            title: 'pull request title withou workitem id',
-            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
+            title: 'pull request title without workitem id',
+            html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
             closed_at: '2020-02-13T18:30:28Z',
-            body: 'description with workitem @W-7654321@'
+            body: 'description with workitem @W-7654321@',
+            head: {
+                sha: '654321',
+                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
+            }
         }
     }
 };
@@ -44,8 +53,12 @@ const reqWithoutWorkItem = {
     body: {
         pull_request: {
             title: 'pull request title',
-            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
-            closed_at: '2020-02-13T18:30:28Z'
+            html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
+            closed_at: '2020-02-13T18:30:28Z',
+            head: {
+                sha: '123456',
+                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
+            }
         }
     }
 };
@@ -54,8 +67,12 @@ const reqWithWorkItemInWrongFormat = {
     body: {
         pull_request: {
             title: 'pull request title W-1234567',
-            url: 'https://api.github.com/repos/someuser/git2gustest/pulls/74',
-            closed_at: '2020-02-13T18:30:28Z'
+            html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
+            closed_at: '2020-02-13T18:30:28Z',
+            head: {
+                sha: '123456',
+                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
+            }
         }
     }
 };
@@ -67,7 +84,7 @@ describe('createChangelist action', () => {
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
-            'someuser/git2gustest/pull/74',
+            'https://github.com/Codertocat/Hello-World/commit/123456',
             'a071234'
         );
     });
@@ -79,7 +96,7 @@ describe('createChangelist action', () => {
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-7654321');
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
-            'someuser/git2gustest/pull/74',
+            'https://github.com/Codertocat/Hello-World/pull/2',
             'a071234'
         );
     });

@@ -13,7 +13,15 @@ module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_CLOSED,
     fn: async function(req) {
         const {
-            pull_request: { title, url, body }
+            pull_request: {
+                title,
+                html_url: pr_url,
+                body,
+                merge_commit_sha,
+                head: {
+                    repo: { html_url: repo_url }
+                }
+            }
         } = req.body;
         const workItemInTitleOrBody = title
             .concat(body)
@@ -24,9 +32,13 @@ module.exports = {
                 workItemInTitleOrBody[0].length - 1
             );
 
+            const changelistUrl = convertUrlToGusFormat(
+                repo_url,
+                merge_commit_sha,
+                pr_url
+            );
             const issueId = await Gus.getWorkItemIdByName(workItemName);
-            const relativeUrl = convertUrlToGusFormat(url);
-            Gus.createChangelistInGus(relativeUrl, issueId);
+            Gus.createChangelistInGus(changelistUrl, issueId);
         }
     }
 };
