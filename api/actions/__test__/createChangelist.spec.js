@@ -84,7 +84,7 @@ describe('createChangelist action', () => {
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
-            'https://github.com/Codertocat/Hello-World/commit/123456',
+            'Codertocat/Hello-World/commit/123456',
             'a071234'
         );
     });
@@ -96,7 +96,7 @@ describe('createChangelist action', () => {
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-7654321');
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
-            'https://github.com/Codertocat/Hello-World/pull/2',
+            'Codertocat/Hello-World/pull/2',
             'a071234'
         );
     });

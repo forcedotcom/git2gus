@@ -11,21 +11,21 @@ describe('convertUrlToGusFormat', () => {
     it('should use merged commit when present - squash & merge case', () => {
         expect(
             convertUrlToGusFormat(
-                'repo-url.com/repo1',
+                'https://repo-url.com/repo1',
                 '123456',
-                'pr-url.com/pull/199',
+                'https://pr-url.com/pull/199',
                 '654321'
             )
-        ).toEqual('repo-url.com/repo1/commit/123456');
+        ).toEqual('repo1/commit/123456');
     });
 
     it('should use PR link when merged commit not present - non squashed merge case', () => {
         expect(
             convertUrlToGusFormat(
-                'repo-url.com/repo1',
+                'https://repo-url.com/repo1',
                 null,
-                'pr-url.com/pull/199'
+                'https://pr-url.com/pull/199'
             )
-        ).toEqual('pr-url.com/pull/199');
+        ).toEqual('pull/199');
     });
 });
