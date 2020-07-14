@@ -7,7 +7,11 @@
 
 const jsforce = require('jsforce');
 
-module.exports = function createChangelistInGus(relativeUrl, issueId) {
+module.exports = function createChangelistInGus(
+    relativeUrl,
+    issueId,
+    mergedAt
+) {
     const conn = new jsforce.Connection();
     conn.login(process.env.GUS_USERNAME, process.env.GUS_PASSWORD, err => {
         if (err) {
@@ -18,7 +22,9 @@ module.exports = function createChangelistInGus(relativeUrl, issueId) {
                 Perforce_Changelist__c: relativeUrl,
                 Work__c: issueId,
                 External_ID__c: relativeUrl,
-                Source__c: 'GitHub'
+                Source__c: 'GitHub',
+                Check_In_Date__c: mergedAt,
+                Check_In_By__c: process.env.GUS_USER
             },
             (err, ret) => {
                 if (err || !ret.success) {
