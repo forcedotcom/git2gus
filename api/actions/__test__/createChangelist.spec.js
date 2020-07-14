@@ -29,7 +29,8 @@ const req = {
                 sha: '654321',
                 repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
             },
-            merge_commit_sha: '123456'
+            merge_commit_sha: '123456',
+            merged_at: '2019-05-15T15:20:33Z'
         }
     }
 };
@@ -44,7 +45,8 @@ const reqWithWorkItemInBody = {
             head: {
                 sha: '654321',
                 repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
-            }
+            },
+            merged_at: '2019-05-15T15:20:33Z'
         }
     }
 };
@@ -85,7 +87,8 @@ describe('createChangelist action', () => {
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
             'Codertocat/Hello-World/commit/123456',
-            'a071234'
+            'a071234',
+            '2019-05-15T15:20:33Z'
         );
     });
 
@@ -97,7 +100,8 @@ describe('createChangelist action', () => {
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
             'Codertocat/Hello-World/pull/2',
-            'a071234'
+            'a071234',
+            '2019-05-15T15:20:33Z'
         );
     });
 

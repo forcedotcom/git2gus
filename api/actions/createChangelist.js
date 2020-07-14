@@ -18,6 +18,7 @@ module.exports = {
                 html_url: pr_url,
                 body,
                 merge_commit_sha,
+                merged_at,
                 head: {
                     repo: { html_url: repo_url }
                 }
@@ -38,7 +39,7 @@ module.exports = {
                 pr_url
             );
             const issueId = await Gus.getWorkItemIdByName(workItemName);
-            Gus.createChangelistInGus(changelistUrl, issueId);
+            Gus.createChangelistInGus(changelistUrl, issueId, merged_at);
         }
     }
 };
