@@ -8,7 +8,10 @@
  * For more information on configuration, check out:
  * https://sailsjs.com/config/http
  */
-const logger = require('../api/policies/logger');
+const {
+    logger,
+    errorLogger
+} = require('../api/services/Logs/loggerMiddleware');
 
 module.exports.http = {
     /****************************************************************************
@@ -28,13 +31,14 @@ module.exports.http = {
          *                                                                          *
          ***************************************************************************/
         order: [
-            'logDna',
+            'logger',
             'cookieParser',
             'session',
             'bodyParser',
             'compress',
             'poweredBy',
             'router',
+            'errorLogger',
             'www',
             'favicon'
         ],
@@ -50,6 +54,7 @@ module.exports.http = {
         //   var middlewareFn = skipper({ strict: true });
         //   return middlewareFn;
         // })(),
-        logDna: logger
+        logger,
+        errorLogger
     }
 };
