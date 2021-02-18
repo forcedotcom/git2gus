@@ -6,5 +6,5 @@
  */
 
 module.exports = async function getBugRecordTypeId() {
-    return (global).sails.config.salesforce.bugRecordTypeId;
+    return global.sails.config.salesforce.bugRecordTypeId;
 };

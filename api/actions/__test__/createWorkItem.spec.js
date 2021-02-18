@@ -250,70 +250,127 @@ describe('createGusItem action', () => {
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
         await fn(req);
-        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith('new issue', "Body In Gus format", "abcd1234", "NEW", "229", "P1", "github/git2gus-test/#30", "bug");
+        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith(
+            'new issue',
+            'Body In Gus format',
+            'abcd1234',
+            'NEW',
+            '229',
+            'P1',
+            'github/git2gus-test/#30',
+            'bug'
+        );
     });
     it('should call createWorkItemInGus with the right title prefix text', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
         await fn(reqWithGusTitlePrefix);
-        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith('[Some Prefix Text]'.concat(' new issue'), "Body In Gus format", "abcd1234", "NEW", "229", "P1", "github/git2gus-test/#30", "bug");
+        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith(
+            '[Some Prefix Text]'.concat(' new issue'),
+            'Body In Gus format',
+            'abcd1234',
+            'NEW',
+            '229',
+            'P1',
+            'github/git2gus-test/#30',
+            'bug'
+        );
     });
     it('should call createWorkItemInGus with the right issue type from label', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
         await fn(reqWithIssueTypeLabels);
-        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith('new issue', "Body In Gus format", "abcd1234", "NEW", "229", "P1", "github/git2gus-test/#30", "bug");
+        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith(
+            'new issue',
+            'Body In Gus format',
+            'abcd1234',
+            'NEW',
+            '229',
+            'P1',
+            'github/git2gus-test/#30',
+            'bug'
+        );
     });
     it('should call createWorkItemInGus with the right issue type from label', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
         await fn(reqWithIssueTypeLabels);
-        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith('new issue', "Body In Gus format", "abcd1234", "NEW", "229", "P1", "github/git2gus-test/#30", "bug");
+        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith(
+            'new issue',
+            'Body In Gus format',
+            'abcd1234',
+            'NEW',
+            '229',
+            'P1',
+            'github/git2gus-test/#30',
+            'bug'
+        );
     });
     it('should call createWorkItemInGus with the right product tag label', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
         await fn(reqWithProductTagLabel);
-        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith('new issue', "Body In Gus format", "efgh5678", "NEW", "229", "P1", "github/git2gus-test/#30", "bug");
+        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith(
+            'new issue',
+            'Body In Gus format',
+            'efgh5678',
+            'NEW',
+            '229',
+            'P1',
+            'github/git2gus-test/#30',
+            'bug'
+        );
     });
     it('should not call createWorkItemInGus if user story already exists in GUS', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('story');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
-        var dummyIssue = {RecordTypeId : 'story'};
+        var dummyIssue = { RecordTypeId: 'story' };
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(dummyIssue));
         await fn(req);
         expect(Gus.createWorkItemInGus).not.toHaveBeenCalled();
@@ -323,10 +380,12 @@ describe('createGusItem action', () => {
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
-        var dummyIssue = {RecordTypeId : 'bug', Priority__c : '1'};
+        var dummyIssue = { RecordTypeId: 'bug', Priority__c: '1' };
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(dummyIssue));
         await fn(reqWithIssueTypeUserStory);
         expect(Gus.createWorkItemInGus).not.toHaveBeenCalled();
@@ -336,7 +395,9 @@ describe('createGusItem action', () => {
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('abcd1234'));
@@ -347,24 +408,32 @@ describe('createGusItem action', () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve(null));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
         Github.createComment.mockReset();
         await fn(req);
-        expect(Github.createComment).toHaveBeenCalledWith({'body': 'Error while creating work item. No valid build found in GUS!', req});
+        expect(Github.createComment).toHaveBeenCalledWith({
+            body:
+                'Error while creating work item. No valid build found in GUS!',
+            req
+        });
     });
     it('should create a comment when the "done" callback return the new work item and it is synced', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
-        const workItem = {id : '12345', Name: 'new-work-item'};
+        const workItem = { id: '12345', Name: 'new-work-item' };
         Gus.createWorkItemInGus.mockReturnValue(workItem);
         Gus.getById.mockReturnValue(workItem);
         await fn(req);
@@ -379,11 +448,13 @@ describe('createGusItem action', () => {
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
-        formatToGus.formatToGus.mockReturnValue(Promise.resolve('Body In Gus format'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
         Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
         Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
         Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
-        const workItem = {id : '12345', Name: 'new-work-item'};
+        const workItem = { id: '12345', Name: 'new-work-item' };
         Gus.createWorkItemInGus.mockReturnValue(workItem);
         Gus.getById.mockReturnValue(workItem);
         const req1 = JSON.parse(JSON.stringify(req));
