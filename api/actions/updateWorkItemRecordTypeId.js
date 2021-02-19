@@ -21,7 +21,7 @@ module.exports = {
      */
     fn: async function(req) {
         const {
-            issue: { labels, url },
+            issue: { labels, html_url },
             label
         } = req.body;
 
@@ -32,7 +32,7 @@ module.exports = {
             ].queue.push({
                 name: 'UPDATE_WORK_ITEM_RECORDTYPEID',
                 recordTypeId,
-                relatedUrl: url
+                relatedUrl: html_url
             });
         }
     }
