@@ -36,6 +36,8 @@ module.exports = {
         let {
             issue: { title }
         } = req.body;
+        // Grab the label being added for comparison against Salesforce labels
+        const { label : labelAdded } = req.body;
         const { config } = req.git2gus;
         const { hideWorkItemUrl } = config;
         let productTag = config.productTag;
@@ -50,6 +52,10 @@ module.exports = {
         if(config.issueTypeLabels) {
             console.log('createWorkItem will work with custom issueTypeLabels for issue titled: ', title);
             Object.keys(config.issueTypeLabels).forEach(issueTypeLabel => {
+                // If the label added is a Salesforce custom label, give it the correct base label
+                if (labelAdded.name === issueTypeLabel) {
+                    labelAdded.name = config.issueTypeLabels[issueTypeLabel];
+                }
                 if (labels.some(label => label.name === issueTypeLabel)) {
                     labels.push({name: config.issueTypeLabels[issueTypeLabel]});
                 }
@@ -58,7 +64,8 @@ module.exports = {
 
         let normalizedTitle = getTitleWithOptionalPrefix(config, title);
         console.log('createWorkItem will create GUS work item with title: ', normalizedTitle);
-        if (labels.some(label => Github.isSalesforceLabel(label.name)) && productTag) {
+        // Check if the label added is a Salesforce label
+        if (Github.isSalesforceLabel(labelAdded.name) && productTag) {
             console.log('Verified valid label and product tag for issue titled: ', title);
             const priority = Github.getPriority(labels);
             console.log(`Found priority: ${priority} for issue titled: ${title}`);
@@ -153,4 +160,3 @@ module.exports = {
         return null;
     }
 };
-
