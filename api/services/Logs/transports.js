@@ -14,7 +14,7 @@ const transports = [
     new winston.transports.Console({
         level: 'info',
         handleExceptions: true,
-        format: winston.format.prettyPrint({ colorize: true })
+        format: winston.format.simple()
     })
 ];
 
@@ -38,8 +38,8 @@ if (
     const client = new Client({
         node: ELASTICSEARCH_ENDPOINT,
         auth: {
-            username: 'elastic',
-            password: 'TRZoZDY3MD1iEAhsxI4Tka9b'
+            username: ELASTICSEARCH_USERNAME,
+            password: ELASTICSEARCH_PASSWORD
         }
     });
     const esTransportOpts = {
