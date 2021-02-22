@@ -30,7 +30,7 @@ describe('updateGusItemRecordTypeId action', () => {
         const req = {
             body: {
                 issue: {
-                    url: 'github/test-git2gus/#110'
+                    html_url: 'github/test-git2gus/#110'
                 },
                 label: {
                     name: 'USER STORY'

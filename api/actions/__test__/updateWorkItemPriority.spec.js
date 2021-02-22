@@ -30,7 +30,7 @@ describe('updateWorkItemPriority action', () => {
         const req = {
             body: {
                 issue: {
-                    url: 'github/test-git2gus/#110'
+                    html_url: 'github/test-git2gus/#110'
                 },
                 label: {
                     name: 'BUG P0'

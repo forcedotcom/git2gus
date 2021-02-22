@@ -12,7 +12,7 @@ module.exports = {
     eventName: GithubEvents.events.ISSUE_UNLABELED,
     fn: async function(req) {
         const {
-            issue: { labels, url },
+            issue: { labels, html_url },
             label
         } = req.body;
 
@@ -21,7 +21,7 @@ module.exports = {
             sails.hooks['issues-hook'].queue.push({
                 name: 'UPDATE_WORK_ITEM_PRIORITY',
                 priority,
-                relatedUrl: url
+                relatedUrl: html_url
             });
         }
     }
