@@ -21,25 +21,15 @@ try {
     `);
 }
 
-function shouldUsePersonalToken(fullName) {
-    const orgName = fullName.split('/')[0];
-    if (process.env.TOKEN_ORGS) {
-        const tokenOrgs = process.env.TOKEN_ORGS.split(',');
-        return tokenOrgs.some(tokenOrgName => tokenOrgName === orgName);
-    }
-    return false;
-}
-
 module.exports = async function isGithubAuth(req, res, next) {
-    const { installation, repository, repositories } = req.body;
+    const PERSONAL_ACCESS_TOKEN = process.env.PERSONAL_ACCESS_TOKEN;
+    const { installation } = req.body;
     const app = new App({
         id: github.appId,
         privateKey: cert
     });
-    const repositoryName = (repositories && repositories[0] && repositories[0].full_name) ? repositories[0].full_name : repository.full_name;
-    // pretier-ignore
-    const octokitClient = (repository && shouldUsePersonalToken(repositoryName))
-        ? new Octokit({ auth: process.env.PERSONAL_ACCESS_TOKEN })
+    const octokitClient = PERSONAL_ACCESS_TOKEN
+        ? new Octokit({ auth: PERSONAL_ACCESS_TOKEN })
         : new Octokit({
             async auth() {
                 let installationAccessToken;
