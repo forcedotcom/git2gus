@@ -10,7 +10,7 @@ const getConfig = require('../getConfig');
 const payload = {
     octokitClient: {
         repos: {
-            getContents: jest.fn()
+            getContent: jest.fn()
         }
     },
     owner: 'john',
@@ -27,11 +27,11 @@ describe('getConfig github service', () => {
                 content
             }
         };
-        payload.octokitClient.repos.getContents.mockReturnValue(
+        payload.octokitClient.repos.getContent.mockReturnValue(
             Promise.resolve(fileData)
         );
         getConfig(payload);
-        expect(payload.octokitClient.repos.getContents).toHaveBeenCalledWith({
+        expect(payload.octokitClient.repos.getContent).toHaveBeenCalledWith({
             owner: 'john',
             repo: 'test-repo',
             path: '.git2gus/config.json'
@@ -47,7 +47,7 @@ describe('getConfig github service', () => {
                 content
             }
         };
-        payload.octokitClient.repos.getContents.mockReturnValue(
+        payload.octokitClient.repos.getContent.mockReturnValue(
             Promise.resolve(fileData)
         );
         const configData = await getConfig(payload);
@@ -66,7 +66,7 @@ describe('getConfig github service', () => {
                 content
             }
         };
-        payload.octokitClient.repos.getContents.mockReturnValue(
+        payload.octokitClient.repos.getContent.mockReturnValue(
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
@@ -84,7 +84,7 @@ describe('getConfig github service', () => {
                 content
             }
         };
-        payload.octokitClient.repos.getContents.mockReturnValue(
+        payload.octokitClient.repos.getContent.mockReturnValue(
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
@@ -100,7 +100,7 @@ describe('getConfig github service', () => {
                 content
             }
         };
-        payload.octokitClient.repos.getContents.mockReturnValue(
+        payload.octokitClient.repos.getContent.mockReturnValue(
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
@@ -116,7 +116,7 @@ describe('getConfig github service', () => {
                 content
             }
         };
-        payload.octokitClient.repos.getContents.mockReturnValue(
+        payload.octokitClient.repos.getContent.mockReturnValue(
             Promise.resolve(fileData)
         );
         return expect(getConfig(payload)).rejects.toEqual({
