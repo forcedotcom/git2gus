@@ -19,7 +19,7 @@
         "jest": "^24.1.0",
         "jsforce": "^1.9.3",
         "jsonwebtoken": "^8.3.0",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.19",
         "logdna-winston": "^2.3.1",
         "remark": "^12.0.0",
         "remark-html": "11.0.2",
