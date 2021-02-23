@@ -7,7 +7,7 @@
 
 function getBugRecordTypeId() {
     return /** @type{TypedGlobal} */ (global).sails.config.salesforce
-    .bugRecordTypeId;
+        .bugRecordTypeId;
 }
 
 module.exports = getBugRecordTypeId;
