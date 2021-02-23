@@ -62,7 +62,7 @@ module.exports = {
             console.log(`Found foundInBuild: ${foundInBuild} for issue titled: ${title}`);
 
             const issue = await Gus.getByRelatedUrl(html_url);
-            const bugRecordTypeId = await Gus.getBugRecordTypeId();
+            const bugRecordTypeId = Gus.getBugRecordTypeId();
 
             const alreadyLowestPriority =
                 issue && issue.Priority__c !== '' && issue.Priority__c <= priority;

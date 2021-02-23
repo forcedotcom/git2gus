@@ -5,6 +5,9 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-module.exports = async function getBugRecordTypeId() {
-    return global.sails.config.salesforce.bugRecordTypeId;
-};
+function getBugRecordTypeId() {
+    return /** @type{TypedGlobal} */ (global).sails.config.salesforce
+    .bugRecordTypeId;
+}
+
+module.exports = getBugRecordTypeId;
