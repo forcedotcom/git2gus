@@ -11,6 +11,7 @@ const resolveBuild = require('./resolveBuild');
 const createWorkItemInGus = require('./createWorkItemInGus');
 const getByRelatedUrl = require('./getByRelatedUrl');
 const getById = require('./getById');
+const getBugRecordTypeId = require('./getBugRecordTypeId');
 
 module.exports = {
     createChangelistInGus,
@@ -18,5 +19,6 @@ module.exports = {
     resolveBuild,
     createWorkItemInGus,
     getByRelatedUrl,
-    getById
+    getById,
+    getBugRecordTypeId
 };
