@@ -6,7 +6,7 @@
  */
 
 module.exports = async function getConfig({ octokitClient, owner, repo }) {
-    const file = await octokitClient.repos.getContents({
+    const file = await octokitClient.repos.getContent({
         owner,
         repo,
         path: '.git2gus/config.json'
