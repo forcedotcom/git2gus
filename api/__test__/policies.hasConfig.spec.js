@@ -270,7 +270,7 @@ describe('hasConfig policy', () => {
         await hasConfig(req, res, next);
         expect(createComment).toHaveBeenCalledWith({
             req,
-            body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`
+            body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exist.`
         });
         expect(res.notFound).toHaveBeenCalledWith({
             status: 'CONFIG_NOT_FOUND',
@@ -302,7 +302,7 @@ describe('hasConfig policy', () => {
         await hasConfig(req, res, next);
         expect(createComment).toHaveBeenCalledWith({
             req,
-            body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`
+            body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exist.`
         });
         expect(res.notFound).toHaveBeenCalledWith({
             status: 'CONFIG_NOT_FOUND',

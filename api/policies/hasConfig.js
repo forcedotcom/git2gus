@@ -34,7 +34,7 @@ module.exports = async function hasConfig(req, res, next) {
             if (isIssueOrPrOpened) {
                 await createComment({
                     req,
-                    body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exists.`
+                    body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't exist.`
                 });
             }
             return res.notFound({
