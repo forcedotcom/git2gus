@@ -6,6 +6,7 @@
  */
 
 const GithubEvents = require('../modules/GithubEvents');
+const logger = require('../services/Logs/logger');
 
 function getRepositories(req) {
     if (
@@ -25,10 +26,17 @@ module.exports = {
         GithubEvents.events.INSTALLATION_REPOSITORIES_ADDED
     ],
     fn: async function(req) {
-        const { installation } = req.body;
-        const owner = installation.account.login;
+        const {
+            installation: {
+                id: installationId,
+                account: { login: owner }
+            }
+        } = req.body;
         const repositories = getRepositories(req);
-
+        logger.info('INTENT_CREATING_LABELS', {
+            installationId,
+            owner
+        });
         repositories.forEach(async repository => {
             const repo = repository.name;
             const {
@@ -48,7 +56,19 @@ module.exports = {
                     name,
                     color: bugLabelColor
                 };
-                await req.octokitClient.issues.createLabel(label);
+                logger.info('INTENT_CREATING_LABEL', {
+                    installationId,
+                    ...label
+                });
+                try {
+                    await req.octokitClient.issues.createLabel(label);
+                } catch (err) {
+                    logger.error('ERROR_CREATING_LABEL', {
+                        message: err.toString(),
+                        installationId,
+                        ...label
+                    });
+                }
             });
 
             // add the investigation labels
@@ -59,16 +79,46 @@ module.exports = {
                     name,
                     color: investigationLabelColor
                 };
-                await req.octokitClient.issues.createLabel(label);
+                logger.info('INTENT_CREATING_LABEL', {
+                    installationId,
+                    ...label
+                });
+                try {
+                    await req.octokitClient.issues.createLabel(label);
+                } catch (err) {
+                    logger.error('ERROR_CREATING_LABEL', {
+                        message: err.toString(),
+                        installationId,
+                        ...label
+                    });
+                }
             });
 
             // add the story label
-            await req.octokitClient.issues.createLabel({
+            logger.info('INTENT_CREATING_LABEL', {
+                installationId,
                 owner,
                 repo,
                 name: userStoryLabel,
-                color: userStoryLabelColor
+                color: bugLabelColor
             });
+            try {
+                await req.octokitClient.issues.createLabel({
+                    owner,
+                    repo,
+                    name: userStoryLabel,
+                    color: userStoryLabelColor
+                });
+            } catch (err) {
+                logger.error('ERROR_CREATING_LABEL', {
+                    message: err.toString(),
+                    installationId,
+                    owner,
+                    repo,
+                    name: userStoryLabel,
+                    color: userStoryLabelColor
+                });
+            }
         });
     }
 };
