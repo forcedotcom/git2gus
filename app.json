@@ -1,4 +1,5 @@
 {
     "name": "Git2Gus",
-    "description": "A GitHub application to keep issues in sync with Salesforce's Agile Accelerator."
+    "description": "A GitHub application to keep issues in sync with Salesforce's Agile Accelerator.",
+    "stack": "heroku-20"
 }
