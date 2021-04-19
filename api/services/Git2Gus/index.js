@@ -6,9 +6,9 @@
  */
 
 const deleteLinkedComment = require('./deleteLinkedComment');
-const isWorkitemClosed = require('./isWorkItemClosed');
+const isWorkItemClosed = require('./isWorkItemClosed');
 
 module.exports = {
     deleteLinkedComment,
-    isWorkitemClosed
+    isWorkItemClosed
 };

@@ -7,43 +7,36 @@
 
 const { fn } = require('../integrateWorkItem');
 const { isWorkItemClosed } = require('../../services/Git2Gus');
+const Gus = require('../../services/Gus');
 
 jest.mock('../../services/Git2Gus', () => ({
     isWorkItemClosed: jest.fn()
 }));
-global.sails = {
-    hooks: {
-        'issues-hook': {
-            queue: {
-                push: jest.fn()
-            }
-        }
-    }
-};
+jest.mock('../../services/Gus', () => ({
+    closeWorkItem: jest.fn()
+}));
 
 describe('integrateWorkItem action', () => {
-    it('should call queue push with the right values when there is not statusWhenClosed in config', () => {
+    it('should call queue push with the right values when there is not statusWhenClosed in config', async () => {
         const req = {
             body: {
-                issue: { url: 'github/pepe/test-app/#53' }
+                issue: { html_url: 'github/pepe/test-app/#53' }
             },
             git2gus: {
                 config: {}
             }
         };
-        fn(req);
-        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'INTEGRATE_WORK_ITEM',
-            relatedUrl: 'github/pepe/test-app/#53',
-            status: 'INTEGRATE'
-        });
+        await fn(req);
+        expect(Gus.closeWorkItem).toHaveBeenCalledWith(
+            'github/pepe/test-app/#53',
+            'INTEGRATE'
+        );
     });
-    it('should call queue push with the right values when there is a valid statusWhenClosed in config', () => {
-        sails.hooks['issues-hook'].queue.push.mockReset();
+    it('should call queue push with the right values when there is a valid statusWhenClosed in config', async () => {
         isWorkItemClosed.mockReturnValue(true);
         const req = {
             body: {
-                issue: { url: 'github/pepe/test-app/#53' }
+                issue: { html_url: 'github/pepe/test-app/#53' }
             },
             git2gus: {
                 config: {
@@ -51,11 +44,10 @@ describe('integrateWorkItem action', () => {
                 }
             }
         };
-        fn(req);
-        expect(sails.hooks['issues-hook'].queue.push).toHaveBeenCalledWith({
-            name: 'INTEGRATE_WORK_ITEM',
-            relatedUrl: 'github/pepe/test-app/#53',
-            status: 'CLOSED'
-        });
+        await fn(req);
+        expect(Gus.closeWorkItem).toHaveBeenCalledWith(
+            'github/pepe/test-app/#53',
+            'CLOSED'
+        );
     });
 });

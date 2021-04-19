@@ -7,6 +7,7 @@
 
 const GithubEvents = require('../modules/GithubEvents');
 const { isWorkItemClosed } = require('../services/Git2Gus');
+const { closeWorkItem } = require('../services/Gus');
 
 function getStatus(statusWhenClosed) {
     if (statusWhenClosed && isWorkItemClosed(statusWhenClosed)) {
@@ -19,14 +20,9 @@ module.exports = {
     eventName: GithubEvents.events.ISSUE_CLOSED,
     fn: async function(req) {
         const {
-            issue: { url }
+            issue: { html_url }
         } = req.body;
         const { statusWhenClosed } = req.git2gus.config;
-
-        sails.hooks['issues-hook'].queue.push({
-            name: 'INTEGRATE_WORK_ITEM',
-            relatedUrl: url,
-            status: getStatus(statusWhenClosed)
-        });
+        closeWorkItem(html_url, getStatus(statusWhenClosed));
     }
 };
