@@ -45,7 +45,7 @@ describe('createChatterComment action', () => {
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
 
         expect(Gus.createComment).toHaveBeenCalledWith(
-            'A Pull Request is now open for this work item https://github.com/Codertocat/Hello-World/commit/123456',
+            'A Pull Request is now open for this work item https://github.com/Codertocat/Hello-World/pull/2',
             'a071234'
         );
     });
