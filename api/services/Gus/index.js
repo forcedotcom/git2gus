@@ -6,6 +6,7 @@
  */
 
 const createChangelistInGus = require('./createChangelistInGus');
+const createComment = require('./createComment');
 const getWorkItemIdByName = require('./getWorkItemIdByName');
 const resolveBuild = require('./resolveBuild');
 const createWorkItemInGus = require('./createWorkItemInGus');
@@ -16,6 +17,7 @@ const getBugRecordTypeId = require('./getBugRecordTypeId');
 
 module.exports = {
     createChangelistInGus,
+    createComment,
     getWorkItemIdByName,
     resolveBuild,
     createWorkItemInGus,
