@@ -7,10 +7,7 @@
 
 const jsforce = require('jsforce');
 
-module.exports = function createComment(
-    comment,
-    issueId
-) {
+module.exports = function createComment(comment, issueId) {
     const conn = new jsforce.Connection();
     conn.login(process.env.GUS_USERNAME, process.env.GUS_PASSWORD, err => {
         if (err) {
@@ -19,7 +16,7 @@ module.exports = function createComment(
         conn.sobject('FeedItem').create(
             {
                 Body: comment,
-                ParentId: issueId,
+                ParentId: issueId
             },
             (err, ret) => {
                 if (err || !ret.success) {
