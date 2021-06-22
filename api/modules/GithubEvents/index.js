@@ -16,7 +16,8 @@ const events = {
     ISSUE_CLOSED: 'ISSUE_CLOSED',
     ISSUE_EDITED: 'ISSUE_EDITED',
     ISSUE_OPENED: 'ISSUE_OPENED',
-    PULL_REQUEST_CLOSED: 'PULL_REQUEST_CLOSED'
+    PULL_REQUEST_CLOSED: 'PULL_REQUEST_CLOSED',
+    PULL_REQUEST_OPENED: 'PULL_REQUEST_OPENED'
 };
 
 const eventsConfig = {
@@ -51,6 +52,10 @@ const eventsConfig = {
     [events.PULL_REQUEST_CLOSED]: {
         event: 'pull_request',
         action: 'closed'
+    },
+    [events.PULL_REQUEST_OPENED]: {
+        event: 'pull_request',
+        action: 'opened'
     }
 };
 
