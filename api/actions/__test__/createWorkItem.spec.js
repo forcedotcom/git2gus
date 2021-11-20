@@ -56,8 +56,7 @@ const req = {
             html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: '### some title\nsome description',
-            number: 30,
-            labels: [{ name: 'BUG P1' }]
+            number: 30
         },
         label: 'BUG P1',
         repository: {
@@ -87,7 +86,7 @@ const reqWithProductTagLabel = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: [{ name: 'BUG P1' }, { name: 'testTagLabel' }]
+            labels: [{ name: 'testTagLabel' }]
         },
         label: 'BUG P1',
         repository: {
@@ -121,7 +120,7 @@ const reqWithOnlyProductTagLabels = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: [{ name: 'BUG P1' }, { name: 'notAProductTagLabel' }]
+            labels: [{ name: 'notAProductTagLabel' }]
         },
         label: 'BUG P1',
         repository: {
@@ -154,7 +153,7 @@ const reqWithIssueTypeLabels = {
             title: 'new issue',
             body: 'some description',
             number: 30,
-            labels: [{ name: 'feature' }, { name: 'notAValidLabel' }]
+            labels: [{ name: 'notAValidLabel' }]
         },
         label: 'feature',
         repository: {
@@ -187,7 +186,7 @@ const reqWithIssueTypeUserStory = {
             title: 'new feature request',
             body: 'some description',
             number: 30,
-            labels: [{ name: 'feature' }, { name: 'notAValidLabel' }]
+            labels: [{ name: 'notAValidLabel' }]
         },
         label: 'feature',
         repository: {
@@ -219,8 +218,7 @@ const reqWithGusTitlePrefix = {
             html_url: 'github/git2gus-test/#30',
             title: 'new issue',
             body: 'some description',
-            number: 30,
-            labels: [{ name: 'BUG P1' }]
+            number: 30
         },
         label: 'BUG P1',
         repository: {
