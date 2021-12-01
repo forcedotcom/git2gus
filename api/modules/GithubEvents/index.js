@@ -66,7 +66,7 @@ const eventsConfig = {
     [events.PULL_REQUEST_UNLABELED]: {
         event: 'pull_request',
         action: 'unlabeled'
-    },
+    }
 };
 
 class GithubEvents extends EventEmitter {
