@@ -17,7 +17,9 @@ const events = {
     ISSUE_EDITED: 'ISSUE_EDITED',
     ISSUE_OPENED: 'ISSUE_OPENED',
     PULL_REQUEST_CLOSED: 'PULL_REQUEST_CLOSED',
-    PULL_REQUEST_OPENED: 'PULL_REQUEST_OPENED'
+    PULL_REQUEST_OPENED: 'PULL_REQUEST_OPENED',
+    PULL_REQUEST_LABELED: 'PULL_REQUEST_LABELED',
+    PULL_REQUEST_UNLABELED: 'PULL_REQUEST_UNLABELED'
 };
 
 const eventsConfig = {
@@ -56,6 +58,14 @@ const eventsConfig = {
     [events.PULL_REQUEST_OPENED]: {
         event: 'pull_request',
         action: 'opened'
+    },
+    [events.PULL_REQUEST_LABELED]: {
+        event: 'pull_request',
+        action: 'labeled'
+    },
+    [events.PULL_REQUEST_UNLABELED]: {
+        event: 'pull_request',
+        action: 'unlabeled'
     }
 };
 
