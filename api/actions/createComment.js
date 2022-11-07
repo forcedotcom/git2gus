@@ -6,7 +6,9 @@
  */
 
 const Gus = require('../services/Gus');
+const Github = require('../services/Github');
 const GithubEvents = require('../modules/GithubEvents');
+const getWorkItemUrl = require('../services/Issues/getWorkItemUrl');
 
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_OPENED,
@@ -23,10 +25,21 @@ module.exports = {
                 workItemInTitleOrBody[0].length - 1
             );
             const issueId = await Gus.getWorkItemIdByName(workItemName);
+            const {
+                config: { hideWorkItemUrl }
+            } = req.git2gus;
+
             Gus.createComment(
                 'A Pull Request is now open for this work item '.concat(pr_url),
                 issueId
             );
+            await Github.createComment({
+                req,
+                body: `This PR has been linked to ${getWorkItemUrl(
+                    { sfid: issueId, name: workItemName },
+                    hideWorkItemUrl
+                )}`
+            });
         }
     }
 };
