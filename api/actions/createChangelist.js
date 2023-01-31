@@ -24,6 +24,11 @@ module.exports = {
                 }
             }
         } = req.body;
+
+        if (merged_at === null) {
+            console.log(`Skipping createChangelistInGus for ${pr_url} because merged_at is null`);
+            return;
+        }
         const workItemInTitleOrBody = title
             .concat(body)
             .match('@[Ww]-\\d{6,8}@');
