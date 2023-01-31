@@ -2,7 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@5.1.0
 jobs:
     build:
         docker:
@@ -18,20 +20,12 @@ jobs:
 
         steps:
             - checkout
-
-            # Download and cache dependencies
-            - restore_cache:
-                  keys:
-                      - v1-dependencies-{{ checksum "yarn.lock" }}
-                      # fallback to using the latest cache if no exact match is found
-                      - v1-dependencies-
-
-            - run: yarn install
-
-            - save_cache:
-                  paths:
-                      - node_modules
-                  key: v1-dependencies-{{ checksum "yarn.lock" }}
+            - node/install:
+                install-yarn: true
+                node-version: '18.13'
+                yarn-version: '3.3'
+            - node/install-packages:
+                pkg-manager: yarn
 
             # run prettier formatting check
             - run: yarn prettier
