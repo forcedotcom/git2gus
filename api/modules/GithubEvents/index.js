@@ -6,6 +6,7 @@
  */
 
 const EventEmitter = require('events');
+const logger = require('../../services/Logs/logger');
 
 const events = {
     INSTALLATION_CREATED: 'INSTALLATION_CREATED',
@@ -82,7 +83,7 @@ class GithubEvents extends EventEmitter {
     emitFromReq(req) {
         Object.keys(eventsConfig).forEach(eventName => {
             if (GithubEvents.match(req, eventName)) {
-                console.log('Request:', req, ' matches eventName:', eventName);
+                logger.info('Request matches eventName', { req, eventName });
                 this.emit(eventName, req);
             }
         });
