@@ -60,7 +60,7 @@
     "license": "",
     "engines": {
         "node": "18.x",
-        "yarn": "3.3.x"
+        "yarn": "1.22.19"
     },
     "pre-push": [
         "prettier",
