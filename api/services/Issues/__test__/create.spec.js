@@ -32,8 +32,11 @@ const data = {
 };
 
 describe('create issues service', () => {
-    it('should call pick with the right values', () => {
-        create(data);
+    beforeEach(() => {
+        global.Issues.create.mockClear();
+    });
+    it('should call pick with the right values', async () => {
+        await create(data);
         expect(pick).toHaveBeenCalledWith(data, [
             'subject',
             'description',
@@ -45,9 +48,8 @@ describe('create issues service', () => {
             'relatedUrl'
         ]);
     });
-    it('should call Issues.create with the right values', () => {
-        global.Issues.create.mockReset();
-        create(data);
+    it('should call Issues.create with the right values', async () => {
+        await create(data);
         expect(global.Issues.create).toHaveBeenCalledWith({
             subject: 'issue title',
             description: 'issue description',
@@ -59,10 +61,6 @@ describe('create issues service', () => {
         });
     });
     it('should return the issue create', async () => {
-        global.Issues.create.mockReset();
-        global.Issues.create.mockReturnValue({
-            fetch: () => Promise.resolve('created issue')
-        });
         const issue = await create(data);
         expect(issue).toBe('created issue');
     });

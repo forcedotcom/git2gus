@@ -14,8 +14,10 @@ const updateWorkItemDescription = require('./update-work-item-description');
 const integrateWorkItem = require('./integrate-work-item');
 const linkToWorkItem = require('./link-to-work-item');
 const unlinkWorkItem = require('./unlink-work-item');
+const logger = require('../../services/Logs/logger');
 
 async function handleQueue(task) {
+    logger.info(`Handling task ${task.name}`);
     switch (task.name) {
         case 'CREATE_WORK_ITEM':
             return await createOrUpdateWorkItem(task);

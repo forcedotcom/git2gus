@@ -34,8 +34,11 @@ const data = {
 };
 
 describe('create changelist service', () => {
-    it('should call pick with the right values', () => {
-        create(data);
+    beforeEach(() => {
+        global.Changelists.create.mockClear();
+    });
+    it('should call pick with the right values', async () => {
+        await create(data);
         expect(pick).toHaveBeenCalledWith(data, [
             'work',
             'changelist',
@@ -45,9 +48,8 @@ describe('create changelist service', () => {
             'task'
         ]);
     });
-    it('should call Changelists.create with the right values', () => {
-        global.Changelists.create.mockReset();
-        create(data);
+    it('should call Changelists.create with the right values', async () => {
+        await create(data);
         expect(global.Changelists.create).toHaveBeenCalledWith({
             work: 'a07B0000009abcdXYZ',
             changelist: 'http://some-url.com',
@@ -58,10 +60,6 @@ describe('create changelist service', () => {
         });
     });
     it('should return the changelist create', async () => {
-        global.Changelists.create.mockReset();
-        global.Changelists.create.mockReturnValue({
-            fetch: () => Promise.resolve('created changelist')
-        });
         const changelist = await create(data);
         expect(changelist).toBe('created changelist');
     });

@@ -39,27 +39,27 @@ describe('updateWorkItemPriority issues hook', () => {
             priority: 'P2'
         });
     });
-    it('should not call Issues.update when the issue is linked but the priority is not great', async () => {
-        expect.assertions(2);
-        Issues.update.mockReset();
-        Issues.getByRelatedUrl.mockReset();
-        Issues.getByRelatedUrl.mockReturnValue(
-            Promise.resolve({
-                id: '1234abcd',
-                priority: 'P1'
-            })
-        );
+    describe('should not call Issues.update when the issue is linked but the priority is not great', () => {
+        // TODO set the 'priority' field to the right datatype once the todo in updateWorkItemPriority is resolved
         const taskArray = [
             {
-                priority: 'P1',
+                priority: 1,
                 relatedUrl: 'github/test-app/#230'
             },
             {
-                priority: 'P2',
+                priority: 2,
                 relatedUrl: 'github/test-app/#230'
             }
         ];
-        taskArray.forEach(async taskItem => {
+        it.each(taskArray)('priority %o', async taskItem => {
+            Issues.update.mockReset();
+            Issues.getByRelatedUrl.mockReset();
+            Issues.getByRelatedUrl.mockReturnValue(
+                Promise.resolve({
+                    id: '1234abcd',
+                    priority: 100 // high priority
+                })
+            );
             await updateWorkItemPriority(taskItem);
             expect(Issues.update).not.toHaveBeenCalled();
         });
