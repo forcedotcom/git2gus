@@ -26,7 +26,7 @@ module.exports = {
             }
         } = req.body;
 
-        if (merged_at === null) {
+        if (!merged_at) {
             logger.info(
                 `Skipping createChangelistInGus because merged_at is null. PR was closed without merging`,
                 { pr_url, title }
