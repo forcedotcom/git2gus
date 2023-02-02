@@ -14,7 +14,7 @@ module.exports = async function updateWorkItemPriority({
 }) {
     const issue = await Issues.getByRelatedUrl(relatedUrl);
 
-    // TODO bug? is "priority" comparable with '>' ? The string "P2" is greater than "P1" but semantically its the other way around
+    // Issue #150: is "priority" comparable with '>' ? The string "P2" is greater than "P1" but semantically its the other way around
     const isNewPriorityGreat = issue && priority > issue.priority;
 
     if (priority && isNewPriorityGreat) {
