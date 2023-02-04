@@ -2,12 +2,14 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@5.1.0
 jobs:
     build:
         docker:
             # specify the version you desire here
-            - image: circleci/node:10.15.1
+            - image: cimg/node:18.13
 
             # Specify service dependencies here if necessary
             # CircleCI maintains a library of pre-built images
@@ -18,20 +20,12 @@ jobs:
 
         steps:
             - checkout
-
-            # Download and cache dependencies
-            - restore_cache:
-                  keys:
-                      - v1-dependencies-{{ checksum "package.json" }}
-                      # fallback to using the latest cache if no exact match is found
-                      - v1-dependencies-
-
-            - run: yarn install
-
-            - save_cache:
-                  paths:
-                      - node_modules
-                  key: v1-dependencies-{{ checksum "package.json" }}
+            - node/install:
+                install-yarn: true
+                node-version: '18.13'
+                yarn-version: '1.22.19'
+            - node/install-packages:
+                pkg-manager: yarn
 
             # run prettier formatting check
             - run: yarn prettier

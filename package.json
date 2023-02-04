@@ -47,7 +47,7 @@
         "test": "jest --verbose",
         "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
         "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-        "prettier": "prettier -l \"**/*.{js,ts,json,md,ejs}\"",
+        "prettier": "prettier --check \"**/*.{js,ts,json,md,ejs}\"",
         "prettier:fix": "prettier --write \"**/*.{js,ts,json,md,ejs}\"",
         "typecheck": "tsc"
     },
@@ -59,7 +59,8 @@
     "author": "reinierguerra",
     "license": "",
     "engines": {
-        "node": ">=10.15.1"
+        "node": "18.x",
+        "yarn": "1.22.19"
     },
     "pre-push": [
         "prettier",

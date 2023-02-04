@@ -8,6 +8,7 @@
 const Gus = require('../services/Gus');
 const { convertUrlToGusFormat } = require('./utils/convertUrlToGusFormat');
 const GithubEvents = require('../modules/GithubEvents');
+const logger = require('../services/Logs/logger');
 
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_CLOSED,
@@ -24,6 +25,14 @@ module.exports = {
                 }
             }
         } = req.body;
+
+        if (!merged_at) {
+            logger.info(
+                `Skipping createChangelistInGus because merged_at is null. PR was closed without merging`,
+                { pr_url, title }
+            );
+            return;
+        }
         const workItemInTitleOrBody = title
             .concat(body)
             .match('@[Ww]-\\d{6,8}@');

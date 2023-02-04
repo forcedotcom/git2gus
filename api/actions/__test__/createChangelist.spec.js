@@ -71,6 +71,8 @@ const reqWithWorkItemInWrongFormat = {
             title: 'pull request title W-1234567',
             html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
             closed_at: '2020-02-13T18:30:28Z',
+            merged_at: '2020-02-13T18:30:28Z',
+            merge_commit_sha: '123456',
             head: {
                 sha: '123456',
                 repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
@@ -116,6 +118,34 @@ describe('createChangelist action', () => {
         Gus.getWorkItemIdByName.mockReset();
         Gus.getWorkItemIdByName.mockReturnValue('a071234');
         await fn(reqWithWorkItemInWrongFormat);
+        expect(Gus.getWorkItemIdByName).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not create a changelist if PR did not merge', async () => {
+        Gus.getWorkItemIdByName.mockReset();
+        Gus.getWorkItemIdByName.mockReturnValue('a071234');
+
+        const reqWithUnmergedClosedPullRequest = {
+            body: {
+                pull_request: {
+                    title: 'did not merge title W-1234567',
+                    html_url:
+                        'https://github.com/Codertocat/Hello-World/pull/300',
+                    closed_at: '2020-02-13T18:30:28Z',
+                    merged_at: null,
+                    merge_commit_sha: '123456',
+                    head: {
+                        sha: '123456',
+                        repo: {
+                            html_url:
+                                'https://github.com/Codertocat/Hello-World'
+                        }
+                    }
+                }
+            }
+        };
+
+        await fn(reqWithUnmergedClosedPullRequest);
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledTimes(0);
     });
 });
