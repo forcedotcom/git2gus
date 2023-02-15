@@ -118,6 +118,14 @@ TOKEN_ORGS=asdf
 
 The GITHUB_TEST_ORG is the org where you have a repo with your test GH app installed to.
 
+Set the user credentials for your Salesforce org with these environment variables. Other forms of authentication with Salesforce are not yet supported.
+
+```
+GUS_USER=005xxxxxxxxxxxxAAA
+GUS_USERNAME=username@example.com
+GUS_PASSWORD=example_password
+```
+
 Make sure your test app has Read & Write access to Issues, Pull Requests, and Commit Statuses. Also make sure it has read access to "A single file" and the path should be `.git2gus/config.json`. You will also need to subscribe to events: Issue comment, Issues, and Label.
 
 ### Seeding your dev db
