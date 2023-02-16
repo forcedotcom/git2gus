@@ -1,0 +1,147 @@
+{
+    "mappings": [
+        {
+            "object_name": "agf__ADM_Build__c",
+            "config": {
+                "access": "read_only",
+                "sf_notify_enabled": false,
+                "sf_polling_seconds": 600,
+                "sf_max_daily_api_calls": 30000,
+                "fields": {
+                    "CreatedDate": {},
+                    "Id": {},
+                    "IsDeleted": {},
+                    "Name": {},
+                    "SystemModstamp": {},
+                    "agf__Release_Freeze_Datetime__c": {},
+                    "agf__Release_Freeze__c": {}
+                },
+                "indexes": {
+                    "Id": {
+                        "unique": true
+                    },
+                    "SystemModstamp": {
+                        "unique": false
+                    },
+                    "Name": {
+                        "unique": false
+                    }
+                },
+                "applied_at": "2018-11-14T17:52:30.792508Z"
+            }
+        },
+        {
+            "object_name": "agf__ADM_Change_List__c",
+            "config": {
+                "access": "read_only",
+                "sf_notify_enabled": false,
+                "sf_polling_seconds": 600,
+                "sf_max_daily_api_calls": 30000,
+                "fields": {
+                    "Name": {},
+                    "agf__Comments__c": {},
+                    "IsDeleted": {},
+                    "SystemModstamp": {},
+                    "agf__Check_In_Date__c": {},
+                    "agf__Work__c": {},
+                    "CreatedDate": {},
+                    "Id": {},
+                    "agf__Task__c": {}
+                },
+                "indexes": {
+                    "SystemModstamp": {
+                        "unique": false
+                    },
+                    "Id": {
+                        "unique": true
+                    }
+                },
+                "applied_at": "2020-04-02T18:35:19.786986Z"
+            }
+        },
+        {
+            "object_name": "agf__ADM_Work__c",
+            "config": {
+                "indexes": {
+                    "SystemModstamp": {
+                        "unique": false
+                    },
+                    "agf__External_ID__c": {
+                        "unique": true
+                    },
+                    "Id": {
+                        "unique": true
+                    },
+                    "Name": {
+                        "unique": false
+                    },
+                    "agf__Related_URL__c": {
+                        "unique": false
+                    },
+                    "agf__Subject__c": {
+                        "unique": false
+                    },
+                    "CreatedDate": {
+                        "unique": false
+                    }
+                },
+                "sf_max_daily_api_calls": 30000,
+                "access": "read_write",
+                "upsert_field": "agf__External_ID__c",
+                "applied_at": "2023-02-14T01:40:34.070538Z",
+                "sf_polling_seconds": 600,
+                "sf_notify_enabled": false,
+                "fields": {
+                    "agf__Perforce_Status__c": {},
+                    "agf__Product_Owner__c": {},
+                    "agf__Details__c": {},
+                    "agf__Scrum_Team__c": {},
+                    "agf__QA_Engineer__c": {},
+                    "agf__Severity__c": {},
+                    "RecordTypeId": {},
+                    "agf__Frequency__c": {},
+                    "agf__Scheduled_Build__c": {},
+                    "agf__Related_URL__c": {},
+                    "agf__Sprint__c": {},
+                    "Name": {},
+                    "agf__ftest__c": {},
+                    "IsDeleted": {},
+                    "SystemModstamp": {},
+                    "agf__Status__c": {},
+                    "agf__Found_in_Build__c": {},
+                    "agf__Assignee__c": {},
+                    "agf__External_ID__c": {},
+                    "CreatedDate": {},
+                    "agf__Subject__c": {},
+                    "agf__Product_Tag__c": {},
+                    "agf__Closed_By__c": {},
+                    "CreatedById": {},
+                    "Id": {},
+                    "agf__Release__c": {},
+                    "agf__Impact__c": {},
+                    "agf__Regressed__c": {},
+                    "agf__Details_and_Steps_to_Reproduce__c": {},
+                    "agf__Feedback__c": {},
+                    "agf__Priority__c": {},
+                    "agf__Last_Modified_By__c": {}
+                }
+            }
+        }
+    ],
+    "connection": {
+        "app_name": "CHANGE-ME",
+        "organization_id": "00D-CHANGE-ME",
+        "exported_at": "2023-02-15T17:13:42.743308+00:00",
+        "features": {
+            "disable_bulk_writes": false,
+            "poll_db_no_merge": true,
+            "poll_external_ids": false,
+            "rest_count_only": false,
+            "ucs_basic_collation_index": false
+        },
+        "api_version": "57.0",
+        "name": "CHANGE-ME:DATABASE_URL:gus",
+        "logplex_log_enabled": false
+    },
+    "version": 1
+}
