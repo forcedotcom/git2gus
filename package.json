@@ -15,7 +15,7 @@
         "async": "^3.2.2",
         "dotenv": "^6.1.0",
         "express-winston": "^4.0.3",
-        "grunt": "1.0.1",
+        "grunt": "1.5.3",
         "jest": "^24.1.0",
         "jsforce": "^1.9.3",
         "lodash": "^4.17.11",
