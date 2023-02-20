@@ -83,7 +83,7 @@ class GithubEvents extends EventEmitter {
     emitFromReq(req) {
         Object.keys(eventsConfig).forEach(eventName => {
             if (GithubEvents.match(req, eventName)) {
-                logger.info('Request matches eventName', { req, eventName });
+                logger.info('Request matches eventName', { eventName });
                 this.emit(eventName, req);
             }
         });
