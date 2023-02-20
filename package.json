@@ -21,7 +21,7 @@
         "lodash": "^4.17.11",
         "logdna-winston": "^2.3.1",
         "remark": "^12.0.0",
-        "remark-html": "11.0.2",
+        "remark-html": "13.0.2",
         "remark-parse": "^8.0.0",
         "require-all": "^3.0.0",
         "sails": "^1.0.2",
