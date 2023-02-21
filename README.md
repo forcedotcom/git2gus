@@ -142,13 +142,11 @@ To use, install your GitHub app on desired repositories. Your app's homepage wil
 
 ### Heroku Setup
 
-To set up on your own lighning experience, host this app on Heroku and change the webhook URL of your GitHub app to point to [YOUR HEROKU APP URL]/webhook instead of smee. 
+To set up on your own Lightning Experience, host this app on Heroku and change the webhook URL of your GitHub app to point to [YOUR HEROKU APP URL]/webhook instead of smee.
 
 To set up Heroku Connect, you may view the steps [here](https://devcenter.heroku.com/articles/getting-started-with-heroku-and-connect-without-local-dev). 
 
-In Heroku Connect, you will sync the `ADM_Build_c` table with the following fields: CreatedDate, Name, Release_Freeze_datetime__c, and Release_Freeze__c. 
-
-Finally in Heroku Connect, you will need to sync the `ADM_Work__c` table with the following fields: Assignee__c, Closed_By__c, CreatedById, CreatedDate, Details__c, Details_and_steps_to_Reproduce__c, Feedback__c, Found_in_Build__c, Frequency__c, Impact__c, Last_Modified_By__c, Name, Priority__c, Product_Owner__c, Product_Tag__c, QA_Engineer__c, RecordTypeId, Regressed__c, Related_URL__C, Release__c, Scheduled_Build__c, Scrum_Team__c, Severity__c, Spring__c, Status__c, Subject__c, and ftest__c.
+In Heroku Connect, you will sync the `ADM_Build_c`, `ADM_Change_List__c` and `ADM_Work__c` tables. The fields are defined in [herokuconnect.json](./heroku/herokuconnect.json). You can deploy that mapping with the [Heroku Connect CLI plugin](https://devcenter.heroku.com/articles/quick-start-heroku-connect-cli#import-mapping-configuration), but you'll have to change the connection settings before deploying.
 
 As a reminder, if you see a prefix before the field name, set the `SALESFORCE_PREFIX` environment variable to that prefix.
 
