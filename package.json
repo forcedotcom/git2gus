@@ -30,6 +30,7 @@
         "sails-hook-sockets": "^1.4.0",
         "sails-postgresql": "^1.0.1",
         "smee-client": "^1.1.0",
+        "winston": "^3.8.2",
         "winston-elasticsearch": "^0.11.0"
     },
     "devDependencies": {

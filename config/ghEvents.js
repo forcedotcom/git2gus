@@ -15,16 +15,17 @@ const actions = require('require-all')({
 });
 
 Object.keys(actions).forEach(actionName => {
-    const { eventName, fn } = actions[actionName];
+    let { eventName, fn } = actions[actionName];
 
     if (typeof eventName === 'string') {
-        console.log(`attach ${actionName} to ${eventName}`);
-        ghEvents.on(eventName, fn);
+        eventName = [eventName];
     }
     if (Array.isArray(eventName)) {
         eventName.forEach(event => {
             console.log(`attach ${actionName} to ${event}`);
-            ghEvents.on(event, fn);
+            ghEvents.on(event, (req, handlerPromises) => {
+                handlerPromises.push(fn(req));
+            });
         });
     }
 });

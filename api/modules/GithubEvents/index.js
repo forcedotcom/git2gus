@@ -5,7 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-const EventEmitter = require('events');
+const { EventEmitter, captureRejectionSymbol } = require('events');
 const logger = require('../../services/Logs/logger');
 
 const events = {
@@ -71,6 +71,10 @@ const eventsConfig = {
 };
 
 class GithubEvents extends EventEmitter {
+    constructor() {
+        super({ captureRejections: true });
+    }
+
     static match(req, eventName) {
         const event = req.headers['x-github-event'];
         const { action } = req.body;
@@ -80,13 +84,23 @@ class GithubEvents extends EventEmitter {
         );
     }
 
-    emitFromReq(req) {
+    async emitFromReq(req) {
+        const handlerPromises = [];
+
         Object.keys(eventsConfig).forEach(eventName => {
             if (GithubEvents.match(req, eventName)) {
-                logger.info('Request matches eventName', { req, eventName });
-                this.emit(eventName, req);
+                logger.info('Request matches eventName', { eventName });
+                this.emit(eventName, req, handlerPromises);
             }
         });
+
+        // wait for all handlers to finish, and throw if any rejections
+        await Promise.all(handlerPromises);
+    }
+
+    // Avoid unhandled promise rejection by logging rejections from event handlers
+    [captureRejectionSymbol](err, event, ...unusedArgs) {
+        logger.error(`unhandled async error in event ${event}`, err);
     }
 }
 
