@@ -28,7 +28,7 @@ module.exports = async function closeWorkItem(relatedUrl, status) {
             return new Error(`Id ${r.id}: ${r.errors}`);
         });
     if (errors.length > 0) {
-        throw new AggregateError(errors, "Errors closing work");
+        throw new AggregateError(errors, 'Errors closing work');
     }
     return ret;
 };
