@@ -17,6 +17,7 @@ const actions = require('require-all')({
 Object.keys(actions).forEach(actionName => {
     let { eventName, fn } = actions[actionName];
 
+    // Hint: typeof eventName === 'undefined' for several files like formatToGus.js
     if (typeof eventName === 'string') {
         eventName = [eventName];
     }

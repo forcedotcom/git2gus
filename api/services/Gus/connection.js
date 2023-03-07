@@ -9,15 +9,9 @@ async function getConnection() {
 
     const conn = new jsforce.Connection({ logLevel: 'DEBUG' });
     try {
+        // jsforce connection will auto-refresh if session expires
         await conn.login(process.env.GUS_USERNAME, process.env.GUS_PASSWORD);
         connection = conn;
-
-        // Keep connection open, but do reconnect every so often
-        setTimeout(() => {
-            connection = null;
-            logger.info(`Forgetting Gus session`);
-        }, 10 * 60 * 1000); // 10 minutes
-
         return conn;
     } catch (err) {
         logger.error('Error logging into GUS', err);
