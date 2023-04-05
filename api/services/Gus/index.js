@@ -14,6 +14,7 @@ const closeWorkItem = require('./closeWorkItem');
 const getByRelatedUrl = require('./getByRelatedUrl');
 const getById = require('./getById');
 const getBugRecordTypeId = require('./getBugRecordTypeId');
+const { field } = require('./connection');
 
 module.exports = {
     createChangelistInGus,
@@ -24,5 +25,11 @@ module.exports = {
     closeWorkItem,
     getByRelatedUrl,
     getById,
-    getBugRecordTypeId
+    getBugRecordTypeId,
+    /**
+     * Prepend namespace and append __c. Use only for custom fields from the ADM package.
+     *
+     * Usage: field("ADM_Work") returns "agf__ADM_Work__c"
+     */
+    field
 };

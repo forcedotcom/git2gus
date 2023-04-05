@@ -85,7 +85,7 @@ smee -u <your smee address here> --path /webhook --port 1337
 
    - Get your Record Type IDs from the Object Manager and copy the base URL from your Agile Accelerator, it should resemble the one included in the example.
 
-   - When you later set up Heroku Connect, your database table and fields related to Agile Accelerator may have a prefix, which you will set as the `SALESFORCE_PREFIX`
+   - When you later set up Heroku Connect, your database table and fields related to Agile Accelerator may be in a specific Postgres schema, which you will set as the `SALESFORCE_PREFIX`. If you use the defaults in Heroku Connect, this will be `salesforce.`
 
 7. Add a link to your GitHub app (ex: the GitHub app for Salesforce's instance is https://github.com/apps/git2gus)
 
@@ -105,8 +105,8 @@ BUG_RECORD_TYPE_ID=NOPQRSTUVWXYZ
 INVESTIGATION_RECORD_TYPE_ID=123456789012
 WORK_ITEM_BASE_URL=https://myproject.lightning.force.com/lightning/r/ADM_Work__c/
 GITHUB_APP_URL= https://github.com/apps/yourapplication
-SALESFORCE_PREFIX=agf__
-
+SALESFORCE_PREFIX=salesforce.
+NAMESPACE_PREFIX=agf
 ```
 
 For use with SSO-enabled organizations, you would also have additional lines:

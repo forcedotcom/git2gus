@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-
-const jsforce = require('jsforce');
+const { getConnection, Work, field } = require('./connection');
 
 module.exports = async function createWorkItemInGus(
     subject,
@@ -17,27 +16,18 @@ module.exports = async function createWorkItemInGus(
     relatedUrl,
     recordTypeId
 ) {
-    const conn = new jsforce.Connection();
-    await conn.login(
-        process.env.GUS_USERNAME,
-        process.env.GUS_PASSWORD,
-        err => {
-            if (err) {
-                return console.error(err);
-            }
-        }
-    );
+    const conn = await getConnection();
     return Promise.resolve(
-        conn.sobject('ADM_Work__c').create(
+        conn.sobject(Work).create(
             {
-                Subject__c: subject,
-                details__c: description,
-                details_and_steps_to_reproduce__c: description,
-                product_tag__c: productTag,
-                status__c: status,
-                found_in_build__c: foundInBuild,
-                priority__c: priority,
-                related_url__c: relatedUrl,
+                [field('Subject')]: subject,
+                [field('details')]: description,
+                [field('details_and_steps_to_reproduce')]: description,
+                [field('product_tag')]: productTag,
+                [field('status')]: status,
+                [field('found_in_build')]: foundInBuild,
+                [field('priority')]: priority,
+                [field('related_url')]: relatedUrl,
                 recordtypeid: recordTypeId
             },
             (err, ret) => {

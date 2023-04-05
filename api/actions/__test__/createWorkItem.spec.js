@@ -30,7 +30,8 @@ jest.mock('../../services/Gus', () => ({
     createWorkItemInGus: jest.fn(),
     resolveBuild: jest.fn(),
     getBugRecordTypeId: jest.fn(),
-    getById: jest.fn()
+    getById: jest.fn(),
+    field: name => name + '__c'
 }));
 jest.mock('../../actions/formatToGus', () => ({
     formatToGus: jest.fn()
@@ -442,7 +443,6 @@ describe('createGusItem action', () => {
     });
 
     it('should create a comment without the url when the git2gus.config.hideWorkItemUrl = true', async () => {
-        expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
         Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
