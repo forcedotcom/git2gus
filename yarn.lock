@@ -10035,7 +10035,7 @@ winston@2.x:
     isstream "0.1.x"
     stack-trace "0.0.x"
 
-winston@^3.2.1, winston@^3.3.3:
+winston@^3.2.1, winston@^3.3.3, winston@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/winston/-/winston-3.8.2.tgz#56e16b34022eb4cff2638196d9646d7430fdad50"
   integrity sha512-MsE1gRx1m5jdTTO9Ld/vND4krP2To+lgDoMEHGGa4HIlAUyXJtfc7CxQcGXVyz2IBpw5hbFkj2b/AtUdQwyRew==

@@ -4,23 +4,13 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-
-const jsforce = require('jsforce');
+const { getConnection, Work } = require('./connection');
 
 module.exports = async function getById(id) {
-    const conn = new jsforce.Connection();
-    await conn.login(
-        process.env.GUS_USERNAME,
-        process.env.GUS_PASSWORD,
-        async err => {
-            if (err) {
-                return console.error(err);
-            }
-        }
-    );
+    const conn = await getConnection();
     return Promise.resolve(
         conn
-            .sobject('ADM_Work__c')
+            .sobject(Work)
             .find({ id })
             .execute((err, ret) => {
                 if (err) {

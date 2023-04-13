@@ -4,34 +4,31 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-
-const jsforce = require('jsforce');
+const { getConnection, Work, field } = require('./connection');
+const logger = require('../Logs/logger');
 
 module.exports = async function closeWorkItem(relatedUrl, status) {
-    const conn = new jsforce.Connection();
-    await conn.login(
-        process.env.GUS_USERNAME,
-        process.env.GUS_PASSWORD,
-        async err => {
-            if (err) {
-                return console.error(err);
-            }
-        }
-    );
-    return Promise.resolve(
-        conn
-            .sobject('ADM_Work__c')
-            .find({ related_url__c: relatedUrl })
-            .update(
-                {
-                    status__c: status
-                },
-                (err, ret) => {
-                    if (err || !ret.success) {
-                        return console.error(err, ret);
-                    }
-                    return ret;
-                }
-            )
-    );
+    const conn = await getConnection();
+    let ret = await conn
+        .sobject(Work)
+        .find({ [field('related_url')]: relatedUrl })
+        .update({
+            [field('status')]: status
+        });
+
+    // ret will already be an array if find() returned multiple work
+    if (!Array.isArray(ret)) {
+        ret = [ret];
+    }
+
+    const errors = ret
+        .filter(r => !r.success)
+        .map(r => {
+            logger.error(`Error updating work ${r.id}`, r.errors);
+            return new Error(`Id ${r.id}: ${r.errors}`);
+        });
+    if (errors.length > 0) {
+        throw new AggregateError(errors, 'Errors closing work');
+    }
+    return ret;
 };
