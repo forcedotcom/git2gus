@@ -30,7 +30,8 @@ jest.mock('../../services/Gus', () => ({
     createWorkItemInGus: jest.fn(),
     resolveBuild: jest.fn(),
     getBugRecordTypeId: jest.fn(),
-    getById: jest.fn()
+    getById: jest.fn(),
+    field: name => name + '__c'
 }));
 jest.mock('../../actions/formatToGus', () => ({
     formatToGus: jest.fn()

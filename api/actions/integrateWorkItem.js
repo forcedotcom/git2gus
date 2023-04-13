@@ -23,6 +23,6 @@ module.exports = {
             issue: { html_url }
         } = req.body;
         const { statusWhenClosed } = req.git2gus.config;
-        closeWorkItem(html_url, getStatus(statusWhenClosed));
+        await closeWorkItem(html_url, getStatus(statusWhenClosed));
     }
 };

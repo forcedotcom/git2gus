@@ -5,7 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-const EventEmitter = require('events');
+const { EventEmitter } = require('events');
 const logger = require('../../services/Logs/logger');
 
 const events = {
@@ -80,13 +80,31 @@ class GithubEvents extends EventEmitter {
         );
     }
 
-    emitFromReq(req) {
+    async emitFromReq(req) {
+        const handlerPromises = [];
+
         Object.keys(eventsConfig).forEach(eventName => {
             if (GithubEvents.match(req, eventName)) {
                 logger.info('Request matches eventName', { eventName });
-                this.emit(eventName, req);
+                this.emit(eventName, req, handlerPromises);
             }
         });
+
+        const rejected = [];
+        for (result of Promise.allSettled(handlerPromises)) {
+            if (result.status === 'rejected') {
+                rejected.push(result.reason);
+                logger.error('Handler rejected', result.reason);
+            } else {
+                logger.info('Handler fulfilled', result.value);
+            }
+        }
+
+        if (rejected.length === 1) {
+            throw rejected[0];
+        } else if (rejected.length > 1) {
+            throw new AggregateError(rejected);
+        }
     }
 }
 

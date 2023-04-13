@@ -18,7 +18,7 @@ const Gus = require('../services/Gus');
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_LABELED,
     fn: async function(req) {
-        console.log('createWorkItem Action called with req: ', req);
+        console.log('createWorkItem Action called');
         const {
             pull_request: { labels, html_url, body, milestone }
         } = req.body;
@@ -86,6 +86,7 @@ module.exports = {
             console.log(
                 `Using GUS Api to create workitem for issue titled: ${title}`
             );
+            // default build to "undefined", to invoke our updateIssue error below
             const buildName = milestone ? milestone.title : config.defaultBuild;
             const foundInBuild = await Gus.resolveBuild(buildName);
             console.log(
@@ -97,8 +98,8 @@ module.exports = {
 
             const alreadyLowestPriority =
                 issue &&
-                issue.Priority__c !== '' &&
-                issue.Priority__c <= priority;
+                issue[Gus.field('Priority')] !== '' &&
+                issue[Gus.field('Priority')] <= priority;
             const recordIdTypeIsSame =
                 issue && issue.RecordTypeId === recordTypeId;
             const isRecordTypeBug = recordTypeId === bugRecordTypeId;

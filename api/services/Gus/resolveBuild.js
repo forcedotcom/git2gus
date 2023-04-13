@@ -4,29 +4,23 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-
-const jsforce = require('jsforce');
+const { getConnection, Build } = require('./connection');
+const logger = require('../../services/Logs/logger');
 
 module.exports = async function resolveBuild(name) {
-    const conn = new jsforce.Connection();
-    await conn.login(
-        process.env.GUS_USERNAME,
-        process.env.GUS_PASSWORD,
-        async err => {
-            if (err) {
-                return console.error(err);
-            }
-        }
-    );
-    return Promise.resolve(
-        conn
-            .sobject('ADM_Build__c')
+    const conn = await getConnection();
+
+    try {
+        const ret = await conn
+            .sobject(Build)
             .find({ name })
-            .execute((err, ret) => {
-                if (err) {
-                    return console.error(err, ret);
-                }
-                return ret[0].Id;
-            })
-    );
+            .execute();
+        if (!ret || ret.length === 0) {
+            logger.error(`No build with name ${name}`);
+        }
+        return ret[0].Id;
+    } catch (err) {
+        logger.error(`Error fetching ADM_Build__c with name ${name}`, err);
+        return;
+    }
 };
