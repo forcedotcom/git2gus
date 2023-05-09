@@ -6,10 +6,28 @@
  */
 
 module.exports = function getAnnotation(description) {
+    const annotationMatchers = [
+        {
+            rex: /@w-\d+@/gi,
+            replace: /@/g
+        },
+        {
+            rex: /GUS-W-\d+/g,
+            replace: /GUS-/g
+        }
+    ];
+
     if (typeof description === 'string') {
-        const matches = description.match(/@w-\d+@/gi);
-        if (Array.isArray(matches) && matches.length > 0) {
-            return matches[0].replace(/@/g, '');
+        const matches = [];
+        annotationMatchers.forEach(matcher => {
+            let candidates = description.match(matcher.rex);
+            if (Array.isArray(candidates) && candidates.length > 0) {
+                matches.push(candidates[0].replace(matcher.replace, ''));
+            }
+        });
+
+        if (matches.length > 0) {
+            return matches[0];
         }
         return null;
     }
