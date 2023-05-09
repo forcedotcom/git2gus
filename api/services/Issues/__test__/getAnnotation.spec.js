@@ -16,7 +16,6 @@ describe('getAnnotation issues service', () => {
             'some @W-12345678@ text',
             'GUS-W-12345678',
             'some text GUS-W-12345678',
-            'textGUS-W-12345678',
             'some GUS-W-12345678 text'
         ];
         descriptions.forEach(description => {
@@ -32,6 +31,7 @@ describe('getAnnotation issues service', () => {
             'some text W-12345678@',
             'text@W-12345678',
             'GAS-W-12345678',
+            'textGUS-W-12345678',
             '',
             null,
             undefined,

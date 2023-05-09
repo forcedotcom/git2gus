@@ -12,7 +12,7 @@ module.exports = function getAnnotation(description) {
             replace: /@/g
         },
         {
-            rex: /GUS-W-\d+/g,
+            rex: /\bGUS-W-\d+\b/g,
             replace: /GUS-/g
         }
     ];

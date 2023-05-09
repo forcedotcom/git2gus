@@ -19,9 +19,7 @@ describe('isSameAnnotation issues service', () => {
             'some@W-12345@text',
             'GUS-W-12345',
             'some text GUS-W-12345',
-            'textGUS-W-12345',
-            'some GUS-W-12345 text',
-            'someGUS-W-12345text'
+            'some GUS-W-12345 text'
         ];
         descriptions.forEach(description => {
             annotations.forEach(annotation => {
@@ -41,9 +39,7 @@ describe('isSameAnnotation issues service', () => {
             'text@W-12345',
             'GUS-W-12345678',
             'some text GUS-W-12345678',
-            'textGUS-W-12345678',
             'some GUS-W-12345678 text',
-            'someGUS-W-12345678text',
             '',
             null,
             undefined,
