@@ -76,5 +76,5 @@ process.on('unhandledRejection', (error, promise) => {
 });
 
 process.on('warning', error => {
-    logger.warning(`Warning from Node: ${error}`, error.stack);
+    logger.warn(`Warning from Node: ${error}`, error.stack);
 });
