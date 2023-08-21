@@ -24,7 +24,7 @@
         "remark-html": "13.0.2",
         "remark-parse": "^8.0.0",
         "require-all": "^3.0.0",
-        "sails": "^1.0.2",
+        "sails": "^1.5.7",
         "sails-hook-grunt": "^3.0.2",
         "sails-hook-orm": "^2.0.0-16",
         "sails-hook-sockets": "^1.4.0",
