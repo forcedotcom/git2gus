@@ -74,3 +74,7 @@ sails.lift(rc('sails'));
 process.on('unhandledRejection', (error, promise) => {
     logger.error('Unhandled Promise Rejection', promise, error);
 });
+
+process.on('warning', error => {
+    logger.warning(`Warning from Node: ${error}`, error.stack);
+});
