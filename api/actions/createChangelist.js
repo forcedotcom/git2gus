@@ -39,7 +39,9 @@ module.exports = {
         const workItemInTitleOrBody = title
             .concat(body)
             .match('@[Ww]-\\d{6,8}@');
-        logger.info(`Extracted workItem Id:${workItemInTitleOrBody} from the req`);
+        logger.info(
+            `Extracted workItem Id:${workItemInTitleOrBody} from the req`
+        );
 
         if (workItemInTitleOrBody) {
             const workItemName = workItemInTitleOrBody[0].substring(
@@ -53,11 +55,15 @@ module.exports = {
                 merge_commit_sha,
                 pr_url
             );
-            logger.info(`changelistUrl to be appended to the GUS workitem: ${changelistUrl}`);
+            logger.info(
+                `changelistUrl to be appended to the GUS workitem: ${changelistUrl}`
+            );
 
             try {
                 const issueId = await Gus.getWorkItemIdByName(workItemName);
-                logger.info(`Creating changelist in GUS for issueId: ${issueId}, changelistUrl: ${changelistUrl}, merged_at: ${merged_at}`);
+                logger.info(
+                    `Creating changelist in GUS for issueId: ${issueId}, changelistUrl: ${changelistUrl}, merged_at: ${merged_at}`
+                );
                 Gus.createChangelistInGus(changelistUrl, issueId, merged_at);
             } catch (error) {
                 logger.error(`createChangelistInGus() errored: ${error}`);
