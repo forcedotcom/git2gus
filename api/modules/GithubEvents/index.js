@@ -91,7 +91,7 @@ class GithubEvents extends EventEmitter {
         });
 
         const rejected = [];
-        for (result of Promise.allSettled(handlerPromises)) {
+        for (const result of await Promise.allSettled(handlerPromises)) {
             if (result.status === 'rejected') {
                 rejected.push(result.reason);
                 logger.error('Handler rejected', result.reason);
