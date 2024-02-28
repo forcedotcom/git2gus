@@ -19,11 +19,7 @@ module.exports = {
                 title,
                 html_url: pr_url,
                 body,
-                merge_commit_sha,
                 merged_at,
-                head: {
-                    repo: { html_url: repo_url }
-                }
             }
         } = req.body;
 
@@ -51,8 +47,6 @@ module.exports = {
             logger.info(`Extracted workItemName:${workItemName} from the req`);
 
             const changelistUrl = convertUrlToGusFormat(
-                repo_url,
-                merge_commit_sha,
                 pr_url
             );
             logger.info(

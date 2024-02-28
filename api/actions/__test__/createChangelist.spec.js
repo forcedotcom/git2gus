@@ -25,11 +25,6 @@ const req = {
             closed_at: '2020-02-13T18:30:28Z',
             body:
                 'some description\n\ndescription with workitem @W-7654321@\n\nmore description',
-            head: {
-                sha: '654321',
-                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
-            },
-            merge_commit_sha: '123456',
             merged_at: '2019-05-15T15:20:33Z'
         }
     }
@@ -42,10 +37,6 @@ const reqWithWorkItemInBody = {
             html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
             closed_at: '2020-02-13T18:30:28Z',
             body: 'description with workitem @W-7654321@',
-            head: {
-                sha: '654321',
-                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
-            },
             merged_at: '2019-05-15T15:20:33Z'
         }
     }
@@ -57,10 +48,6 @@ const reqWithoutWorkItem = {
             title: 'pull request title',
             html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
             closed_at: '2020-02-13T18:30:28Z',
-            head: {
-                sha: '123456',
-                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
-            }
         }
     }
 };
@@ -73,10 +60,6 @@ const reqWithWorkItemInWrongFormat = {
             closed_at: '2020-02-13T18:30:28Z',
             merged_at: '2020-02-13T18:30:28Z',
             merge_commit_sha: '123456',
-            head: {
-                sha: '123456',
-                repo: { html_url: 'https://github.com/Codertocat/Hello-World' }
-            }
         }
     }
 };
@@ -88,7 +71,7 @@ describe('createChangelist action', () => {
         expect(Gus.getWorkItemIdByName).toHaveBeenCalledWith('W-1234567');
 
         expect(Gus.createChangelistInGus).toHaveBeenCalledWith(
-            'Codertocat/Hello-World/commit/123456',
+            'Codertocat/Hello-World/pull/2',
             'a071234',
             '2019-05-15T15:20:33Z'
         );

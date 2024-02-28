@@ -8,24 +8,10 @@
 const { convertUrlToGusFormat } = require('../convertUrlToGusFormat');
 
 describe('convertUrlToGusFormat', () => {
-    it('should use merged commit when present - squash & merge case', () => {
+    it('should get the relative path of the pull request', () => {
         expect(
-            convertUrlToGusFormat(
-                'https://repo-url.com/repo1',
-                '123456',
-                'https://pr-url.com/pull/199',
-                '654321'
+            convertUrlToGusFormat('https://github.com/jag-j/git2gustest/pull/130'
             )
-        ).toEqual('repo1/commit/123456');
-    });
-
-    it('should use PR link when merged commit not present - non squashed merge case', () => {
-        expect(
-            convertUrlToGusFormat(
-                'https://repo-url.com/repo1',
-                null,
-                'https://pr-url.com/pull/199'
-            )
-        ).toEqual('pull/199');
+        ).toEqual('jag-j/git2gustest/pull/130');
     });
 });
