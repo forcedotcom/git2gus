@@ -19,19 +19,22 @@ async function getConnection() {
     }
 }
 
-const NAMESPACE_PREFIX = process.env.NAMESPACE_PREFIX
-    ? `${process.env.NAMESPACE_PREFIX}__`
-    : '';
+function getPrefix() {
+    return process.env.NAMESPACE_PREFIX
+        ? `${process.env.NAMESPACE_PREFIX}__`
+        : '';
+}
 
 function field(name) {
-    return `${NAMESPACE_PREFIX}${name}__c`;
+    return `${getPrefix()}${name}__c`;
 }
 
 module.exports = {
     getConnection,
-    Work: NAMESPACE_PREFIX + 'ADM_Work__c',
-    Build: NAMESPACE_PREFIX + 'ADM_Build__c',
-    Changelist: NAMESPACE_PREFIX + 'ADM_Changelist__c',
-    prefix: NAMESPACE_PREFIX,
+    // TBD: Extract these into a function so it is easily unit testable
+    Work: getPrefix() + 'ADM_Work__c',
+    Build: getPrefix() + 'ADM_Build__c',
+    Changelist: getPrefix() + 'ADM_Change_List__c',
+    prefix: getPrefix(),
     field
 };
