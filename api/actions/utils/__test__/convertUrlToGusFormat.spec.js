@@ -10,7 +10,8 @@ const { convertUrlToGusFormat } = require('../convertUrlToGusFormat');
 describe('convertUrlToGusFormat', () => {
     it('should get the relative path of the pull request', () => {
         expect(
-            convertUrlToGusFormat('https://github.com/jag-j/git2gustest/pull/130'
+            convertUrlToGusFormat(
+                'https://github.com/jag-j/git2gustest/pull/130'
             )
         ).toEqual('jag-j/git2gustest/pull/130');
     });

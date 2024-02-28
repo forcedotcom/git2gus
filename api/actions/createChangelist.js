@@ -15,12 +15,7 @@ module.exports = {
     fn: async function(req) {
         logger.info('createChangelist() Action called successfully');
         const {
-            pull_request: {
-                title,
-                html_url: pr_url,
-                body,
-                merged_at,
-            }
+            pull_request: { title, html_url: pr_url, body, merged_at }
         } = req.body;
 
         if (!merged_at) {
@@ -46,9 +41,7 @@ module.exports = {
             );
             logger.info(`Extracted workItemName:${workItemName} from the req`);
 
-            const changelistUrl = convertUrlToGusFormat(
-                pr_url
-            );
+            const changelistUrl = convertUrlToGusFormat(pr_url);
             logger.info(
                 `changelistUrl to be appended to the GUS workitem: ${changelistUrl}`
             );

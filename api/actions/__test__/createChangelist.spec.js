@@ -47,7 +47,7 @@ const reqWithoutWorkItem = {
         pull_request: {
             title: 'pull request title',
             html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
-            closed_at: '2020-02-13T18:30:28Z',
+            closed_at: '2020-02-13T18:30:28Z'
         }
     }
 };
@@ -59,7 +59,7 @@ const reqWithWorkItemInWrongFormat = {
             html_url: 'https://github.com/Codertocat/Hello-World/pull/2',
             closed_at: '2020-02-13T18:30:28Z',
             merged_at: '2020-02-13T18:30:28Z',
-            merge_commit_sha: '123456',
+            merge_commit_sha: '123456'
         }
     }
 };
