@@ -52,6 +52,23 @@ module.exports = {
             });
         }
 
+        let epicId = null;
+        if (config.issueEpicMapping) {
+            try {
+                logger.info('createWorkItem will find custom epic mapping for issue titled: ', title);
+                Object.keys(config.issueEpicMapping).forEach(issueEpic => {
+                    logger.info(issueEpic);
+                    if (issueEpic === labelAdded.name) {
+                        epicId = config.issueEpicMapping[issueEpic];
+                    }
+                });
+                logger.info('createWorkItem identified epicId: ', epicId );
+            } catch (e) {
+                logger.error(`Error while creating work item ${e.message}`, e);
+                return await updateIssue(req, 'Error while creating work item!');
+            }
+        }
+
         let normalizedTitle = getTitleWithOptionalPrefix(config, title);
         logger.info('createWorkItem will create GUS work item with title: ', normalizedTitle);
         // Only check the label being added
@@ -103,7 +120,8 @@ module.exports = {
                         foundInBuild,
                         priority,
                         html_url,
-                        recordTypeId);
+                        recordTypeId,
+                        epicId);
                     const syncedItemFromGus = await Gus.getById(syncedItem.id);
                     logger.info('###hideWorkItemUrl:' + hideWorkItemUrl);
                     const displayUrl = (hideWorkItemUrl === 'true') ? syncedItemFromGus.Name : `[${syncedItemFromGus.Name}](${process.env.WORK_ITEM_BASE_URL + syncedItem.id}/view)`;

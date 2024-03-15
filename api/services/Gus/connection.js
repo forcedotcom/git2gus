@@ -7,7 +7,7 @@ async function getConnection() {
         return connection;
     }
 
-    const conn = new jsforce.Connection({ logLevel: 'DEBUG' });
+    const conn = new jsforce.Connection({ loginUrl : 'https://test.salesforce.com', logLevel: 'DEBUG' });
     try {
         // jsforce connection will auto-refresh if session expires
         await conn.login(process.env.GUS_USERNAME, process.env.GUS_PASSWORD);
@@ -35,6 +35,7 @@ module.exports = {
     Work: getPrefix() + 'ADM_Work__c',
     Build: getPrefix() + 'ADM_Build__c',
     Changelist: getPrefix() + 'ADM_Change_List__c',
+    Epic: getPrefix() + 'ADM_Epic__c',
     prefix: getPrefix(),
     field
 };
