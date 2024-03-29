@@ -67,6 +67,8 @@ module.exports = {
                 logger.error(`Error while creating work item ${e.message}`, e);
                 return await updateIssue(req, 'Error while creating work item!');
             }
+        } else {
+            logger.info('no epic mapping found');
         }
 
         let normalizedTitle = getTitleWithOptionalPrefix(config, title);
