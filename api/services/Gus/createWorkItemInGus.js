@@ -14,7 +14,8 @@ module.exports = async function createWorkItemInGus(
     foundInBuild,
     priority,
     relatedUrl,
-    recordTypeId
+    recordTypeId,
+    epicId
 ) {
     const conn = await getConnection();
     return Promise.resolve(
@@ -28,6 +29,7 @@ module.exports = async function createWorkItemInGus(
                 [field('found_in_build')]: foundInBuild,
                 [field('priority')]: priority,
                 [field('related_url')]: relatedUrl,
+                [field('epic')]: epicId,
                 recordtypeid: recordTypeId
             },
             (err, ret) => {

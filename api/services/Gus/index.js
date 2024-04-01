@@ -14,6 +14,7 @@ const closeWorkItem = require('./closeWorkItem');
 const getByRelatedUrl = require('./getByRelatedUrl');
 const getById = require('./getById');
 const getBugRecordTypeId = require('./getBugRecordTypeId');
+const getEpicById = require('./getEpicById');
 const { field } = require('./connection');
 
 module.exports = {
@@ -26,6 +27,7 @@ module.exports = {
     getByRelatedUrl,
     getById,
     getBugRecordTypeId,
+    getEpicById,
     /**
      * Prepend namespace and append __c. Use only for custom fields from the ADM package.
      *

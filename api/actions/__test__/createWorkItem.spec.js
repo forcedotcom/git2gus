@@ -59,7 +59,43 @@ const req = {
             body: '### some title\nsome description',
             number: 30
         },
-        label: 'BUG P1',
+        label: {
+            name: 'BUG P1'
+        },
+        repository: {
+            name: 'git2gus-test',
+            owner: {
+                login: 'john'
+            }
+        }
+    },
+    git2gus: {
+        config: {
+            productTag: 'abcd1234',
+            defaultBuild: '218',
+            issueEpicMapping: {
+                'BUG P1': 'a123456'
+            }
+        }
+    },
+    octokitClient: {
+        issues: {
+            createComment: jest.fn()
+        }
+    }
+};
+
+const reqWithoutIssueEpicMapping = {
+    body: {
+        issue: {
+            html_url: 'github/git2gus-test/#30',
+            title: 'new issue',
+            body: '### some title\nsome description',
+            number: 30
+        },
+        label: {
+            name: 'BUG P1'
+        },
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -89,7 +125,9 @@ const reqWithProductTagLabel = {
             number: 30,
             labels: [{ name: 'testTagLabel' }]
         },
-        label: 'BUG P1',
+        label: {
+            name: 'BUG P1'
+        },
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -104,7 +142,10 @@ const reqWithProductTagLabel = {
                 testTagLabel: 'efgh5678',
                 testTagLabel2: 'zyxw9876'
             },
-            defaultBuild: '218'
+            defaultBuild: '218',
+            issueEpicMapping: {
+                'BUG P1': 'a123456'
+            }
         }
     },
     octokitClient: {
@@ -123,7 +164,9 @@ const reqWithOnlyProductTagLabels = {
             number: 30,
             labels: [{ name: 'notAProductTagLabel' }]
         },
-        label: 'BUG P1',
+        label: {
+            name: 'BUG P1'
+        },
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -137,7 +180,10 @@ const reqWithOnlyProductTagLabels = {
                 testTagLabel: 'efgh5678',
                 testTagLabel2: 'zyxw9876'
             },
-            defaultBuild: '218'
+            defaultBuild: '218',
+            issueEpicMapping: {
+                'BUG P1': 'a123456'
+            }
         }
     },
     octokitClient: {
@@ -156,7 +202,9 @@ const reqWithIssueTypeLabels = {
             number: 30,
             labels: [{ name: 'notAValidLabel' }]
         },
-        label: 'feature',
+        label: {
+            name: 'feature'
+        },
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -170,7 +218,10 @@ const reqWithIssueTypeLabels = {
                 feature: 'BUG P1'
             },
             productTag: 'abcd1234',
-            defaultBuild: '218'
+            defaultBuild: '218',
+            issueEpicMapping: {
+                'BUG P1': 'a123456'
+            }
         }
     },
     octokitClient: {
@@ -189,7 +240,9 @@ const reqWithIssueTypeUserStory = {
             number: 30,
             labels: [{ name: 'notAValidLabel' }]
         },
-        label: 'feature',
+        label: {
+            name: 'feature'
+        },
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -203,7 +256,10 @@ const reqWithIssueTypeUserStory = {
                 feature: 'USER STORY'
             },
             productTag: 'abcd1234',
-            defaultBuild: '218'
+            defaultBuild: '218',
+            issueEpicMapping: {
+                'BUG P1': 'a123456'
+            }
         }
     },
     octokitClient: {
@@ -221,7 +277,9 @@ const reqWithGusTitlePrefix = {
             body: 'some description',
             number: 30
         },
-        label: 'BUG P1',
+        label: {
+            name: 'BUG P1'
+        },
         repository: {
             name: 'git2gus-test',
             owner: {
@@ -233,7 +291,10 @@ const reqWithGusTitlePrefix = {
         config: {
             productTag: 'abcd1234',
             defaultBuild: '218',
-            gusTitlePrefix: '[Some Prefix Text]'
+            gusTitlePrefix: '[Some Prefix Text]',
+            issueEpicMapping: {
+                'BUG P1': 'a123456'
+            }
         }
     },
     octokitClient: {
@@ -264,7 +325,32 @@ describe('createGusItem action', () => {
             '229',
             'P1',
             'github/git2gus-test/#30',
-            'bug'
+            'bug',
+            'a123456'
+        );
+    });
+    it('should call createWorkItemInGus without epic Id', async () => {
+        expect.assertions(1);
+        Github.getRecordTypeId.mockReturnValue('bug');
+        Github.isSalesforceLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
+        Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
+        Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
+        Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
+        await fn(reqWithoutIssueEpicMapping);
+        expect(Gus.createWorkItemInGus).toHaveBeenCalledWith(
+            'new issue',
+            'Body In Gus format',
+            'abcd1234',
+            'NEW',
+            '229',
+            'P1',
+            'github/git2gus-test/#30',
+            'bug',
+            null
         );
     });
     it('should call createWorkItemInGus with the right title prefix text', async () => {
@@ -287,7 +373,8 @@ describe('createGusItem action', () => {
             '229',
             'P1',
             'github/git2gus-test/#30',
-            'bug'
+            'bug',
+            'a123456'
         );
     });
     it('should call createWorkItemInGus with the right issue type from label', async () => {
@@ -310,7 +397,8 @@ describe('createGusItem action', () => {
             '229',
             'P1',
             'github/git2gus-test/#30',
-            'bug'
+            'bug',
+            'a123456'
         );
     });
     it('should call createWorkItemInGus with the right issue type from label', async () => {
@@ -333,7 +421,8 @@ describe('createGusItem action', () => {
             '229',
             'P1',
             'github/git2gus-test/#30',
-            'bug'
+            'bug',
+            'a123456'
         );
     });
     it('should call createWorkItemInGus with the right product tag label', async () => {
@@ -356,7 +445,8 @@ describe('createGusItem action', () => {
             '229',
             'P1',
             'github/git2gus-test/#30',
-            'bug'
+            'bug',
+            'a123456'
         );
     });
     it('should not call createWorkItemInGus if user story already exists in GUS', async () => {
