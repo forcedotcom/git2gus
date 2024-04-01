@@ -7,10 +7,14 @@ async function getConnection() {
         return connection;
     }
 
-    const conn = new jsforce.Connection({
-        loginUrl: 'https://test.salesforce.com',
-        logLevel: 'DEBUG'
-    });
+    const conn = new jsforce.Connection({ logLevel: 'DEBUG' });
+    // TODO: Move this to a config.
+    // For now, use the following connection to do local testing
+    // const conn = new jsforce.Connection({
+    //     loginUrl: 'https://test.salesforce.com',
+    //     logLevel: 'DEBUG'
+    // });
+
     try {
         // jsforce connection will auto-refresh if session expires
         await conn.login(process.env.GUS_USERNAME, process.env.GUS_PASSWORD);
