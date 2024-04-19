@@ -10,6 +10,14 @@
             "name": "Debug Node",
             "program": "${workspaceFolder}/app.js",
             "env": { "NODE_ENV": "development" }
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run Tests",
+            "args": ["${workspaceFolder}/node_modules/jest/bin/jest.js"],
+            "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal"
+        }            
     ]
 }
