@@ -59,8 +59,8 @@
     "author": "reinierguerra",
     "license": "",
     "engines": {
-        "node": "18.x",
-        "yarn": "1.22.19"
+        "node": ">=18.x",
+        "yarn": ">=1.22.19"
     },
     "pre-push": [
         "prettier",
