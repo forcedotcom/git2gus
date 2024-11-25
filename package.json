@@ -8,7 +8,7 @@
         "@elastic/elasticsearch": "^7.9.1",
         "@octokit/auth-app": "^3.0.0",
         "@octokit/rest": "^18.2.0",
-        "@octokit/webhooks": "^5.3.2",
+        "@octokit/webhooks": "^9.26.3",
         "@sailshq/connect-redis": "^3.2.1",
         "@sailshq/lodash": "^3.10.3",
         "@sailshq/socket.io-redis": "^5.2.0",
