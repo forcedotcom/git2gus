@@ -21,7 +21,7 @@ module.exports = function isApprovedReq(req, res, next) {
     // Extract org name once
     const orgName = repository
         ? repository.owner.login
-        : (installation?.account?.login || 'unknown');
+        : installation?.account?.login || 'unknown';
 
     const isApprovedInstallation =
         github.installationEvents.indexOf(event) !== -1 &&
@@ -48,7 +48,9 @@ module.exports = function isApprovedReq(req, res, next) {
     }
 
     const approvedOrgs = github.approvedOrgs.join(', ');
-    logger.error(`REQUEST REJECTED - Organization '${orgName}' is not in approved orgs list. Event: ${event}, Approved orgs: [${approvedOrgs}]`);
+    logger.error(
+        `REQUEST REJECTED - Organization '${orgName}' is not in approved orgs list. Event: ${event}, Approved orgs: [${approvedOrgs}]`
+    );
 
     return res.badRequest({
         code: 'BAD_GITHUB_REQUEST',

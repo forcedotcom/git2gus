@@ -26,14 +26,18 @@ module.exports = async function hasConfig(req, res, next) {
         req.git2gus = Object.assign({}, req.git2gus, {
             config
         });
-        logger.info(`Config loaded successfully for ${repository.owner.login}/${repository.name}`);
+        logger.info(
+            `Config loaded successfully for ${repository.owner.login}/${repository.name}`
+        );
         return next();
     } catch (error) {
         const isIssueOrPrOpened =
             (event === 'issues' || event === 'pull_request') &&
             action === 'opened';
         if (error.status === 404) {
-            logger.error(`REQUEST REJECTED - Config not found for ${repository.owner.login}/${repository.name}. Event: ${event}, Action: ${action}`);
+            logger.error(
+                `REQUEST REJECTED - Config not found for ${repository.owner.login}/${repository.name}. Event: ${event}, Action: ${action}`
+            );
             if (isIssueOrPrOpened) {
                 await createComment({
                     req,
@@ -45,7 +49,9 @@ module.exports = async function hasConfig(req, res, next) {
                 message: 'The .git2gus/config.json was not found.'
             });
         }
-        logger.error(`REQUEST REJECTED - Config error for ${repository.owner.login}/${repository.name}. Event: ${event}, Action: ${action}, Error: ${error.message}`);
+        logger.error(
+            `REQUEST REJECTED - Config error for ${repository.owner.login}/${repository.name}. Event: ${event}, Action: ${action}, Error: ${error.message}`
+        );
         if (isIssueOrPrOpened) {
             await createComment({
                 req,
