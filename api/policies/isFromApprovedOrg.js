@@ -21,7 +21,10 @@ module.exports = function isApprovedReq(req, res, next) {
     // Extract org name once
     const orgName = repository
         ? repository.owner.login
-        : installation?.account?.login || 'unknown';
+        : (installation &&
+              installation.account &&
+              installation.account.login) ||
+          'unknown';
 
     const isApprovedInstallation =
         github.installationEvents.indexOf(event) !== -1 &&
