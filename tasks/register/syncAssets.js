@@ -9,9 +9,9 @@
  */
 module.exports = function(grunt) {
   grunt.registerTask('syncAssets', [
-    'jst:dev',
+    // 'jst:dev', // Commented out - no templates in this project
     'less:dev',
-    'sync:dev',
-    'coffee:dev'
+    'sync:dev'
+    // 'coffee:dev' // Commented out - no CoffeeScript in this project
   ]);
 };
