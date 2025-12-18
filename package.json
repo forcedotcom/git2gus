@@ -16,6 +16,7 @@
         "dotenv": "^6.1.0",
         "express-winston": "^4.0.3",
         "grunt": "1.5.3",
+        "grunt-contrib-cssmin": "^5.0.0",
         "jest": "^24.1.0",
         "jsforce": "^1.9.3",
         "lodash": "^4.17.11",
