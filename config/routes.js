@@ -48,6 +48,16 @@ module.exports.routes = {
     'POST /webhook': {
         controller: 'GithubController',
         action: 'processEvent'
+    },
+
+    'GET /validate-config': {
+        controller: 'ConfigController',
+        action: 'showValidator'
+    },
+
+    'POST /api/validate-config': {
+        controller: 'ConfigController',
+        action: 'validateConfig'
     }
 
     //  ╔╦╗╦╔═╗╔═╗
