@@ -6,3 +6,6 @@ README.md
 api/policies/isGithubAuth.js
 api/actions/createWorkItem.js
 .tmp/
+.claude/
+CLAUDE.md
+www/

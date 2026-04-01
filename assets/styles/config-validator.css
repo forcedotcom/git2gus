@@ -1,0 +1,376 @@
+/*
+Copyright (c) 2019, salesforce.com, inc.
+All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+*/
+
+.config-validator-container {
+    background-color: white;
+    min-height: 100vh;
+    padding: 40px 100px;
+}
+
+.config-validator-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.config-validator-title {
+    color: rgb(21, 158, 217);
+    font-size: 48px;
+    font-weight: 100;
+    margin-bottom: 16px;
+}
+
+.config-validator-subtitle {
+    color: rgb(164, 167, 181);
+    font-size: 20px;
+    margin-bottom: 24px;
+}
+
+.config-validator-subtitle code {
+    background-color: rgb(244, 246, 249);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: rgb(87, 101, 116);
+}
+
+.config-validator-back-link {
+    color: rgb(1, 182, 245);
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.config-validator-back-link:hover {
+    text-decoration: underline;
+}
+
+.config-validator-content {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 48px;
+}
+
+.config-validator-input-column {
+    flex: 0 0 60%;
+}
+
+.config-validator-results-column {
+    flex: 0 0 calc(40% - 40px);
+}
+
+.config-validator-section-title {
+    color: rgb(6, 28, 63);
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.config-validator-section-description {
+    color: rgb(164, 167, 181);
+    margin-bottom: 16px;
+}
+
+.config-validator-textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 16px;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 14px;
+    border: 2px solid rgb(216, 221, 230);
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 16px;
+}
+
+.config-validator-textarea:focus {
+    outline: none;
+    border-color: rgb(1, 182, 245);
+}
+
+.config-validator-buttons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.config-validator-btn {
+    padding: 12px 24px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.config-validator-btn-primary {
+    background-color: rgb(1, 182, 245);
+    color: white;
+}
+
+.config-validator-btn-primary:hover {
+    background-color: rgb(0, 161, 224);
+}
+
+.config-validator-btn-primary:active {
+    transform: scale(0.98);
+}
+
+.config-validator-btn-secondary {
+    background-color: rgb(244, 246, 249);
+    color: rgb(87, 101, 116);
+}
+
+.config-validator-btn-secondary:hover {
+    background-color: rgb(230, 235, 241);
+}
+
+.config-validator-examples {
+    padding: 24px;
+    background-color: rgb(244, 246, 249);
+    border-radius: 4px;
+}
+
+.config-validator-examples-title {
+    color: rgb(6, 28, 63);
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.config-validator-btn-example {
+    background-color: white;
+    color: rgb(1, 182, 245);
+    border: 1px solid rgb(1, 182, 245);
+    padding: 8px 16px;
+    margin-right: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.config-validator-btn-example:hover {
+    background-color: rgb(1, 182, 245);
+    color: white;
+}
+
+.config-validator-results-panel {
+    border: 2px solid rgb(216, 221, 230);
+    border-radius: 4px;
+    padding: 24px;
+    min-height: 400px;
+    background-color: rgb(250, 251, 252);
+}
+
+.config-validator-results-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+    color: rgb(164, 167, 181);
+}
+
+.config-validator-results-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+}
+
+.config-validator-results-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+}
+
+.config-validator-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgb(216, 221, 230);
+    border-top-color: rgb(1, 182, 245);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.config-validator-results-success {
+    text-align: center;
+    color: rgb(6, 28, 63);
+}
+
+.config-validator-icon-success {
+    color: #28a745;
+}
+
+.config-validator-results-success h3 {
+    color: #28a745;
+    margin-bottom: 8px;
+}
+
+.config-validator-results-error {
+    color: rgb(6, 28, 63);
+}
+
+.config-validator-icon-error {
+    color: #dc3545;
+}
+
+.config-validator-results-error h3 {
+    color: #dc3545;
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+.config-validator-error-list,
+.config-validator-warning-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+}
+
+.config-validator-error-item {
+    background-color: #fff5f5;
+    border-left: 4px solid #dc3545;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    color: #721c24;
+    font-size: 14px;
+}
+
+.config-validator-error-item strong {
+    color: #dc3545;
+}
+
+.config-validator-warnings-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgb(216, 221, 230);
+}
+
+.config-validator-warnings-section h4 {
+    color: #856404;
+    margin-bottom: 8px;
+}
+
+.config-validator-warning-item {
+    background-color: #fff9e6;
+    border-left: 4px solid #ffc107;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    color: #856404;
+    font-size: 14px;
+}
+
+.config-validator-warning-item strong {
+    color: #ffc107;
+}
+
+.config-validator-help {
+    margin-top: 48px;
+    padding: 32px;
+    background-color: rgb(244, 246, 249);
+    border-radius: 4px;
+}
+
+.config-validator-help-title {
+    color: rgb(6, 28, 63);
+    font-size: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.config-validator-help-content {
+    display: flex;
+    gap: 40px;
+}
+
+.config-validator-help-section {
+    flex: 1;
+}
+
+.config-validator-help-section-title {
+    color: rgb(21, 158, 217);
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.config-validator-help-list {
+    color: rgb(87, 101, 116);
+    line-height: 1.8;
+}
+
+.config-validator-help-list code {
+    background-color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: rgb(6, 28, 63);
+    font-size: 14px;
+}
+
+.config-validator-help-list ul {
+    margin-top: 8px;
+    margin-left: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .config-validator-container {
+        padding: 40px 60px;
+    }
+
+    .config-validator-content {
+        flex-direction: column;
+    }
+
+    .config-validator-input-column,
+    .config-validator-results-column {
+        flex: 1 1 100%;
+    }
+
+    .config-validator-help-content {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .config-validator-container {
+        padding: 24px 16px;
+    }
+
+    .config-validator-title {
+        font-size: 32px;
+    }
+
+    .config-validator-subtitle {
+        font-size: 16px;
+    }
+
+    .config-validator-buttons {
+        flex-direction: column;
+    }
+
+    .config-validator-btn {
+        width: 100%;
+    }
+
+    .config-validator-btn-example {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .config-validator-textarea {
+        min-height: 300px;
+    }
+
+    .config-validator-results-panel {
+        min-height: 300px;
+    }
+}

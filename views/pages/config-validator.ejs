@@ -1,0 +1,259 @@
+<!--
+Copyright (c) 2019, salesforce.com, inc.
+All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+-->
+
+<div class="config-validator-container">
+    <div class="config-validator-header">
+        <h1 class="config-validator-title">Configuration Validator</h1>
+        <p class="config-validator-subtitle">
+            Validate your <code>.git2gus/config.json</code> before committing to your repository.
+        </p>
+        <a href="/" class="config-validator-back-link">← Back to Home</a>
+    </div>
+
+    <div class="config-validator-content">
+        <div class="config-validator-input-column">
+            <h2 class="config-validator-section-title">Configuration JSON</h2>
+            <textarea
+                id="config-input"
+                class="config-validator-textarea"
+                placeholder='{
+  "productTag": "a1aB0000000Jgm7IAC",
+  "defaultBuild": "218"
+}'
+                spellcheck="false"
+            ></textarea>
+
+            <div class="config-validator-buttons">
+                <button id="validate-btn" class="config-validator-btn config-validator-btn-primary">
+                    Validate Configuration
+                </button>
+                <button id="clear-btn" class="config-validator-btn config-validator-btn-secondary">
+                    Clear
+                </button>
+            </div>
+
+            <div class="config-validator-examples">
+                <h3 class="config-validator-examples-title">Example Configurations</h3>
+                <button id="load-minimal-btn" class="config-validator-btn config-validator-btn-example">
+                    Load Minimal Example
+                </button>
+                <button id="load-advanced-btn" class="config-validator-btn config-validator-btn-example">
+                    Load Advanced Example
+                </button>
+            </div>
+        </div>
+
+        <div class="config-validator-results-column">
+            <h2 class="config-validator-section-title">Validation Results</h2>
+            <div id="results-panel" class="config-validator-results-panel">
+                <div class="config-validator-results-empty">
+                    <svg class="config-validator-results-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p>Click "Validate Configuration" to check your config</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="config-validator-help">
+        <h2 class="config-validator-help-title">Configuration Fields</h2>
+        <div class="config-validator-help-content">
+            <div class="config-validator-help-section">
+                <h3 class="config-validator-help-section-title">Required Fields</h3>
+                <ul class="config-validator-help-list">
+                    <li>
+                        <code>defaultBuild</code> (string) - The build/sprint number to use when creating work items (e.g., "218", "Backlog")
+                    </li>
+                    <li>
+                        <code>productTag</code> OR <code>productTagLabels</code> - At least one is required:
+                        <ul>
+                            <li><code>productTag</code> (string) - Default Salesforce product tag ID</li>
+                            <li><code>productTagLabels</code> (object) - Map GitHub labels to product tag IDs</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="config-validator-help-section">
+                <h3 class="config-validator-help-section-title">Optional Fields</h3>
+                <ul class="config-validator-help-list">
+                    <li>
+                        <code>statusWhenClosed</code> (string) - Status to set when issue closes. Must be one of: <code>INTEGRATE</code>, <code>FIXED</code>, <code>CLOSED</code>. Default: <code>INTEGRATE</code>
+                    </li>
+                    <li>
+                        <code>hideWorkItemUrl</code> (string) - Set to <code>"true"</code> to hide work item URLs in comments (recommended for open source repos)
+                    </li>
+                    <li>
+                        <code>issueTypeLabels</code> (object) - Map custom issue type labels to standard labels (e.g., <code>{"feature": "USER STORY"}</code>)
+                    </li>
+                    <li>
+                        <code>issueEpicMapping</code> (object) - Map issue labels to epic IDs for automatic epic assignment
+                    </li>
+                    <li>
+                        <code>gusTitlePrefix</code> (string) - Prefix to add to GUS work item titles
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Example configurations
+const MINIMAL_EXAMPLE = {
+    "productTag": "a1aB0000000Jgm7IAC",
+    "defaultBuild": "218"
+};
+
+const ADVANCED_EXAMPLE = {
+    "productTag": "a1aB0000000Jgm7IAC",
+    "defaultBuild": "Backlog",
+    "statusWhenClosed": "FIXED",
+    "hideWorkItemUrl": "true",
+    "productTagLabels": {
+        "area:lwc": "a1aEE000000OVXJYA4",
+        "area:aura": "a1aEE000000OVXKYA4"
+    },
+    "issueTypeLabels": {
+        "feature": "USER STORY",
+        "urgent": "BUG P0"
+    },
+    "gusTitlePrefix": "[MyTeam]"
+};
+
+// DOM elements
+const configInput = document.getElementById('config-input');
+const validateBtn = document.getElementById('validate-btn');
+const clearBtn = document.getElementById('clear-btn');
+const loadMinimalBtn = document.getElementById('load-minimal-btn');
+const loadAdvancedBtn = document.getElementById('load-advanced-btn');
+const resultsPanel = document.getElementById('results-panel');
+
+// Event listeners
+validateBtn.addEventListener('click', validateConfiguration);
+clearBtn.addEventListener('click', clearForm);
+loadMinimalBtn.addEventListener('click', () => loadExample(MINIMAL_EXAMPLE));
+loadAdvancedBtn.addEventListener('click', () => loadExample(ADVANCED_EXAMPLE));
+
+// Functions
+function loadExample(example) {
+    configInput.value = JSON.stringify(example, null, 2);
+}
+
+function clearForm() {
+    configInput.value = '';
+    resultsPanel.innerHTML = `
+        <div class="config-validator-results-empty">
+            <svg class="config-validator-results-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p>Click "Validate Configuration" to check your config</p>
+        </div>
+    `;
+}
+
+async function validateConfiguration() {
+    const configText = configInput.value.trim();
+
+    if (!configText) {
+        displayResults({
+            valid: false,
+            errors: [{field: 'input', message: 'Please enter a configuration to validate.'}],
+            warnings: []
+        });
+        return;
+    }
+
+    // Show loading state
+    resultsPanel.innerHTML = `
+        <div class="config-validator-results-loading">
+            <div class="config-validator-spinner"></div>
+            <p>Validating...</p>
+        </div>
+    `;
+
+    try {
+        const response = await fetch('/api/validate-config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ config: configText })
+        });
+
+        const result = await response.json();
+        displayResults(result);
+    } catch (error) {
+        displayResults({
+            valid: false,
+            errors: [{field: 'network', message: 'Network error: ' + error.message}],
+            warnings: []
+        });
+    }
+}
+
+function displayResults(result) {
+    if (result.valid) {
+        resultsPanel.innerHTML = `
+            <div class="config-validator-results-success">
+                <svg class="config-validator-results-icon config-validator-icon-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h3>Configuration is Valid!</h3>
+                <p>Your configuration passes all validation checks.</p>
+                ${result.warnings.length > 0 ? '<div class="config-validator-warnings-section">' + renderWarnings(result.warnings) + '</div>' : ''}
+            </div>
+        `;
+    } else {
+        resultsPanel.innerHTML = `
+            <div class="config-validator-results-error">
+                <svg class="config-validator-results-icon config-validator-icon-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <h3>Configuration is Invalid</h3>
+                <p>Please fix the following errors:</p>
+                ${renderErrors(result.errors)}
+                ${result.warnings.length > 0 ? '<div class="config-validator-warnings-section">' + renderWarnings(result.warnings) + '</div>' : ''}
+            </div>
+        `;
+    }
+}
+
+function renderErrors(errors) {
+    return `
+        <ul class="config-validator-error-list">
+            ${errors.map(error => `
+                <li class="config-validator-error-item">
+                    <strong>${error.field}:</strong> ${escapeHtml(error.message)}
+                </li>
+            `).join('')}
+        </ul>
+    `;
+}
+
+function renderWarnings(warnings) {
+    return `
+        <h4>Warnings:</h4>
+        <ul class="config-validator-warning-list">
+            ${warnings.map(warning => `
+                <li class="config-validator-warning-item">
+                    <strong>${warning.field}:</strong> ${escapeHtml(warning.message)}
+                </li>
+            `).join('')}
+        </ul>
+    `;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+</script>
