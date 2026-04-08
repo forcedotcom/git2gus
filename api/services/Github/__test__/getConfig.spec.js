@@ -71,7 +71,19 @@ describe('getConfig github service', () => {
         );
         return expect(getConfig(payload)).rejects.toEqual({
             status: 'BAD_CONFIG_FILE',
-            message: 'Wrong config received.'
+            message: 'Wrong config received.',
+            valid: false,
+            errors: [
+                {
+                    field: 'defaultBuild',
+                    message:
+                        'Required field "defaultBuild" is missing or empty. Add: "defaultBuild": "218" (your sprint/build number)'
+                }
+            ],
+            warnings: [],
+            config: {
+                productTag: 'abcd1234'
+            }
         });
     });
     it('should rejects when there is not productTag', () => {
@@ -89,7 +101,17 @@ describe('getConfig github service', () => {
         );
         return expect(getConfig(payload)).rejects.toEqual({
             status: 'BAD_CONFIG_FILE',
-            message: 'Wrong config received.'
+            message: 'Wrong config received.',
+            valid: false,
+            errors: [
+                {
+                    field: 'productTag',
+                    message:
+                        'At least one of "productTag" or "productTagLabels" is required. Add: "productTag": "a1aB0000000Jgm7IAC"'
+                }
+            ],
+            warnings: [],
+            config: { defaultBuild: '218' }
         });
     });
     it('should rejects when the content is null', () => {
@@ -105,7 +127,17 @@ describe('getConfig github service', () => {
         );
         return expect(getConfig(payload)).rejects.toEqual({
             status: 'BAD_CONFIG_FILE',
-            message: 'Wrong config received.'
+            message: 'Wrong config received.',
+            valid: false,
+            errors: [
+                {
+                    field: 'root',
+                    message:
+                        'Configuration must be a JSON object, not null, string, or array.'
+                }
+            ],
+            warnings: [],
+            config: null
         });
     });
     it('should rejects when the content is not an object', () => {
@@ -121,7 +153,17 @@ describe('getConfig github service', () => {
         );
         return expect(getConfig(payload)).rejects.toEqual({
             status: 'BAD_CONFIG_FILE',
-            message: 'Wrong config received.'
+            message: 'Wrong config received.',
+            valid: false,
+            errors: [
+                {
+                    field: 'root',
+                    message:
+                        'Configuration must be a JSON object, not null, string, or array.'
+                }
+            ],
+            warnings: [],
+            config: null
         });
     });
 });

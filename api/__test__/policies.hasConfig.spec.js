@@ -150,7 +150,13 @@ describe('hasConfig policy', () => {
         getConfig.mockReturnValue(
             Promise.reject({
                 status: 403,
-                message: 'get config error'
+                message: 'get config error',
+                errors: [
+                    {
+                        field: 'mmmbop',
+                        message: 'ba duba bop ba'
+                    }
+                ]
             })
         );
         res.status.mockReset();
@@ -171,14 +177,20 @@ describe('hasConfig policy', () => {
         await hasConfig(req, res, next);
         expect(createComment).toHaveBeenCalledWith({
             req,
-            body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't have right values. You should add the required configuration.`
+            body: [
+                'The Git2Gus app is installed but the `.git2gus/config.json` failed validation.',
+                '## Errors:',
+                '- **`mmmbop`**: ba duba bop ba'
+            ].join('\n\n')
         });
         expect(next).not.toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(403);
-        expect(res.status().send).toHaveBeenCalledWith({
-            status: 403,
-            message: 'get config error'
-        });
+        expect(res.status().send).toHaveBeenCalledWith(
+            expect.objectContaining({
+                status: 403,
+                message: 'get config error'
+            })
+        );
     });
     it('should call createComment with the right values when error status is other than 404 and a pull request is opened', async () => {
         expect.assertions(4);
@@ -186,7 +198,13 @@ describe('hasConfig policy', () => {
         getConfig.mockReturnValue(
             Promise.reject({
                 status: 403,
-                message: 'get config error'
+                message: 'get config error',
+                warnings: [
+                    {
+                        field: 'oops',
+                        message: "that's not right"
+                    }
+                ]
             })
         );
         res.status.mockReset();
@@ -207,14 +225,18 @@ describe('hasConfig policy', () => {
         await hasConfig(req, res, next);
         expect(createComment).toHaveBeenCalledWith({
             req,
-            body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't have right values. You should add the required configuration.`
+            body: expect.stringContaining(
+                'The Git2Gus app is installed but the `.git2gus/config.json` failed validation.'
+            )
         });
         expect(next).not.toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(403);
-        expect(res.status().send).toHaveBeenCalledWith({
-            status: 403,
-            message: 'get config error'
-        });
+        expect(res.status().send).toHaveBeenCalledWith(
+            expect.objectContaining({
+                status: 403,
+                message: 'get config error'
+            })
+        );
     });
     it('should respond with status 403 when error.status is other than 404', async () => {
         expect.assertions(4);
