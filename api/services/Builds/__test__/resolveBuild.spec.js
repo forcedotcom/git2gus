@@ -14,16 +14,23 @@ const config = {
 };
 
 describe('resolveBuild builds service', () => {
-    it('should call getBuildByName with the right value when a milsetone is passed', () => {
+    let consoleSpy;
+    beforeAll(() => {
+        consoleSpy = jest.spyOn(console, 'log').mockReturnValue();
+    });
+    afterAll(() => {
+        consoleSpy.mockRestore();
+    });
+    it('should call getBuildByName with the right value when a milsetone is passed', async () => {
         const milestone = {
             title: 218
         };
-        resolveBuild(config, milestone);
+        await resolveBuild(config, milestone);
         expect(getBuildByName).toHaveBeenCalledWith(218);
     });
-    it('should call getBuildByName with the right value when a milsetone is not passed', () => {
+    it('should call getBuildByName with the right value when a milsetone is not passed', async () => {
         getBuildByName.mockReset();
-        resolveBuild(config);
+        await resolveBuild(config);
         expect(getBuildByName).toHaveBeenCalledWith(220);
     });
     it('should return the right build', async () => {
