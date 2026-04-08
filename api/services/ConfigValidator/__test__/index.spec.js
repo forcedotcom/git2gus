@@ -58,7 +58,7 @@ describe('ConfigValidator service', () => {
                 productTag: 'a1aB0000000Jgm7IAC',
                 defaultBuild: 'Backlog',
                 statusWhenClosed: 'FIXED',
-                hideWorkItemUrl: 'true',
+                hideWorkItemUrl: true,
                 issueTypeLabels: {
                     feature: 'USER STORY',
                     urgent: 'BUG P0'
@@ -275,7 +275,7 @@ describe('ConfigValidator service', () => {
             });
         });
 
-        it('should warn about non-standard hideWorkItemUrl values', () => {
+        it('should reject non-standard hideWorkItemUrl values', () => {
             const config = JSON.stringify({
                 productTag: 'a1aB0000000Jgm7IAC',
                 defaultBuild: '218',
@@ -284,10 +284,10 @@ describe('ConfigValidator service', () => {
 
             const result = ConfigValidator.validate(config);
 
-            expect(result.valid).toBe(true);
-            expect(result.warnings).toContainEqual({
+            expect(result.valid).toBe(false);
+            expect(result.errors).toContainEqual({
                 field: 'hideWorkItemUrl',
-                message: expect.stringContaining('should be "true" or "false"')
+                message: 'Field "hideWorkItemUrl" must be a boolean value.'
             });
         });
     });
