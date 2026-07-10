@@ -13,6 +13,13 @@
  */
 
 const VALID_STATUS_VALUES = ['INTEGRATE', 'FIXED', 'CLOSED'];
+const VALID_HAS_WORK_ITEM_URL_VALUES = [
+    undefined,
+    true,
+    false,
+    'true',
+    'false'
+];
 
 module.exports = {
     /**
@@ -148,21 +155,11 @@ module.exports = {
         }
 
         // hideWorkItemUrl
-        if (config.hideWorkItemUrl !== undefined) {
-            if (typeof config.hideWorkItemUrl !== 'string') {
-                errors.push({
-                    field: 'hideWorkItemUrl',
-                    message: 'Field "hideWorkItemUrl" must be a string.'
-                });
-            } else if (
-                config.hideWorkItemUrl !== 'true' &&
-                config.hideWorkItemUrl !== 'false'
-            ) {
-                warnings.push({
-                    field: 'hideWorkItemUrl',
-                    message: `Field "hideWorkItemUrl" should be "true" or "false" (as strings). Got: "${config.hideWorkItemUrl}"`
-                });
-            }
+        if (!VALID_HAS_WORK_ITEM_URL_VALUES.includes(config.hideWorkItemUrl)) {
+            errors.push({
+                field: 'hideWorkItemUrl',
+                message: 'Field "hideWorkItemUrl" must be a boolean value.'
+            });
         }
 
         // issueTypeLabels

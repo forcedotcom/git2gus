@@ -29,7 +29,10 @@ module.exports = {
         // Only grab the label being added for comparison against Salesforce labels
         const { label: labelAdded } = req.body;
         const { config } = req.git2gus;
-        const { hideWorkItemUrl } = config;
+        const hideWorkItemUrl =
+            typeof config.hideWorkItemUrl === 'boolean'
+                ? String(config.hideWorkItemUrl)
+                : config.hideWorkItemUrl;
         let productTag = config.productTag;
         if (config.productTagLabels) {
             logger.info('createWorkItem will work with custom productTagLabels for issue titled: ', title);

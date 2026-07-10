@@ -9,6 +9,16 @@ const { getConfig, createComment } = require('../services/Github');
 const { github } = require('../../config/github');
 const logger = require('../services/Logs/logger');
 
+function toMarkdown(errors) {
+    if (!errors || errors.length === 0) {
+        return '';
+    }
+    const formatted = errors
+        .map(({ field, message }) => `- **\`${field}\`**: ${message}`)
+        .join('\n');
+    return `\n\n## Errors:\n\n${formatted}`;
+}
+
 module.exports = async function hasConfig(req, res, next) {
     const { action, repository } = req.body;
     const event = req.headers['x-github-event'];
@@ -55,7 +65,9 @@ module.exports = async function hasConfig(req, res, next) {
         if (isIssueOrPrOpened) {
             await createComment({
                 req,
-                body: `Git2Gus App is installed but the \`.git2gus/config.json\` doesn't have right values. You should add the required configuration.`
+                body: `The Git2Gus app is installed but the \`.git2gus/config.json\` failed validation.${toMarkdown(
+                    error.errors
+                )}${toMarkdown(error.warnings)}`
             });
         }
         return res.status(403).send(error);

@@ -442,7 +442,7 @@ describe('createGusItem action', () => {
         });
     });
 
-    it('should create a comment without the url when the git2gus.config.hideWorkItemUrl = true', async () => {
+    it('should create a comment without the url when the git2gus.config.hideWorkItemUrl = "true"', async () => {
         expect.assertions(1);
         Github.getRecordTypeId.mockReturnValue('bug');
         Github.isSalesforceLabel.mockReturnValue(true);
@@ -458,6 +458,29 @@ describe('createGusItem action', () => {
         Gus.getById.mockReturnValue(workItem);
         const req1 = JSON.parse(JSON.stringify(req));
         req1.git2gus.config.hideWorkItemUrl = 'true';
+        await fn(req1);
+        expect(Github.createComment).toHaveBeenCalledWith({
+            req: req1,
+            body: `This issue has been linked to a new work item: new-work-item`
+        });
+    });
+
+    it('should create a comment without the url when the git2gus.config.hideWorkItemUrl = true', async () => {
+        expect.assertions(1);
+        Github.getRecordTypeId.mockReturnValue('bug');
+        Github.isSalesforceLabel.mockReturnValue(true);
+        Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+        formatToGus.formatToGus.mockReturnValue(
+            Promise.resolve('Body In Gus format')
+        );
+        Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
+        Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
+        Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
+        const workItem = { id: '12345', Name: 'new-work-item' };
+        Gus.createWorkItemInGus.mockReturnValue(workItem);
+        Gus.getById.mockReturnValue(workItem);
+        const req1 = JSON.parse(JSON.stringify(req));
+        req1.git2gus.config.hideWorkItemUrl = true;
         await fn(req1);
         expect(Github.createComment).toHaveBeenCalledWith({
             req: req1,
