@@ -21,10 +21,10 @@ module.exports = {
     fn: async function (req) {
         logger.info('createWorkItem Action called');
         const {
-            issue: { labels, html_url, body, milestone }
+            issue: { labels, html_url, milestone }
         } = req.body;
         let {
-            issue: { title }
+            issue: { body, title }
         } = req.body;
         // Only grab the label being added for comparison against Salesforce labels
         const { label: labelAdded } = req.body;
@@ -72,6 +72,12 @@ module.exports = {
         }
 
         let normalizedTitle = getTitleWithOptionalPrefix(config, title);
+        const isTitleTooLong = normalizedTitle.length > 255;
+        if (isTitleTooLong) {
+            body = `...${normalizedTitle.substring(252)}\n\n${body || ''}`;
+            normalizedTitle = `${normalizedTitle.substring(0, 252)}...`;
+            logger.info('createWorkItem truncated title to fit GUS title length limit');
+        }
         logger.info('createWorkItem will create GUS work item with title: ', normalizedTitle);
         // Only check the label being added
         if (Github.isSalesforceLabel(labelAdded.name) && productTag) {
