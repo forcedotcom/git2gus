@@ -553,4 +553,90 @@ describe('createGusItem action', () => {
             body: `This issue has been linked to a new work item: new-work-item`
         });
     });
+
+    describe('title truncation (255 char GUS limit)', () => {
+        const setupMocks = () => {
+            Github.getRecordTypeId.mockReturnValue('bug');
+            Github.isSalesforceLabel.mockReturnValue(true);
+            Builds.resolveBuild.mockReturnValue(Promise.resolve('qwerty1234'));
+            // echo the body so we can assert on the description sent to Gus
+            formatToGus.formatToGus.mockImplementation((url, body) =>
+                Promise.resolve(body)
+            );
+            Gus.resolveBuild.mockReturnValue(Promise.resolve('229'));
+            Gus.getByRelatedUrl.mockReturnValue(Promise.resolve(''));
+            Gus.getBugRecordTypeId.mockReturnValue(Promise.resolve('bug'));
+        };
+        const buildReq = (title, body, extraConfig = {}) => {
+            const r = JSON.parse(JSON.stringify(req));
+            r.body.issue.title = title;
+            r.body.issue.body = body;
+            Object.assign(r.git2gus.config, extraConfig);
+            return r;
+        };
+
+        it('should truncate title over 255 chars and append overflow to description', async () => {
+            expect.assertions(4);
+            setupMocks();
+            const title = 'a'.repeat(200) + 'b'.repeat(100); // 300 chars
+            await fn(buildReq(title, 'original body'));
+            const [
+                subject,
+                description
+            ] = Gus.createWorkItemInGus.mock.calls[0];
+            expect(subject).toBe(title.substring(0, 252) + '...');
+            expect(subject).toHaveLength(255);
+            expect(description).toContain('...' + title.substring(252));
+            expect(description).toContain('original body');
+        });
+
+        it('should not change title or body when title is exactly 255 chars', async () => {
+            expect.assertions(3);
+            setupMocks();
+            const title = 'a'.repeat(255);
+            await fn(buildReq(title, 'original body'));
+            const [
+                subject,
+                description
+            ] = Gus.createWorkItemInGus.mock.calls[0];
+            expect(subject).toBe(title);
+            expect(description).toBe('original body');
+            expect(formatToGus.formatToGus).toHaveBeenCalledWith(
+                'github/git2gus-test/#30',
+                'original body'
+            );
+        });
+
+        it('should truncate prefix + title when gusTitlePrefix is set', async () => {
+            expect.assertions(3);
+            setupMocks();
+            const prefix = '[Some Prefix Text]';
+            const title = 'x'.repeat(260);
+            const prefixed = prefix + ' ' + title;
+            await fn(
+                buildReq(title, 'original body', { gusTitlePrefix: prefix })
+            );
+            const [
+                subject,
+                description
+            ] = Gus.createWorkItemInGus.mock.calls[0];
+            expect(subject).toBe(prefixed.substring(0, 252) + '...');
+            expect(subject).toHaveLength(255);
+            expect(description).toContain('...' + prefixed.substring(252));
+        });
+
+        it('should not throw and should keep overflow in description when body is null', async () => {
+            expect.assertions(4);
+            setupMocks();
+            const title = 'a'.repeat(250) + 'OVERFLOW_TEXT';
+            await expect(fn(buildReq(title, null))).resolves.not.toThrow();
+            const [
+                subject,
+                description
+            ] = Gus.createWorkItemInGus.mock.calls[0];
+            expect(subject).toBe(title.substring(0, 252) + '...');
+            expect(description).toContain('...' + title.substring(252));
+            expect(description).not.toContain('null');
+        });
+    });
 });
