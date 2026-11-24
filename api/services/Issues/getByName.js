@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+const logger = require('../Logs/logger');
 
 module.exports = async function getByName(name = '') {
     try {
         return await Issues.findOne({ name });
     } catch (e) {
-        console.log(
+        logger.info(
             `Error thrown in resolveBuild: ${e.name} with message: ${e.message}`
         );
         throw e;
