@@ -5,6 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+const logger = require('../services/Logs/logger');
 const { getTitleWithOptionalPrefix } = require('./getTitleWithOptionalPrefix');
 
 const { updateIssue } = require('./updateIssue');
@@ -18,7 +19,7 @@ const Gus = require('../services/Gus');
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_LABELED,
     fn: async function(req) {
-        console.log('createWorkItem Action called');
+        logger.info('createWorkItem Action called');
         const {
             pull_request: { labels, html_url, body, milestone }
         } = req.body;
@@ -31,9 +32,8 @@ module.exports = {
         const { hideWorkItemUrl } = config;
         let productTag = config.productTag;
         if (config.productTagLabels) {
-            console.log(
-                'createWorkItem will work with custom productTagLabels for issue titled: ',
-                title
+            logger.info(
+                `createWorkItem will work with custom productTagLabels for issue titled: ${title}`
             );
             Object.keys(config.productTagLabels).forEach(productTagLabel => {
                 if (labels.some(label => label.name === productTagLabel)) {
@@ -42,9 +42,8 @@ module.exports = {
             });
         }
         if (config.issueTypeLabels) {
-            console.log(
-                'createWorkItem will work with custom issueTypeLabels for issue titled: ',
-                title
+            logger.info(
+                `createWorkItem will work with custom issueTypeLabels for issue titled: ${title}`
             );
             Object.keys(config.issueTypeLabels).forEach(issueTypeLabel => {
                 // If the label added is a Salesforce custom label, give it the correct base label
@@ -60,36 +59,34 @@ module.exports = {
         }
 
         let normalizedTitle = getTitleWithOptionalPrefix(config, title);
-        console.log(
-            'createWorkItem will create GUS work item with title: ',
-            normalizedTitle
+        logger.info(
+            `createWorkItem will create GUS work item with title: ${normalizedTitle}`
         );
         // Only check the label being added
         if (Github.isSalesforceLabel(labelAdded.name) && productTag) {
-            console.log(
-                'Verified valid label and product tag for issue titled: ',
-                title
+            logger.info(
+                `Verified valid label and product tag for issue titled: ${title}`
             );
             const priority = Github.getPriority(labels);
-            console.log(
+            logger.info(
                 `Found priority: ${priority} for issue titled: ${title}`
             );
             const recordTypeId = Github.getRecordTypeId(labels);
-            console.log(
+            logger.info(
                 `Found recordTypeId: ${recordTypeId} for issue titled: ${title}`
             );
             const bodyInGusFormat = await formatToGus(html_url, body);
-            console.log(
+            logger.info(
                 `Found bodyInGusFormat: ${bodyInGusFormat} for issue titled: ${title}`
             );
 
-            console.log(
+            logger.info(
                 `Using GUS Api to create workitem for issue titled: ${title}`
             );
             // default build to "undefined", to invoke our updateIssue error below
             const buildName = milestone ? milestone.title : config.defaultBuild;
             const foundInBuild = await Gus.resolveBuild(buildName);
-            console.log(
+            logger.info(
                 `Found foundInBuild: ${foundInBuild} for issue titled: ${title}`
             );
 
@@ -118,7 +115,7 @@ module.exports = {
 
             if (foundInBuild) {
                 try {
-                    console.log('Calling GUS API to create a new work item');
+                    logger.info('Calling GUS API to create a new work item');
                     const syncedItem = await Gus.createWorkItemInGus(
                         normalizedTitle,
                         bodyInGusFormat,
@@ -130,31 +127,31 @@ module.exports = {
                         recordTypeId
                     );
                     const syncedItemFromGus = await Gus.getById(syncedItem.id);
-                    console.log('###hideWorkItemUrl:' + hideWorkItemUrl);
+                    logger.info(`hideWorkItemUrl: ${hideWorkItemUrl}`);
                     const displayUrl =
                         hideWorkItemUrl === 'true'
                             ? syncedItemFromGus.Name
                             : `[${syncedItemFromGus.Name}](${process.env
                                   .WORK_ITEM_BASE_URL + syncedItem.id}/view)`;
                     const msg = `This issue has been linked to a new work item: ${displayUrl}`;
-                    console.log(msg, ' for issue titled: ', title);
+                    logger.info(`${msg} for issue titled: ${title}`);
                     return await updateIssue(req, msg);
                 } catch (e) {
-                    console.log(`Error while creating work item ${e.message}`);
+                    logger.info(`Error while creating work item ${e.message}`);
                     return await updateIssue(
                         req,
                         'Error while creating work item!'
                     );
                 }
             } else {
-                console.log(`No correct build for issue titled: ${title}`);
+                logger.info(`No correct build for issue titled: ${title}`);
                 return await updateIssue(
                     req,
                     'Error while creating work item. No valid build found in GUS!'
                 );
             }
         }
-        console.log('Failed to create work item for issue titled: ', title);
+        logger.info(`Failed to create work item for issue titled: ${title}`);
         return null;
     }
 };

@@ -5,6 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+const logger = require('../api/services/Logs/logger');
 const GithubEvents = require('./../api/modules/GithubEvents');
 const ghEvents = new GithubEvents();
 
@@ -23,7 +24,7 @@ Object.keys(actions).forEach(actionName => {
     }
     if (Array.isArray(eventName)) {
         eventName.forEach(event => {
-            console.log(`attach ${actionName} to ${event}`);
+            logger.info(`attach ${actionName} to ${event}`);
             ghEvents.on(event, (req, handlerPromises) => {
                 handlerPromises.push(fn(req));
             });

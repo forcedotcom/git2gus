@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+const logger = require('../services/Logs/logger');
 const Issues = require('../services/Issues');
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
             const issue = await Issues.create(req.body);
             return res.json(issue);
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             return res.serverError(error);
         }
     },
@@ -25,12 +26,12 @@ module.exports = {
             const issue = await Issues.getById(req.params.id);
             return res.json(issue);
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             try {
                 const issue = await Issues.getByName(req.params.id);
                 return res.json(issue);
             } catch (error) {
-                console.error(error);
+                logger.error(error);
                 return res.notFound(error);
             }
         }

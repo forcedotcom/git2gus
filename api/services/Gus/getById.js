@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+const logger = require('../Logs/logger');
 const { getConnection, Work } = require('./connection');
 
 module.exports = async function getById(id) {
@@ -14,7 +15,8 @@ module.exports = async function getById(id) {
             .find({ id })
             .execute((err, ret) => {
                 if (err) {
-                    return console.error(err, ret);
+                    logger.error('GUS API request failed', { err, ret });
+                    return undefined;
                 }
                 return ret[0];
             })

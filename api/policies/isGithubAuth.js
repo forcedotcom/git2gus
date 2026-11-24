@@ -5,6 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+const logger = require('../services/Logs/logger');
 const { Octokit } = require('@octokit/rest');
 const { createAppAuth } = require('@octokit/auth-app');
 const fs = require('fs');
@@ -14,7 +15,7 @@ let cert;
 try {
     cert = process.env.PRIVATE_KEY || fs.readFileSync('private-key.pem');
 } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw new Error(`
         Failed reading Github App private key.
         Private key should be as PRIVATE_KEY environment variable or in private-key.pem file at the root folder.
